@@ -15,9 +15,10 @@ void initialize_data(){
       case 100: NFFT = 2048; chanSRate = 30.72e6; break;
     }
 }
+
 void GetV2XCommResourcePool (std::vector<int> &v, int ms_PSSCH_RP[][sizeSubchannel_r14], int ms_PSCCH_RP[][TAM_PSCCH]){
   //Calculate v2x communication resource pools for given input configuration (36.213 - 14.1.5 (PSSCH) & 14.2.4 (PSCCH))
-
+  //36.213 14.1.1.4A
   // ------------------ SUBFRAMES (common for PSSCH/PSSCH, 14.1.5) ----------------------
   // identify subframes where SLSS is configured within an SFN
   //Nota: el timimg del mib solo permite contar hasta 10240
@@ -80,6 +81,7 @@ void GetV2XCommResourcePool (std::vector<int> &v, int ms_PSSCH_RP[][sizeSubchann
     }
     it++;
 	}
+  //A continuación se calcula los RB disponibles
   // int ms_PSCCH_RP[numSubchannel_r14][TAM_PSCCH = 2]
   // int ms_PSSCH_RP[numSubchannel_r14][sizeSubchannel_r14]
 	for(int i = 0; i < numSubchannel_r14; i++){
@@ -94,6 +96,22 @@ void GetV2XCommResourcePool (std::vector<int> &v, int ms_PSSCH_RP[][sizeSubchann
       }
 		}
 	}
+}
+void SetTransmissionFormat() {
+  /*La función que se muestra a continuacion tiene como salida varios parametros de
+  configuracion correspondientes a 36.213 14.1.1.4C
+  El procedimiento consiste en limitar las posibilidades al minimo posible y elegir
+  en funcion de un criterio
+  */
+  //Primero se restringen las posibilidades
+  //Numeros de PRBs posible
+  std::std::vector<int> v;
+  int i = 0;
+  while(acceptable_NPRBsizes[i] != NSLRB){
+    if((acceptable_NPRBsizes[i] + 2*adjacencyPSCCH_PSSCH_r14)%sizeSubchannel_r14==0)
+        v.push_back(acceptable_NPRBsizes[i]);
+  }
+  
 }
 
 int main(){
