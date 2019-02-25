@@ -35,7 +35,7 @@ Métodos [rutinas] públicos
 /* 2.- Declaración de la clase 1 */
 #ifndef SL_V2XCOMMUNICATION
 #define SL_V2XCOMMUNICATION
-namespace LTEV{
+namespace LTEv{
    class SL_V2XCommunication
    {
    protected:
@@ -95,7 +95,8 @@ namespace LTEV{
    /* Atributos internos de la clase */
 
    int ms_PSCCH_RP[][SizeSubchannel_r14]; // PSCCH Resource Blocks Pool
-   int ms_PSSCH_RP[][Size_PSCCH];          // PSSCH Resource Blocks Pool
+   int ms_PSSCH_RP[][Size_PSCCH];         // PSSCH Resource Blocks Pool
+   std::vector<int> ls_PSXCH_RP;          // PSXCH Subframe Pool
    /* 2.2.- Declaración de métodos privados */
    void initialize_data();
 
