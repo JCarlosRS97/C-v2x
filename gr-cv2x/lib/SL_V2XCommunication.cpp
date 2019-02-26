@@ -208,11 +208,21 @@ void SL_V2XCommunication::setTransmissionFormat() {
   i = 0;
   while(combs[i][2] != minorPadding){
      i++;
- }
+  }
+
   int N_RB_PSSCH = combs[i][1];
   int pssch_TBsize = _3GPP_36213_Table7_1_7_2_1_1[combs[i][0]+1][combs[i][1]];
+  //Se localiza el indice en  la tabla de modulaciones para obtener el mcs
+  //y la qprima
+  int modtable_index = 0;
+  while(combs[i][0] != _3GPP_36213_Table8_6_1_1[modtable_index][2]){
+     modtable_index++;
+  }
+  mcs_r14 = _3GPP_36213_Table8_6_1_1[modtable_index][0];
+  pssch_Qprime = _3GPP_36213_Table8_6_1_1[modtable_index][1];
+
   printf("For SDU size = %3i bits we set: mcs = %2i, N_PRB = %2i, TB Size = %4i, Qprime = %i (Padding = %4i)\n",
-      sduSize, 0, N_RB_PSSCH, pssch_TBsize, 0, minorPadding);
+      sduSize, mcs_r14, N_RB_PSSCH, pssch_TBsize, pssch_Qprime, minorPadding);
 
 
  }

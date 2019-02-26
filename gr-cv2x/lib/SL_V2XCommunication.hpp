@@ -61,6 +61,8 @@ namespace LTEv{
    static const int startRB_PSCCH_Pool_r14 = 14; // Indicates the lowest RB index of the PSCCH pool. This field is irrelevant if a UE always transmits control and data in adjacent RBs in the same subframe: {0..99}
    int NFFT;                               // FFT size
    int chanSRate;                          // channel sampling rate
+   int mcs_r14;
+   int pssch_Qprime;
    // SL V2X COMMUNICATION UE-specific Resource Allocation Configuration
    // Common for both modes
    // Nota: son pasados por PSxCH_Procedures
