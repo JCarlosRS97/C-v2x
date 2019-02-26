@@ -7,7 +7,7 @@
 #define SFN_MAX 10240
 #define TAM_sl_Subframe_r14 20
 #define TAM_PSCCH 2
-#define sizeSubchannel_r14 5                      // Indicates the number of PRBs of each subchannel in the corresponding resource pool: {n4, n5, n6, n8, n9, n10, n12, n15, n16, n18, n20, n25, n30, n48, n50, n72, n75, n96, n100}
+#define sizeSubchannel_r14 20                      // Indicates the number of PRBs of each subchannel in the corresponding resource pool: {n4, n5, n6, n8, n9, n10, n12, n15, n16, n18, n20, n25, n30, n48, n50, n72, n75, n96, n100}
 
 int NSLRB                           = 25;                     // Sidelink bandwidth configuration in RBs: 6, 15, 25, 50, 100 (default : 25)
 int NSLID                           = 301;                    // SLSSID: Physical layer sidelink synchronization identity: 0..335 (default 0)
@@ -20,7 +20,7 @@ int syncPeriod                      = 160;
 int sl_OffsetIndicator_r14          = 0;                      // Indicates the offset of the first subframe of a resource pool: {0..10239}
 bool sl_Subframe_r14[TAM_sl_Subframe_r14];    // Determines PSSCH subframe pool: bitmap with acceptable sizes {16,20,100}
 
-int adjacencyPSCCH_PSSCH_r14        = true;                   // Indicates if PSCCH and PSSCH are adjacent in the frequecy domain {true,false}
+int adjacencyPSCCH_PSSCH_r14        = false;                   // Indicates if PSCCH and PSSCH are adjacent in the frequecy domain {true,false}
 int numSubchannel_r14               = 5;                      // Indicates the number of subchannels in the corresponding resource pool: {n1, n3, n5, n10, n15, n20}
 int startRB_Subchannel_r14          = 0;                      // Indicates the lowest RB index of the subchannel with the lowest index: {0..99}
 int startRB_PSCCH_Pool_r14          = 14;                     // Indicates the lowest RB index of the PSCCH pool. This field is irrelevant if a UE always transmits control and data in adjacent RBs in the same subframe: {0..99}
