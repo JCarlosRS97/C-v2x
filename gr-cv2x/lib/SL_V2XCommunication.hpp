@@ -51,12 +51,12 @@ namespace LTEv{
    static const bool syncTxPeriodic = true; // SL-SyncConfig: single-shot or periodic sync (default: 1)
    // SL V2X COMMUNICATION Resources Pool Configuration
    static const int sl_OffsetIndicator_r14 = 0; // Indicates the offset of the first subframe of a resource pool: {0..10239}
-   static const int TAM_sl_Subframe_r14 = 14; //bitmap with acceptable sizes {16,20,100}
-   bool sl_Subframe_r14[TAM_sl_Subframe_r14]; // Determines PSSCH subframe pool
+   static const int Size_sl_Subframe_r14 = 20; //bitmap with acceptable sizes {16,20,100}
+   bool sl_Subframe_r14[Size_sl_Subframe_r14]; // Determines PSSCH subframe pool
 
    static const int adjacencyPSCCH_PSSCH_r14 = 1; // Indicates if PSCCH and PSSCH are adjacent in the frequecy domain {true,false}
    static const int SizeSubchannel_r14 = 5; // Indicates the number of PRBs of each subchannel in the corresponding resource pool: {n4, n5, n6, n8, n9, n10, n12, n15, n16, n18, n20, n25, n30, n48, n50, n72, n75, n96, n100}
-   static const int numSubchannel_r14 = 5; // Indicates the number of subchannels in the corresponding resource pool: {n1, n3, n5, n10, n15, n20}
+   static const int NumSubchannel_r14 = 5; // Indicates the number of subchannels in the corresponding resource pool: {n1, n3, n5, n10, n15, n20}
    static const int startRB_Subchannel_r14 = 0; // Indicates the lowest RB index of the subchannel with the lowest index: {0..99}
    static const int startRB_PSCCH_Pool_r14 = 14; // Indicates the lowest RB index of the PSCCH pool. This field is irrelevant if a UE always transmits control and data in adjacent RBs in the same subframe: {0..99}
    int NFFT;                               // FFT size
@@ -75,8 +75,8 @@ namespace LTEv{
 
    /* Atributos internos de la clase */
 
-   int ms_PSCCH_RP[numSubchannel_r14][SizeSubchannel_r14]; // PSCCH Resource Blocks Pool
-   int ms_PSSCH_RP[numSubchannel_r14][Size_PSCCH];         // PSSCH Resource Blocks Pool
+   int ms_PSCCH_RP[NumSubchannel_r14][Size_PSCCH]; // PSCCH Resource Blocks Pool
+   int ms_PSSCH_RP[NumSubchannel_r14][SizeSubchannel_r14];         // PSSCH Resource Blocks Pool
    std::vector<int> ls_PSXCH_RP;          // PSXCH Subframe Pool
    /* 2.2.- Declaración de métodos privados */
    void initialize_data();

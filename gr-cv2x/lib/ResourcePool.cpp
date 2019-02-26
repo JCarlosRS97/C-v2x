@@ -83,6 +83,7 @@ void GetV2XCommResourcePool (std::vector<int> &v, int ms_PSSCH_RP[][sizeSubchann
     }
     it++;
   }
+
   //A continuación se calcula los RB disponibles
   // int ms_PSCCH_RP[numSubchannel_r14][TAM_PSCCH = 2]
   // int ms_PSSCH_RP[numSubchannel_r14][sizeSubchannel_r14]

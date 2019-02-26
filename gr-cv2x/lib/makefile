@@ -1,4 +1,4 @@
-CFLAGS = -std=c++11
+CFLAGS = -std=c++14
 CC = g++
  tester: tester.o SL_V2XCommunication.o
 	$(CC) $(CFLAGS) -o tester tester.o SL_V2XCommunication.o
