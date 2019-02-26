@@ -32,6 +32,7 @@
 #include <list>
 #include <memory>
 #include <cstring>
+#include <iostream>
 
 /* 4.- Ficheros include del proyecto */
 #include "3GPP_36213_Table8_6_1_1.cpp"
@@ -66,7 +67,7 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
    //Nota: el timimg del mib solo permite contar hasta 10240
    //subframe(10 bits de SFN)
 
-   std::list<int> ls_PSXCH_RP;
+   std::list<int> ls_PSXCH_RP_aux;
    //Se inicializa la lista eliminando ya los SLSS
    int k = syncOffsetIndicator;
    int Nslss;
@@ -77,68 +78,83 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
          Nslss++;
          k += syncPeriod;
        }else{
-         ls_PSXCH_RP.push_back(i);
+         ls_PSXCH_RP_aux.push_back(i);
        }
-
      }
    }else{
      for(int i = 0; i < SFN_MAX; i++){
        if(i != k){
-         ls_PSXCH_RP.push_back(i);
+         ls_PSXCH_RP_aux.push_back(i);
        }
      }
      Nslss = 1;
    }
 
-
    //Ahora se calculan los subframes reservados y son eliminados
-   int Nreserved = (SFN_MAX - Nslss) % TAM_sl_Subframe_r14;
+   int Nreserved = (SFN_MAX - Nslss) % Size_sl_Subframe_r14;
 
    k = 0; // contador de los reservados
-   std::list<int>::iterator it = ls_PSXCH_RP.begin();
-   while (it != ls_PSXCH_RP.end()) {
+   std::list<int>::iterator it = ls_PSXCH_RP_aux.begin();
+   while (it != ls_PSXCH_RP_aux.end()) {
      // Remove elements while iterating
      if (k < Nreserved && int(k*(SFN_MAX - Nslss)/Nreserved) == (*it)) {
        // erase() makes the passed iterator invalid
        // But returns the iterator to the next of deleted element
-       it = ls_PSXCH_RP.erase(it);
+       it = ls_PSXCH_RP_aux.erase(it);
        k++;
      } else{
        it++;
      }
    }
 
+
    //calcula los que est�n acorde al bitmap y los pasa a un vector que
    //funcionará de forma más rapida para ser recorrido
-   it = ls_PSXCH_RP.begin();
+   it = ls_PSXCH_RP_aux.begin();
    k = 0; // contador bitmap
-   while (it != ls_PSXCH_RP.end()) {
+   while (it != ls_PSXCH_RP_aux.end()) {
      // Remove elements while iterating
      if (sl_Subframe_r14[k] == true) {
-       ls_PSXCH_RP.push_back((*it));
+       ls_PSXCH_RP.push_back(*it);
      }
      k++;
-     if(k >= TAM_sl_Subframe_r14){
+     if(k >= Size_sl_Subframe_r14){
        k = 0;
      }
      it++;
    }
+
    //A continuación se calcula los RB disponibles
    // int ms_PSCCH_RP[numSubchannel_r14][TAM_PSCCH = 2]
    // int ms_PSSCH_RP[numSubchannel_r14][SizeSubchannel_r14]
-   for(int i = 0; i < numSubchannel_r14; i++){
+   for(int i = 0; i < NumSubchannel_r14; i++){
      for(int j = 0; j < SizeSubchannel_r14; j++){
+       ms_PSSCH_RP[i][j] = startRB_Subchannel_r14 + SizeSubchannel_r14 * i + j;
        if(j < 2){// hasta aqui son los PRB's de sci
          if(adjacencyPSCCH_PSSCH_r14){
            ms_PSCCH_RP[i][j] =  ms_PSSCH_RP[i][j];
          }else{
            ms_PSCCH_RP[i][j] = startRB_PSCCH_Pool_r14 + 2*i + j;
          }
-      }else{
-         ms_PSSCH_RP[i][j] = startRB_Subchannel_r14 + SizeSubchannel_r14 * i + j;
-      }
+       }
      }
    }
+
+   //Comprobaciones
+   for(int i = 0; i< ls_PSXCH_RP.size(); i++){
+     std::cout<<ls_PSXCH_RP[i]<<" ";
+   }
+   std::cout<<std::endl;
+   for(int i = 0; i < NumSubchannel_r14; i++){
+     for(int j = 0; j < SizeSubchannel_r14; j++){
+       std::cout<<ms_PSSCH_RP[i][j]<<" ";
+     }
+     std::cout<<std::endl;
+     for(int j = 0; j < Size_PSCCH; j++){
+       std::cout<<ms_PSCCH_RP[i][j]<<" ";
+     }
+     std::cout<<std::endl;
+  }
 }
 
 
@@ -168,22 +184,22 @@ void SL_V2XCommunication::setTransmissionFormat() {
 
   //Para seleccionar uan configuracion siguiendo el criterio de Padding
   //habra 3 columnas Itbs_space N_PRB_space Padding
-  std::vector<std::shared_ptr<int>> combs;
-  int *ptr;
+  std::vector<std::unique_ptr<int[]>> combs;
+  std::unique_ptr<int[]> ptr;
   int value;
   int minorPadding = -1;
   for(i = 0; i <= Itbs_space_max; i++){
      for(int j = 0; j < N_PRB_space.size(); j++){
         value = _3GPP_36213_Table7_1_7_2_1_1[i+1][N_PRB_space[j]];
         if((value >= mac_pdu_len_MIN) && (value <= maxTBSize)){
-           ptr = new std::shared_ptr<int[3]>;
+           ptr = std::make_unique<int[]>(3);
            ptr[0] = i;
            ptr[1] = N_PRB_space[j];
            ptr[2] = value - mac_pdu_len_MIN;
            if((minorPadding == -1) || (ptr[2] < minorPadding)){
               minorPadding = ptr[2];
            }
-           combs.push_back(ptr);
+           combs.push_back(std::move(ptr));
         }
      }
   }
@@ -208,7 +224,7 @@ void SL_V2XCommunication::setTransmissionFormat() {
 
 void SL_V2XCommunication::initialize_data(){
    //Aqui tambien se configura el cp_Len_r12
-   std::memset(sl_Subframe_r14, 0, TAM_sl_Subframe_r14);
+   std::memset(sl_Subframe_r14, 0, Size_sl_Subframe_r14);
    sl_Subframe_r14[2] = true;
    switch (NSLRB){
        case 6:   NFFT = 128;  chanSRate = 1.92e6; break;

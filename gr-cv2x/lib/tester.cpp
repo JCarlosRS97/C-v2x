@@ -6,6 +6,8 @@ int main(){
   SL_V2XCommunication sl;
   printf("Objeto creado\n");
   sl.getV2XCommResourcePool();
-  printf("Objeto creado\n");
+  printf("Resource pool obtenido\n");
+
   sl.setTransmissionFormat();
+  printf("Formato de transmision\n");
 }
