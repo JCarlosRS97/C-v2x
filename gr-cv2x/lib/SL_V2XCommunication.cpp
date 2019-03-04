@@ -199,13 +199,21 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
       int beta = 2*adjacencyPSCCH_PSSCH_r14;
 
       // Numero de transmisiones
-      int numTxOp = (sL_V2XConfig.getSFgap() > 0) +1
+      SFgap = sL_V2XConfig.getSFgap();
+      int numTxOp = (SFgap > 0) +1
 
       //Se obtienen todos los parametros propios del usuario
       if(sL_V2XConfig.isTx()){
          sduSize = sL_V2XConfig.getSduSize();
+         Linit = sL_V2XConfig.getLinit();
+         nsubCHstart = sL_V2XConfig.getNsubCHstart();
          setTransmissionFormat();
          LsubCH = (N_RB_PSSCH + beta)/sizeSubchannel_r14;
+      } else {
+         mcs_r14 = sL_V2XConfig.getMsc_r14();
+         Linit = sL_V2XConfig.getLinit();
+         nsubCHstart = sL_V2XConfig.getNsubCHstart();
+         
       }
 }
 
