@@ -33,6 +33,7 @@ Métodos [rutinas] públicos
 #include <vector>
 #include <string>
 #include "LTE_Constants.cpp"
+#include "SL_V2XConfig.hpp"
 
 /* 2.- Declaración de la clase 1 */
 #ifndef SL_V2XCOMMUNICATION
@@ -82,6 +83,7 @@ namespace LTEv{
    std::vector<int> ls_PSXCH_RP;          // PSXCH Subframe Pool
    /* 2.2.- Declaración de métodos privados */
    void initialize_data();
+   void setTransmissionFormat(); // determina mcs tbSize y N_PRB
 
    public:
    /* 2.3.- Declaración de atributos públicos */
@@ -89,7 +91,7 @@ namespace LTEv{
    /* 2.4.- Declaración de métodos públicos */
    SL_V2XCommunication();
    void getV2XCommResourcePool ();
-   void setTransmissionFormat(); // determina mcs tbSize y N_PRB
+   void PSxCH_Procedures(SL_V2XConfig sL_V2XConfig, int subframeCounter);
    };
    /* 7.- Declaración de tipos de datos */
 }

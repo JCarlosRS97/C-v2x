@@ -1,0 +1,100 @@
+/*----------------------------------------------------------------------------
+  Universidad de Málaga - Grupo de Ingeniería de Comunicaciones
+  Proyecto: <proyecto>
+  ----------------------------------------------------------------------------
+  MODULO:      <nombre>
+  ----------------------------------------------------------------------------
+  Autor:       <autor>
+  ----------------------------------------------------------------------------
+  Control de ediciones
+     <fecha>   <descripción>
+  ----------------------------------------------------------------------------
+  Descripción
+     xxxxxxxxxxxxxxxxxxxxxxxxx
+  ----------------------------------------------------------------------------
+  Métodos [rutinas] públicos
+     <nombre>          <descripción>
+     <nombre>          <descripción>
+  ----------------------------------------------------------------------------*/
+  Métodos [rutinas] internos
+     <nombre>          <descripción>
+     <nombre>          <descripción>
+  ----------------------------------------------------------------------------*/
+
+
+/* 1.- Variables de compilación condicional */
+     <nombre>          <descripción>
+     <nombre>          <descripción>
+
+/* 2.- Ficheros include del módulo */
+
+
+/* 3.- Ficheros include externos */
+
+
+/* 4.- Ficheros include del proyecto */
+
+
+/* 5.- Definición de literales */
+
+
+/* 6.- Declaración de rutinas internas */
+
+
+/* 7.- Implementación de las clases */
+
+/* 7.1. – Clase 1 */
+
+/*------------------------------------------------------------------------------
+                                MÉTODOS PÚBLICOS
+/*----------------------------------------------------------------------------*/
+[Aquí aparece el código de las funciones públicas]
+
+
+/*------------------------------------------------------------------------------
+                                MÉTODOS PRIVADOS
+/*----------------------------------------------------------------------------*/
+[Aquí aparece el código de las funciones internas]
+
+
+[Repetir el punto 7.1 para el resto de clases]
+/* 8.- Implementación de las rutinas */
+
+/*------------------------------------------------------------------------------
+                                RUTINAS PÚBLICAS
+/*----------------------------------------------------------------------------*/
+[Aquí aparece el código de las rutinas públicas]
+
+
+/*------------------------------------------------------------------------------
+                                RUTINAS INTERNAS
+/*----------------------------------------------------------------------------*/
+[Aquí aparece el código de las rutinas internas]
+
+
+/*----------------------------------------------------------------------------
+  <nombre>
+  ----------------------------------------------------------------------------
+  Descripción:
+     <texto indicando la funcionalidad>
+  ----------------------------------------------------------------------------
+  Entradas:
+- <nombre>: <descripción>
+  Salidas:
+    - <nombre>: <descripción>
+  Devuelve:
+    - <nombre>: <descripción>
+  ----------------------------------------------------------------------------
+  Variables/atributos globales:
+  Entradas:
+     <nombre>  <nombre>  <nombre>...
+  Salidas:
+     <nombre>  <nombre>  <nombre>...
+  Entrada/salida:
+     <nombre>  <nombre>  <nombre>...
+  ----------------------------------------------------------------------------
+  Rutinas/métodos:
+      <nombre>   <nombre>...
+      <modulo>:   <nombre>   <nombre>...
+      <modulo>:   <nombre>   <nombre>...
+  ----------------------------------------------------------------------------*/

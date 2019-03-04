@@ -158,6 +158,76 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
 }
 
 
+
+
+ void SL_V2XCommunication::PSxCH_Procedures(SL_V2XUEConfig SL_V2XUEConfig, int subframeCounter){
+    /*----------------------------------------------------------------------------
+      PSxCH_Procedures
+      ----------------------------------------------------------------------------
+      Descripción:
+         Define los parametros de capa física a partir de capas superiores,
+         DCI5 o preconfiguraciones previas.
+      ----------------------------------------------------------------------------
+      Entradas:
+        - SL_V2XUEConfig      parametros propios del usuario
+        - subframeCounter   numero de subframe SFN
+      Salidas:
+        - sduSize: obtenido por SL_V2XUEConfig o a partir del resto de parametros
+        - SFgap:   obtenido por SL_V2XUEConfig o a partir del resto de parametros
+        - Linit: obtenido por SL_V2XUEConfig o a partir del resto de parametros
+        - nsubCHstart: obtenido por SL_V2XUEConfig o a partir del resto de parametros
+        - LsubCH: obtenido por SL_V2XUEConfig o a partir del resto de parametros
+        - mcs_r14: obtenido por SL_V2XUEConfig o a partir del resto de parametros
+
+      Devuelve:
+
+      ----------------------------------------------------------------------------
+      Variables/atributos globales:
+      Entradas:
+         <nombre>  <nombre>  <nombre>...
+      Salidas:
+         <nombre>  <nombre>  <nombre>...
+      Entrada/salida:
+         <nombre>  <nombre>  <nombre>...
+      ----------------------------------------------------------------------------
+      Rutinas/métodos:
+          <nombre>   <nombre>...
+          <modulo>:   <nombre>   <nombre>...
+          <modulo>:   <nombre>   <nombre>...
+      ----------------------------------------------------------------------------*/
+      //Parametro beta 14.1.1.4C
+      int beta = 2*adjacencyPSCCH_PSSCH_r14;
+
+      // Numero de transmisiones
+      int numTxOp = (sL_V2XConfig.getSFgap() > 0) +1
+
+      //Se obtienen todos los parametros propios del usuario
+      if(sL_V2XConfig.isTx()){
+         sduSize = sL_V2XConfig.getSduSize();
+         setTransmissionFormat();
+         LsubCH = (N_RB_PSSCH + beta)/sizeSubchannel_r14;
+      }
+}
+
+
+/*------------------------------------------------------------------------------
+                                MÉTODOS PRIVADOS
+/*----------------------------------------------------------------------------*/
+
+void SL_V2XCommunication::initialize_data(){
+   //Aqui tambien se configura el cp_Len_r12
+   std::memset(sl_Subframe_r14, 0, Size_sl_Subframe_r14);
+   sl_Subframe_r14[2] = true;
+   switch (NSLRB){
+       case 6:   NFFT = 128;  chanSRate = 1.92e6; break;
+       case 15:  NFFT = 256;  chanSRate = 3.84e6; break;
+       case 25:  NFFT = 512;  chanSRate = 7.68e6; break;
+       case 50:  NFFT = 1024; chanSRate = 15.36e6; break;
+       case 75:  NFFT = 1536; chanSRate = 23.04e6; break;
+       case 100: NFFT = 2048; chanSRate = 30.72e6; break;
+    }
+}
+
 void SL_V2XCommunication::setTransmissionFormat() {
   /*La función que se muestra a continuacion tiene como salida varios parametros de
   configuracion correspondientes a 36.213 14.1.1.4C
@@ -223,30 +293,7 @@ void SL_V2XCommunication::setTransmissionFormat() {
 
   printf("For SDU size = %3i bits we set: mcs = %2i, N_PRB = %2i, TB Size = %4i, Qprime = %i (Padding = %4i)\n",
       sduSize, mcs_r14, N_RB_PSSCH, pssch_TBsize, pssch_Qprime, minorPadding);
-
-
  }
-
-
-/*------------------------------------------------------------------------------
-                                MÉTODOS PRIVADOS
-/*----------------------------------------------------------------------------*/
-
-void SL_V2XCommunication::initialize_data(){
-   //Aqui tambien se configura el cp_Len_r12
-   std::memset(sl_Subframe_r14, 0, Size_sl_Subframe_r14);
-   sl_Subframe_r14[2] = true;
-   switch (NSLRB){
-       case 6:   NFFT = 128;  chanSRate = 1.92e6; break;
-       case 15:  NFFT = 256;  chanSRate = 3.84e6; break;
-       case 25:  NFFT = 512;  chanSRate = 7.68e6; break;
-       case 50:  NFFT = 1024; chanSRate = 15.36e6; break;
-       case 75:  NFFT = 1536; chanSRate = 23.04e6; break;
-       case 100: NFFT = 2048; chanSRate = 30.72e6; break;
-    }
-}
-
-
 
 /* 8.- Implementación de las rutinas */
 
