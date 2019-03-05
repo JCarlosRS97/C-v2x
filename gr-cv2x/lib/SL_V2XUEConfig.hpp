@@ -38,8 +38,8 @@
   int getLsubCH()       Devuelve LsubCH
   int getMsc_r14()      Devuelve mcs_r14
   --------------------------------------------------------------------------*/
-#ifndef SL_V2XUEConfig
-#define SL_V2XUEConfig
+#ifndef SL_V2XUECONFIG_HPP
+#define SL_V2XUECONFIG_HPP
 /* 1.- Ficheros include externos */
 //    (de tipos de datos de atributos y de parámetros de los métodos)
 
@@ -70,7 +70,7 @@ public:
 
 /* 2.4.- Declaración de métodos públicos */
 SL_V2XUEConfig(int sduSize, int SFgap, int Linit, int nsubCHstart);
-SL_V2XUEConfig(int mcs_r14, int Linit, int SFgap, int nsubCHstart, int LsubCH);
+SL_V2XUEConfig(int mcs_r14, int LsubCH, int SFgap, int Linit, int nsubCHstart);
 bool isTx();
 int getSduSize();
 int getSFgap();

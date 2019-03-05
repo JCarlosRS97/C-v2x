@@ -33,7 +33,7 @@ Métodos [rutinas] públicos
 #include <vector>
 #include <string>
 #include "LTE_Constants.cpp"
-#include "SL_V2XConfig.hpp"
+#include "SL_V2XUEConfig.hpp"
 
 /* 2.- Declaración de la clase 1 */
 #ifndef SL_V2XCOMMUNICATION
@@ -64,6 +64,7 @@ namespace LTEv{
    int chanSRate;                          // channel sampling rate
    int mcs_r14;
    int pssch_Qprime;
+   int pssch_TBsize;
    // SL V2X COMMUNICATION UE-specific Resource Allocation Configuration
    // Common for both modes
    // Nota: son pasados por PSxCH_Procedures
@@ -75,12 +76,25 @@ namespace LTEv{
    // fully controlled(Only for mode 3)
    int Linit = 0; // 1st transmission opportunity frequency offset: from DCI5A "Lowest index of the subchannel allocation to the initial transmission" --> ceil(log2(numSubchannel_r14) bits, here in integer form. Either set through DCI5A or Higher Layers or Preconfigured.
    int nsubCHstart = 0; // (relevant if SFgap not zero) 2nd transmission opportunity frequency offset: from "Frequency Resource Location of the initial transmission and retransmission" --> ceil(log2(numSubchannel_r14) bits, here in integer form.  This is actually configured using "RIV". Here we provide the corresponding subchannel directly. Either set through DCI5A or Higher Layers or Preconfigured.
+   int LsubCH;
 
    /* Atributos internos de la clase */
 
    int ms_PSCCH_RP[NumSubchannel_r14][Size_PSCCH]; // PSCCH Resource Blocks Pool
    int ms_PSSCH_RP[NumSubchannel_r14][SizeSubchannel_r14];         // PSSCH Resource Blocks Pool
    std::vector<int> ls_PSXCH_RP;          // PSXCH Subframe Pool
+   int N_RB_PSSCH;
+   int Msc_PSSCH;                          // bandwidth of SL PSCCH in # subcarriers
+   int pssch_BitCapacity;                  // PSSCH Channel Bit Capacity
+   int pscch_BitCapacity;                  // PSCCH Channel Bit Capacity
+   int cmux;                               // multiplier for PUSCH/PSCCH Interleaving
+   int pscch_muxintlv_indices;             // PUSCH interleaver indices for transport channel processing : pscch
+   int pscch_b_scramb_seq;                 // PSCCH scrambling sequence
+   int pssch_muxintlv_indices;             // PUSCH interleaver indices for transport channel processing : pssch
+   int pscch_dmrs_seq;                     // PSCCH DMRS sequence
+
+
+
    /* 2.2.- Declaración de métodos privados */
    void initialize_data();
    void setTransmissionFormat(); // determina mcs tbSize y N_PRB
@@ -91,7 +105,7 @@ namespace LTEv{
    /* 2.4.- Declaración de métodos públicos */
    SL_V2XCommunication();
    void getV2XCommResourcePool ();
-   void PSxCH_Procedures(SL_V2XConfig sL_V2XConfig, int subframeCounter);
+   void PSxCH_Procedures(LTEv::SL_V2XUEConfig sL_V2XUEConfig, int subframeCounter);
    };
    /* 7.- Declaración de tipos de datos */
 }

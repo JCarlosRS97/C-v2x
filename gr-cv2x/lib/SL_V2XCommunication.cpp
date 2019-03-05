@@ -35,8 +35,9 @@
 #include <iostream>
 
 /* 4.- Ficheros include del proyecto */
-#include "3GPP_36213_Table8_6_1_1.cpp"
+#include "LTE_Constants.cpp"
 #include "3GPP_36213_Table7_1_7_2_1_1.cpp"
+#include "3GPP_36213_Table8_6_1_1.cpp"
 
 /* 5.- Definición de literales */
 
@@ -53,7 +54,7 @@ namespace LTEv
 
 /*------------------------------------------------------------------------------
                                 MÉTODOS PÚBLICOS
-/*----------------------------------------------------------------------------*/
+------------------------------------------------------------------------------*/
 
 SL_V2XCommunication::SL_V2XCommunication(){
    initialize_data();
@@ -160,7 +161,7 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
 
 
 
- void SL_V2XCommunication::PSxCH_Procedures(SL_V2XUEConfig SL_V2XUEConfig, int subframeCounter){
+ void SL_V2XCommunication::PSxCH_Procedures(LTEv::SL_V2XUEConfig sL_V2XUEConfig, int subframeCounter){
     /*----------------------------------------------------------------------------
       PSxCH_Procedures
       ----------------------------------------------------------------------------
@@ -195,32 +196,55 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
           <modulo>:   <nombre>   <nombre>...
           <modulo>:   <nombre>   <nombre>...
       ----------------------------------------------------------------------------*/
+      //Lectura inicial
+      Linit = sL_V2XUEConfig.getLinit();
+      nsubCHstart = sL_V2XUEConfig.getNsubCHstart();
+      SFgap = sL_V2XUEConfig.getSFgap();
+
       //Parametro beta 14.1.1.4C
       int beta = 2*adjacencyPSCCH_PSSCH_r14;
 
       // Numero de transmisiones
-      SFgap = sL_V2XConfig.getSFgap();
-      int numTxOp = (SFgap > 0) +1
+      int numTxOp = (SFgap > 0) + 1;
 
       //Se obtienen todos los parametros propios del usuario
-      if(sL_V2XConfig.isTx()){
-         sduSize = sL_V2XConfig.getSduSize();
-         Linit = sL_V2XConfig.getLinit();
-         nsubCHstart = sL_V2XConfig.getNsubCHstart();
+      if(sL_V2XUEConfig.isTx()){
+         sduSize = sL_V2XUEConfig.getSduSize();
          setTransmissionFormat();
-         LsubCH = (N_RB_PSSCH + beta)/sizeSubchannel_r14;
+         LsubCH = (N_RB_PSSCH + beta)/SizeSubchannel_r14;
       } else {
-         mcs_r14 = sL_V2XConfig.getMsc_r14();
-         Linit = sL_V2XConfig.getLinit();
-         nsubCHstart = sL_V2XConfig.getNsubCHstart();
-         
+         mcs_r14 = sL_V2XUEConfig.getMsc_r14();
+         LsubCH = sL_V2XUEConfig.getLsubCH();
+         pssch_Qprime = _3GPP_36213_Table8_6_1_1[mcs_r14][1];
+         int I_TBS = _3GPP_36213_Table8_6_1_1[mcs_r14][2];
+         //Ahora hay que encontrar pssch_TBsize a partir de I_TBS y N_RB_PSSCH
+         int row = 0;
+         while(_3GPP_36213_Table7_1_7_2_1_1[row][0] != I_TBS){
+            row++;
+         }
+         int column = 0;
+         while(_3GPP_36213_Table7_1_7_2_1_1[0][column] != N_RB_PSSCH){
+            column++;
+         }
+         //TODO controlar condicion de fin
+         pssch_TBsize = _3GPP_36213_Table7_1_7_2_1_1[row][column];
       }
+
+      //Ahora se parametriza capa fisica
+      Msc_PSSCH = N_RB_PSSCH*NRBsc;
+      // length of PSSCH sequence in bits
+      pssch_BitCapacity = Msc_PSSCH*Size_PSSCH_symbloc_perSubframe*pssch_Qprime;
+      //pssch_muxintlv_indices =  tran_uplink_MuxIntlvDataOnly_getIndices(  pssch_BitCapacity, cmux, pssch_Qprime, 1 );
+      std::cout<<"PSSCH ModOrder = "<< pssch_Qprime<< std::endl;
+      std::cout<<"PSSCH TBSize = "<<pssch_TBsize<<" (bits)"<< std::endl;
+      std::cout<<"PSSCH Num of PRBs = " << N_RB_PSSCH <<std::endl;
+      std::cout<<"PSSCH Bit Capacity = " << pssch_BitCapacity << "(bits)"<< std::endl;
 }
 
 
 /*------------------------------------------------------------------------------
                                 MÉTODOS PRIVADOS
-/*----------------------------------------------------------------------------*/
+------------------------------------------------------------------------------*/
 
 void SL_V2XCommunication::initialize_data(){
    //Aqui tambien se configura el cp_Len_r12
@@ -288,8 +312,8 @@ void SL_V2XCommunication::setTransmissionFormat() {
      i++;
   }
 
-  int N_RB_PSSCH = combs[i][1];
-  int pssch_TBsize = _3GPP_36213_Table7_1_7_2_1_1[combs[i][0]+1][combs[i][1]];
+  N_RB_PSSCH = combs[i][1];
+  pssch_TBsize = _3GPP_36213_Table7_1_7_2_1_1[combs[i][0]+1][combs[i][1]];
   //Se localiza el indice en  la tabla de modulaciones para obtener el mcs
   //y la qprima
   int modtable_index = 0;
@@ -309,11 +333,38 @@ void SL_V2XCommunication::setTransmissionFormat() {
 
 /*------------------------------------------------------------------------------
                                 RUTINAS PÚBLICAS
-/*----------------------------------------------------------------------------*/
-
+------------------------------------------------------------------------------*/
+void tran_uplink_MuxIntlvDataOnly_getIndices(){
+/*----------------------------------------------------------------------------
+ <nombre>
+ ----------------------------------------------------------------------------
+ Descripción:
+    <texto indicando la funcionalidad>
+ ----------------------------------------------------------------------------
+ Entradas:
+- <nombre>: <descripción>
+ Salidas:
+   - <nombre>: <descripción>
+ Devuelve:
+   - <nombre>: <descripción>
+ ----------------------------------------------------------------------------
+ Variables/atributos globales:
+ Entradas:
+    <nombre>  <nombre>  <nombre>...
+ Salidas:
+    <nombre>  <nombre>  <nombre>...
+ Entrada/salida:
+    <nombre>  <nombre>  <nombre>...
+ ----------------------------------------------------------------------------
+ Rutinas/métodos:
+     <nombre>   <nombre>...
+     <modulo>:   <nombre>   <nombre>...
+     <modulo>:   <nombre>   <nombre>...
+ ----------------------------------------------------------------------------*/
+}
 
 
 /*------------------------------------------------------------------------------
                                 RUTINAS INTERNAS
-/*----------------------------------------------------------------------------*/
+------------------------------------------------------------------------------*/
 }
