@@ -32,6 +32,7 @@ Métodos [rutinas] públicos
 /* 1.- Ficheros include externos */
 #include <vector>
 #include <string>
+#include <cstdint>
 #include "LTE_Constants.cpp"
 #include "SL_V2XUEConfig.hpp"
 
@@ -92,7 +93,13 @@ namespace LTEv{
    int pscch_b_scramb_seq;                 // PSCCH scrambling sequence
    int pssch_muxintlv_indices;             // PUSCH interleaver indices for transport channel processing : pssch
    int pscch_dmrs_seq;                     // PSCCH DMRS sequence
-
+   int l_PSXCH_selected[2] ;                  // UE-specific scheduled subframes for PSCCH
+   int m_PSCCH_selected[2][Size_PSCCH];      // UE-specific scheduled PRBs for PSCCH
+   int m_PSSCH_selected[2][SizeSubchannel_r14];   // UE-specific scheduled PRBs for PSSCH
+   int frlbitmap_len;                          // length of v2x frequency resource location field bitmap used in SCI Format 1
+   uint8_t v2x_frlbitmap[2];                          // frl bitmap for v2x pscch/pssch
+   uint8_t sciTBs[2][4];                        // sci bit sequences (new tx and retx)
+                                             //El SCI tiene 4 * 8 = 32 bits
 
 
    /* 2.2.- Declaración de métodos privados */

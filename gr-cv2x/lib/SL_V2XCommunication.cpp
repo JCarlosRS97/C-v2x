@@ -33,6 +33,8 @@
 #include <memory>
 #include <cstring>
 #include <iostream>
+#include <cmath>
+#include <cassert>
 
 /* 4.- Ficheros include del proyecto */
 #include "LTE_Constants.cpp"
@@ -43,7 +45,8 @@
 
 
 /* 6.- Declaración de rutinas internas */
-
+uint8_t ra_bitmap_resourcealloc_create(int NsubCH, int RBstart, int Lcrbs);
+void LoadSCI1TB (uint8_t sciTBs[4], int txOp);
 
 /* 7.- Implementación de las clases */
 
@@ -162,13 +165,13 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
 
 
  void SL_V2XCommunication::PSxCH_Procedures(LTEv::SL_V2XUEConfig sL_V2XUEConfig, int subframeCounter){
-    /*----------------------------------------------------------------------------
+/*-----------------------------------------------------------------------------
       PSxCH_Procedures
-      ----------------------------------------------------------------------------
+-------------------------------------------------------------------------------
       Descripción:
          Define los parametros de capa física a partir de capas superiores,
          DCI5 o preconfiguraciones previas.
-      ----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
       Entradas:
         - SL_V2XUEConfig      parametros propios del usuario
         - subframeCounter   numero de subframe SFN
@@ -182,7 +185,7 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
 
       Devuelve:
 
-      ----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
       Variables/atributos globales:
       Entradas:
          <nombre>  <nombre>  <nombre>...
@@ -190,17 +193,17 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
          <nombre>  <nombre>  <nombre>...
       Entrada/salida:
          <nombre>  <nombre>  <nombre>...
-      ----------------------------------------------------------------------------
+----------------------------------------------------------------------------
       Rutinas/métodos:
           <nombre>   <nombre>...
           <modulo>:   <nombre>   <nombre>...
           <modulo>:   <nombre>   <nombre>...
-      ----------------------------------------------------------------------------*/
+------------------------------------------------------------------------------*/
       //Lectura inicial
       Linit = sL_V2XUEConfig.getLinit();
       nsubCHstart = sL_V2XUEConfig.getNsubCHstart();
       SFgap = sL_V2XUEConfig.getSFgap();
-
+/*----------------------------- PSSCH ----------------------------------------*/
       //Parametro beta 14.1.1.4C
       int beta = 2*adjacencyPSCCH_PSSCH_r14;
 
@@ -211,7 +214,7 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
       if(sL_V2XUEConfig.isTx()){
          sduSize = sL_V2XUEConfig.getSduSize();
          setTransmissionFormat();
-         LsubCH = (N_RB_PSSCH + beta)/SizeSubchannel_r14;
+         LsubCH = std::ceil(double(N_RB_PSSCH + beta)/SizeSubchannel_r14);
       } else {
          mcs_r14 = sL_V2XUEConfig.getMsc_r14();
          LsubCH = sL_V2XUEConfig.getLsubCH();
@@ -233,12 +236,75 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
       //Ahora se parametriza capa fisica
       Msc_PSSCH = N_RB_PSSCH*NRBsc;
       // length of PSSCH sequence in bits
-      pssch_BitCapacity = Msc_PSSCH*Size_PSSCH_symbloc_perSubframe*pssch_Qprime;
+      pssch_BitCapacity = Msc_PSSCH*Size_PSXCH_symbloc_perSubframe*pssch_Qprime;
+      //Index interleaving will be here
       //pssch_muxintlv_indices =  tran_uplink_MuxIntlvDataOnly_getIndices(  pssch_BitCapacity, cmux, pssch_Qprime, 1 );
       std::cout<<"PSSCH ModOrder = "<< pssch_Qprime<< std::endl;
       std::cout<<"PSSCH TBSize = "<<pssch_TBsize<<" (bits)"<< std::endl;
       std::cout<<"PSSCH Num of PRBs = " << N_RB_PSSCH <<std::endl;
       std::cout<<"PSSCH Bit Capacity = " << pssch_BitCapacity << "(bits)"<< std::endl;
+
+      int m[2]; // Frequency offset array of transmision and retransmision
+      if(slMode ==3 || (slMode == 4 && !sL_V2XUEConfig.isTx())){ //14.1.1.4C
+         m[0] = Linit;
+         m[1] = nsubCHstart;
+      }else{
+         //14.1.1.4.Β, 14.1.1.6
+         std::cout << "Modo 4 no soportado actualmente." << std::endl;
+         assert(0);
+      }
+
+      for(int txOP = 0; txOP < numTxOp; txOP++){
+         for(int j = 0; j < N_RB_PSSCH; j++){
+            m_PSSCH_selected[txOP].push_back(startRB_Subchannel_r14 +
+               m[txOP]* SizeSubchannel_r14 + beta + j);
+            v2x_frlbitmap[txOP] = ra_bitmap_resourcealloc_create(NumSubchannel_r14,
+                m[txOP], LsubCH);
+         }
+      }
+      //Impresion
+      std::cout<<"==================================================\n";
+      for(int txOP = 0; txOP < numTxOp; txOP++){
+         std::cout << "PSSCH PRBs [txOp = "<< txOP << "]: ";
+         for(int j = 0; j < m_PSSCH_selected[txOP].size(); j++){
+            std::cout << m_PSCCH_selected[txOP][j] << ' ';
+         }
+         std::cout<<std::endl;
+      }
+/*----------------------------- PSCCH ----------------------------------------*/
+      // Determine subframe and resource blocks for transmitting SCI Format 1
+      //message & Generate Messages.
+      // the following are relevant only at tx side where we know the incoming TB size.
+      // In Rx we have already the info since we do blind detection of SCIs
+      if(sL_V2XUEConfig.isTx()){
+         // select 1st available subframe
+         int n = 0;
+         while((ls_PSXCH_RP.size() > n) && (ls_PSXCH_RP[n] < subframeCounter)){
+            n++;
+         }
+         //En caso de haber pasado el ultimo subframe
+         if(ls_PSXCH_RP.size() == n){
+            n = 0;
+         }
+         //36.213 14.1.1.4C
+         // for each (potential) transmission opportunity
+         for (int txOp = 0; txOp < numTxOp; txOp++){
+             // new transmission: 1st available subframe
+             // retransmission  : Add SFgap
+             if (slMode==3)
+                 l_PSXCH_selected[txOp] = ls_PSXCH_RP[(n+(txOp-1)*SFgap-1) % ls_PSXCH_RP.size()];
+             else if (slMode==4)
+                 // Same as mode-3 (Placeholder. TO BE REVISED)
+                 assert(0);
+
+             // get the PRBs based on PSSCH Subchannel Selection
+             //Solamente se esta cogiendo un subcanal. Revisar.
+             m_PSCCH_selected[txOp] = ms_PSCCH_RP[m(txOp)];
+             // create SCI bit sequence
+             LoadSCI1TB (sciTBs[txOp], txOp);
+         }
+
+      }
 }
 
 
@@ -258,6 +324,9 @@ void SL_V2XCommunication::initialize_data(){
        case 75:  NFFT = 1536; chanSRate = 23.04e6; break;
        case 100: NFFT = 2048; chanSRate = 30.72e6; break;
     }
+    pscch_BitCapacity = Msc_PSCCH*Size_PSXCH_symbloc_perSubframe * 2;
+    //36.212 - 5.4.3.1.2
+    frlbitmap_len = ceil(log2(NumSubchannel_r14*(NumSubchannel_r14 + 1.0f)/2));
 }
 
 void SL_V2XCommunication::setTransmissionFormat() {
@@ -334,37 +403,43 @@ void SL_V2XCommunication::setTransmissionFormat() {
 /*------------------------------------------------------------------------------
                                 RUTINAS PÚBLICAS
 ------------------------------------------------------------------------------*/
-void tran_uplink_MuxIntlvDataOnly_getIndices(){
-/*----------------------------------------------------------------------------
- <nombre>
- ----------------------------------------------------------------------------
- Descripción:
-    <texto indicando la funcionalidad>
- ----------------------------------------------------------------------------
- Entradas:
-- <nombre>: <descripción>
- Salidas:
-   - <nombre>: <descripción>
- Devuelve:
-   - <nombre>: <descripción>
- ----------------------------------------------------------------------------
- Variables/atributos globales:
- Entradas:
-    <nombre>  <nombre>  <nombre>...
- Salidas:
-    <nombre>  <nombre>  <nombre>...
- Entrada/salida:
-    <nombre>  <nombre>  <nombre>...
- ----------------------------------------------------------------------------
- Rutinas/métodos:
-     <nombre>   <nombre>...
-     <modulo>:   <nombre>   <nombre>...
-     <modulo>:   <nombre>   <nombre>...
- ----------------------------------------------------------------------------*/
-}
+
 
 
 /*------------------------------------------------------------------------------
                                 RUTINAS INTERNAS
 ------------------------------------------------------------------------------*/
+uint8_t ra_bitmap_resourcealloc_create(int NsubCH, int RBstart, int Lcrbs){
+   /*----------------------------------------------------------------------------
+     ra_bitmap_resourcealloc_create
+     ----------------------------------------------------------------------------
+     Descripción:
+        Halla el RIV y lo traduce a un uint8_t. Sigue el estandar 36.213 -
+         14.1.1.4C.
+     ----------------------------------------------------------------------------
+     Entradas:
+   - NsubCH: numero total de subcanales
+   - RBstart: indice del primer resource block
+   - Lcrbs: numero de prb reservados
+
+     Salidas:
+
+     Devuelve:
+       - v2x_frlbitmap: frequency resource location del SCI
+     ----------------------------------------------------------------------------*/
+     uint8_t riv;
+     if ((Lcrbs-1)<=NsubCH/2){
+        riv = NsubCH*(Lcrbs-1)+RBstart;
+     } else{
+        riv = NsubCH*(NsubCH - Lcrbs + 1) + (NsubCH - 1 - RBstart);
+     }
+     return riv;
+}
+
+void LoadSCI1TB (uint8_t sciTBs[4], int txOp){
+
+}
+
+
+
 }
