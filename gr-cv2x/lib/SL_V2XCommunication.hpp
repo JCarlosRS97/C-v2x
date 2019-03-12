@@ -98,13 +98,14 @@ namespace LTEv{
    int m_PSSCH_selected[2][SizeSubchannel_r14];   // UE-specific scheduled PRBs for PSSCH
    int frlbitmap_len;                          // length of v2x frequency resource location field bitmap used in SCI Format 1
    uint8_t v2x_frlbitmap[2];                          // frl bitmap for v2x pscch/pssch
-   uint8_t sciTBs[2][4];                        // sci bit sequences (new tx and retx)
+   uint32_t sciTBs[2];                        // sci bit sequences (new tx and retx)
                                              //El SCI tiene 4 * 8 = 32 bits
 
 
    /* 2.2.- Declaración de métodos privados */
    void initialize_data();
    void setTransmissionFormat(); // determina mcs tbSize y N_PRB
+   uint32_t LoadSCI1TB(int txOp);
 
    public:
    /* 2.3.- Declaración de atributos públicos */

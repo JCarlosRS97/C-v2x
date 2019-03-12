@@ -396,6 +396,27 @@ void SL_V2XCommunication::setTransmissionFormat() {
       sduSize, mcs_r14, N_RB_PSSCH, pssch_TBsize, pssch_Qprime, minorPadding);
  }
 
+ uint32_t SL_V2XCommunication::LoadSCI1TB ( int txOp){ //a[0] a[1] a[2] a[3]
+    uint32_t sciTBs = 0;
+    // ResourceReservation: 36.213, Table 14.2.1-2
+    uint8_t rr = 0;
+    // ProSe Per-Packet Priority PPPP [not implemented]
+    sciTBs = 0x03 & 0;
+    // ResourceReservation
+    sciTBs += 0x78 & (rr << 3);
+    // Frequency resource location of initial transmission and retransmission
+    sciTBs += (((int)pow(2, frlbitmap_len)-1) << 7) & (uint32_t(v2x_frlbitmap[txOp]) << 7 );
+    // Time gap between initial transmission and retransmission
+    //sciTBs += (((int)pow(2, frlbitmap_len)-1) << 7) & (uint32_t(SFgap) << (7 + frlbitmap_len));
+    sciTBs(7+h.frlbitmap_len+1:7+h.frlbitmap_len+4,1) = decTobit(h.SFgap, 4, true);
+    // Modulation and coding scheme
+    sciTBs(7+h.frlbitmap_len+4+1:7+h.frlbitmap_len+4+5,1) = decTobit(h.mcs_r14, 5, true);
+    // Retransmission index
+    sciTBs(7+h.frlbitmap_len+4+5+1:7+h.frlbitmap_len+4+5+1,1) = double(txOp>1);
+    // Reserved information bits are added until the size of SCI format 1 is equal to 32 bits. The reserved bits are set to zero.
+    sciTBs(7+h.frlbitmap_len+4+5+1+1:end) = 0;
+ }
+
 /* 8.- Implementación de las rutinas */
 
 
@@ -435,11 +456,5 @@ uint8_t ra_bitmap_resourcealloc_create(int NsubCH, int RBstart, int Lcrbs){
      }
      return riv;
 }
-
-void LoadSCI1TB (uint8_t sciTBs[4], int txOp){
-
-}
-
-
 
 }
