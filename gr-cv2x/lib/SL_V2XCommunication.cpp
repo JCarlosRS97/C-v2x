@@ -41,19 +41,18 @@
 #include "3GPP_36213_Table7_1_7_2_1_1.cpp"
 #include "3GPP_36213_Table8_6_1_1.cpp"
 
+namespace LTEv
+{
 /* 5.- Definición de literales */
 
 
 /* 6.- Declaración de rutinas internas */
 uint8_t ra_bitmap_resourcealloc_create(int NsubCH, int RBstart, int Lcrbs);
-void LoadSCI1TB (uint8_t sciTBs[4], int txOp);
 
 /* 7.- Implementación de las clases */
 
 
 /* 7.1. – Clase 1 */
-namespace LTEv
-{
 
 /*------------------------------------------------------------------------------
                                 MÉTODOS PÚBLICOS
@@ -247,27 +246,26 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
       int m[2]; // Frequency offset array of transmision and retransmision
       if(slMode ==3 || (slMode == 4 && !sL_V2XUEConfig.isTx())){ //14.1.1.4C
          m[0] = Linit;
-         m[1] = nsubCHstart;
+         m[1] = nsubCHstart; 
       }else{
          //14.1.1.4.Β, 14.1.1.6
          std::cout << "Modo 4 no soportado actualmente." << std::endl;
          assert(0);
       }
-
-      for(int txOP = 0; txOP < numTxOp; txOP++){
-         for(int j = 0; j < N_RB_PSSCH; j++){
-            m_PSSCH_selected[txOP].push_back(startRB_Subchannel_r14 +
-               m[txOP]* SizeSubchannel_r14 + beta + j);
-            v2x_frlbitmap[txOP] = ra_bitmap_resourcealloc_create(NumSubchannel_r14,
-                m[txOP], LsubCH);
-         }
+      std::cout<<SFgap<<std::endl;
+      for(int txOp = 0; txOp < numTxOp; txOp++){
+         //Se halla el PSSCH del subcanal escogido quitando los PRB del SCI
+         std::cout<<ms_PSSCH_RP[m[txOp]][2]<<std::endl;
+         m_PSSCH_selected[txOp] = &ms_PSSCH_RP[m[txOp]][2];
+         v2x_frlbitmap[txOp] = ra_bitmap_resourcealloc_create(NumSubchannel_r14,
+             m[txOp], LsubCH);
       }
       //Impresion
       std::cout<<"==================================================\n";
-      for(int txOP = 0; txOP < numTxOp; txOP++){
-         std::cout << "PSSCH PRBs [txOp = "<< txOP << "]: ";
-         for(int j = 0; j < m_PSSCH_selected[txOP].size(); j++){
-            std::cout << m_PSCCH_selected[txOP][j] << ' ';
+      for(int txOp = 0; txOp < numTxOp; txOp++){
+         std::cout << "PSSCH PRBs [txOp = "<< txOp << "]: ";
+         for(int j = 0; j < N_RB_PSSCH; j++){
+            std::cout << m_PSSCH_selected[txOp][j] << ' ';
          }
          std::cout<<std::endl;
       }
@@ -299,9 +297,9 @@ void SL_V2XCommunication::getV2XCommResourcePool (){
 
              // get the PRBs based on PSSCH Subchannel Selection
              //Solamente se esta cogiendo un subcanal. Revisar.
-             m_PSCCH_selected[txOp] = ms_PSCCH_RP[m(txOp)];
+             m_PSCCH_selected[txOp] = ms_PSCCH_RP[m[txOp]];
              // create SCI bit sequence
-             LoadSCI1TB (sciTBs[txOp], txOp);
+             LoadSCI1TB (txOp, sciTBs[txOp]);
          }
 
       }
@@ -396,25 +394,56 @@ void SL_V2XCommunication::setTransmissionFormat() {
       sduSize, mcs_r14, N_RB_PSSCH, pssch_TBsize, pssch_Qprime, minorPadding);
  }
 
- uint32_t SL_V2XCommunication::LoadSCI1TB ( int txOp){ //a[0] a[1] a[2] a[3]
-    uint32_t sciTBs = 0;
+ void SL_V2XCommunication::LoadSCI1TB (int txOp, uint8_t output[]){
+    memset(output, 0, 32);
+    uint8_t mask;
+    int i = 0;
     // ResourceReservation: 36.213, Table 14.2.1-2
-    uint8_t rr = 0;
+    //uint8_t rr = 0;
     // ProSe Per-Packet Priority PPPP [not implemented]
-    sciTBs = 0x03 & 0;
+    while(i < 3){
+      output[i] = 0;
+      i++;
+    }
     // ResourceReservation
-    sciTBs += 0x78 & (rr << 3);
+    while(i < 7){
+      output[i] = 0;
+      i++;
+    }
     // Frequency resource location of initial transmission and retransmission
-    sciTBs += (((int)pow(2, frlbitmap_len)-1) << 7) & (uint32_t(v2x_frlbitmap[txOp]) << 7 );
+    mask = 1;
+    while(i < (7 + frlbitmap_len)){
+      output[i] = mask & v2x_frlbitmap[txOp];
+      mask <<= 1;
+      i++;
+    }
     // Time gap between initial transmission and retransmission
-    //sciTBs += (((int)pow(2, frlbitmap_len)-1) << 7) & (uint32_t(SFgap) << (7 + frlbitmap_len));
-    sciTBs(7+h.frlbitmap_len+1:7+h.frlbitmap_len+4,1) = decTobit(h.SFgap, 4, true);
+    mask = 1;
+    while(i < (11 + frlbitmap_len)){
+      output[i] = mask & SFgap;
+      mask <<= 1;
+      i++;
+    }
     // Modulation and coding scheme
-    sciTBs(7+h.frlbitmap_len+4+1:7+h.frlbitmap_len+4+5,1) = decTobit(h.mcs_r14, 5, true);
+    mask = 1;
+    while(i < (16 + frlbitmap_len)){
+      output[i] = mask & mcs_r14;
+      mask <<= 1;
+      i++;
+    }
     // Retransmission index
-    sciTBs(7+h.frlbitmap_len+4+5+1:7+h.frlbitmap_len+4+5+1,1) = double(txOp>1);
+    output[i] = txOp>1;
+    i++;
     // Reserved information bits are added until the size of SCI format 1 is equal to 32 bits. The reserved bits are set to zero.
-    sciTBs(7+h.frlbitmap_len+4+5+1+1:end) = 0;
+    while(i < 32){
+      output[i] = 0;
+      i++;
+    }
+
+    for(int j = 0; j < 32; j++){
+      std::cout<<output[j];
+   }
+   std::cout<<std::endl;
  }
 
 /* 8.- Implementación de las rutinas */

@@ -7,7 +7,7 @@ int main(){
   printf("Objeto creado\n");
   sl.getV2XCommResourcePool();
   printf("Resource pool obtenido\n");
-  LTEv::SL_V2XUEConfig sL_V2XUEConfig(80, 0, 0, 0);
+  LTEv::SL_V2XUEConfig sL_V2XUEConfig(200, 1, 0, 1);
   sl.PSxCH_Procedures(sL_V2XUEConfig, 0);
   printf("Formato de transmision\n");
 }
