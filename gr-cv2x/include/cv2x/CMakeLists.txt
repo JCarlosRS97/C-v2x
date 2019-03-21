@@ -22,5 +22,5 @@
 ########################################################################
 install(FILES
     api.h
-    DESTINATION include/cv2x
+    slss_generator.h DESTINATION include/cv2x
 )

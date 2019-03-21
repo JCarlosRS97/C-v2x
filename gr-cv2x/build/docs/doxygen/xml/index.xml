@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.13">
+  <compound refid="classgr_1_1cv2x_1_1slss__generator" kind="class"><name>gr::cv2x::slss_generator</name>
+    <member refid="classgr_1_1cv2x_1_1slss__generator_1aca42186ae872b8a02b840e8125a6c2ae" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator_1a25afb05ded49f029f09643f9fffc90f8" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="classgr_1_1cv2x_1_1slss__generator__impl" kind="class"><name>gr::cv2x::slss_generator_impl</name>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1abed6bbe8a9db91553c2548e46bee1d18" kind="variable"><name>NSLRB</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1abde268b7237bbac52f29a1c31aba0b7b" kind="variable"><name>NSLsymb</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a124f4d34e49b12fcba8df8e44d306e5f" kind="variable"><name>NRBsc</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a51555afa2efa1b6ab59ac811a57b45c7" kind="variable"><name>ZC_roots</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a084efd912c1dc47d6bc38cfbfe9d771f" kind="variable"><name>slssId</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a777d0a8bcbb7e0b3cc5c884e32999fd6" kind="variable"><name>syncOffsetIndicator1</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a0c2f2c923b56c63b24d7ffa187a862f5" kind="variable"><name>syncOffsetIndicator2</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a73032dc4a761612f96c261a40599011c" kind="variable"><name>syncPeriod</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a36e26e8f5ca4e56d2f68dcc7838b28df" kind="variable"><name>psss_symbols</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1ad35be9aa376fa73979cf6b941ffb30db" kind="variable"><name>ssss_symbols</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1abaf9ed7a169a595ee5aac5fead706f25" kind="function"><name>create_pss</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a5d5134ee2f915e790b772a5acc78498e" kind="function"><name>create_sss</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a1f804b7a7e7bc16ee092bb63f1ddaaf7" kind="function"><name>slss_generator_impl</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1a1361c35214a89c8d6a81adef842d395d" kind="function"><name>~slss_generator_impl</name></member>
+    <member refid="classgr_1_1cv2x_1_1slss__generator__impl_1acb1c42f5b482e298c9879c18de09f700" kind="function"><name>work</name></member>
+  </compound>
+  <compound refid="namespacegr" kind="namespace"><name>gr</name>
+  </compound>
+  <compound refid="namespacegr_1_1cv2x" kind="namespace"><name>gr::cv2x</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="api_8h" kind="file"><name>api.h</name>
+    <member refid="api_8h_1a9d7f349370e90c35bcd9c0f2f5804b96" kind="define"><name>CV2X_API</name></member>
+  </compound>
+  <compound refid="group__defs_8dox" kind="file"><name>group_defs.dox</name>
+  </compound>
+  <compound refid="main__page_8dox" kind="file"><name>main_page.dox</name>
+  </compound>
+  <compound refid="slss__generator_8h" kind="file"><name>slss_generator.h</name>
+  </compound>
+  <compound refid="slss__generator__impl_8h" kind="file"><name>slss_generator_impl.h</name>
+  </compound>
+  <compound refid="group__block" kind="group"><name>block</name>
+  </compound>
+  <compound refid="dir_0794c126cbeaaa463e7a191d02ec6be0" kind="dir"><name>cv2x</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_97aefd0d527b934f1d99a682da8fe6a9" kind="dir"><name>lib</name>
+  </compound>
+  <compound refid="indexpage" kind="page"><name>index</name>
+  </compound>
+</doxygenindex>

@@ -197,114 +197,6 @@ test-cv2x/fast:
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/build
 .PHONY : test-cv2x/fast
 
-LTECodePrefixer_impl.o: LTECodePrefixer_impl.cc.o
-
-.PHONY : LTECodePrefixer_impl.o
-
-# target to build an object file
-LTECodePrefixer_impl.cc.o:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/LTECodePrefixer_impl.cc.o
-.PHONY : LTECodePrefixer_impl.cc.o
-
-LTECodePrefixer_impl.i: LTECodePrefixer_impl.cc.i
-
-.PHONY : LTECodePrefixer_impl.i
-
-# target to preprocess a source file
-LTECodePrefixer_impl.cc.i:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/LTECodePrefixer_impl.cc.i
-.PHONY : LTECodePrefixer_impl.cc.i
-
-LTECodePrefixer_impl.s: LTECodePrefixer_impl.cc.s
-
-.PHONY : LTECodePrefixer_impl.s
-
-# target to generate assembly for a file
-LTECodePrefixer_impl.cc.s:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/LTECodePrefixer_impl.cc.s
-.PHONY : LTECodePrefixer_impl.cc.s
-
-SC_FDMA_Modulator_impl.o: SC_FDMA_Modulator_impl.cc.o
-
-.PHONY : SC_FDMA_Modulator_impl.o
-
-# target to build an object file
-SC_FDMA_Modulator_impl.cc.o:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/SC_FDMA_Modulator_impl.cc.o
-.PHONY : SC_FDMA_Modulator_impl.cc.o
-
-SC_FDMA_Modulator_impl.i: SC_FDMA_Modulator_impl.cc.i
-
-.PHONY : SC_FDMA_Modulator_impl.i
-
-# target to preprocess a source file
-SC_FDMA_Modulator_impl.cc.i:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/SC_FDMA_Modulator_impl.cc.i
-.PHONY : SC_FDMA_Modulator_impl.cc.i
-
-SC_FDMA_Modulator_impl.s: SC_FDMA_Modulator_impl.cc.s
-
-.PHONY : SC_FDMA_Modulator_impl.s
-
-# target to generate assembly for a file
-SC_FDMA_Modulator_impl.cc.s:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/SC_FDMA_Modulator_impl.cc.s
-.PHONY : SC_FDMA_Modulator_impl.cc.s
-
-qa_LTECodePrefixer.o: qa_LTECodePrefixer.cc.o
-
-.PHONY : qa_LTECodePrefixer.o
-
-# target to build an object file
-qa_LTECodePrefixer.cc.o:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o
-.PHONY : qa_LTECodePrefixer.cc.o
-
-qa_LTECodePrefixer.i: qa_LTECodePrefixer.cc.i
-
-.PHONY : qa_LTECodePrefixer.i
-
-# target to preprocess a source file
-qa_LTECodePrefixer.cc.i:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.i
-.PHONY : qa_LTECodePrefixer.cc.i
-
-qa_LTECodePrefixer.s: qa_LTECodePrefixer.cc.s
-
-.PHONY : qa_LTECodePrefixer.s
-
-# target to generate assembly for a file
-qa_LTECodePrefixer.cc.s:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.s
-.PHONY : qa_LTECodePrefixer.cc.s
-
-qa_SC_FDMA_Modulator.o: qa_SC_FDMA_Modulator.cc.o
-
-.PHONY : qa_SC_FDMA_Modulator.o
-
-# target to build an object file
-qa_SC_FDMA_Modulator.cc.o:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o
-.PHONY : qa_SC_FDMA_Modulator.cc.o
-
-qa_SC_FDMA_Modulator.i: qa_SC_FDMA_Modulator.cc.i
-
-.PHONY : qa_SC_FDMA_Modulator.i
-
-# target to preprocess a source file
-qa_SC_FDMA_Modulator.cc.i:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.i
-.PHONY : qa_SC_FDMA_Modulator.cc.i
-
-qa_SC_FDMA_Modulator.s: qa_SC_FDMA_Modulator.cc.s
-
-.PHONY : qa_SC_FDMA_Modulator.s
-
-# target to generate assembly for a file
-qa_SC_FDMA_Modulator.cc.s:
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.s
-.PHONY : qa_SC_FDMA_Modulator.cc.s
-
 qa_cv2x.o: qa_cv2x.cc.o
 
 .PHONY : qa_cv2x.o
@@ -331,6 +223,33 @@ qa_cv2x.s: qa_cv2x.cc.s
 qa_cv2x.cc.s:
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.s
 .PHONY : qa_cv2x.cc.s
+
+slss_generator_impl.o: slss_generator_impl.cc.o
+
+.PHONY : slss_generator_impl.o
+
+# target to build an object file
+slss_generator_impl.cc.o:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o
+.PHONY : slss_generator_impl.cc.o
+
+slss_generator_impl.i: slss_generator_impl.cc.i
+
+.PHONY : slss_generator_impl.i
+
+# target to preprocess a source file
+slss_generator_impl.cc.i:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.i
+.PHONY : slss_generator_impl.cc.i
+
+slss_generator_impl.s: slss_generator_impl.cc.s
+
+.PHONY : slss_generator_impl.s
+
+# target to generate assembly for a file
+slss_generator_impl.cc.s:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.s
+.PHONY : slss_generator_impl.cc.s
 
 test_cv2x.o: test_cv2x.cc.o
 
@@ -374,21 +293,12 @@ help:
 	@echo "... list_install_components"
 	@echo "... test-cv2x"
 	@echo "... edit_cache"
-	@echo "... LTECodePrefixer_impl.o"
-	@echo "... LTECodePrefixer_impl.i"
-	@echo "... LTECodePrefixer_impl.s"
-	@echo "... SC_FDMA_Modulator_impl.o"
-	@echo "... SC_FDMA_Modulator_impl.i"
-	@echo "... SC_FDMA_Modulator_impl.s"
-	@echo "... qa_LTECodePrefixer.o"
-	@echo "... qa_LTECodePrefixer.i"
-	@echo "... qa_LTECodePrefixer.s"
-	@echo "... qa_SC_FDMA_Modulator.o"
-	@echo "... qa_SC_FDMA_Modulator.i"
-	@echo "... qa_SC_FDMA_Modulator.s"
 	@echo "... qa_cv2x.o"
 	@echo "... qa_cv2x.i"
 	@echo "... qa_cv2x.s"
+	@echo "... slss_generator_impl.o"
+	@echo "... slss_generator_impl.i"
+	@echo "... slss_generator_impl.s"
 	@echo "... test_cv2x.o"
 	@echo "... test_cv2x.i"
 	@echo "... test_cv2x.s"

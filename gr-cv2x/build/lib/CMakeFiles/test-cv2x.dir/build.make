@@ -105,68 +105,16 @@ lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o.provides: lib/CMakeFiles/test-cv2x.dir
 lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o.provides.build: lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o
 
 
-lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o: lib/CMakeFiles/test-cv2x.dir/flags.make
-lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o: ../lib/qa_LTECodePrefixer.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o"
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o -c /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_LTECodePrefixer.cc
-
-lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.i"
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_LTECodePrefixer.cc > CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.i
-
-lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.s"
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_LTECodePrefixer.cc -o CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.s
-
-lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o.requires:
-
-.PHONY : lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o.requires
-
-lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o.provides: lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o.requires
-	$(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o.provides.build
-.PHONY : lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o.provides
-
-lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o.provides.build: lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o
-
-
-lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o: lib/CMakeFiles/test-cv2x.dir/flags.make
-lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o: ../lib/qa_SC_FDMA_Modulator.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o"
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o -c /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_SC_FDMA_Modulator.cc
-
-lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.i"
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_SC_FDMA_Modulator.cc > CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.i
-
-lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.s"
-	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_SC_FDMA_Modulator.cc -o CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.s
-
-lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o.requires:
-
-.PHONY : lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o.requires
-
-lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o.provides: lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o.requires
-	$(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o.provides.build
-.PHONY : lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o.provides
-
-lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o.provides.build: lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o
-
-
 # Object files for target test-cv2x
 test__cv2x_OBJECTS = \
 "CMakeFiles/test-cv2x.dir/test_cv2x.cc.o" \
-"CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o" \
-"CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o" \
-"CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o"
+"CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o"
 
 # External object files for target test-cv2x
 test__cv2x_EXTERNAL_OBJECTS =
 
 lib/test-cv2x: lib/CMakeFiles/test-cv2x.dir/test_cv2x.cc.o
 lib/test-cv2x: lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o
-lib/test-cv2x: lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o
-lib/test-cv2x: lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o
 lib/test-cv2x: lib/CMakeFiles/test-cv2x.dir/build.make
 lib/test-cv2x: /usr/lib/x86_64-linux-gnu/libgnuradio-runtime.so
 lib/test-cv2x: /usr/lib/x86_64-linux-gnu/libgnuradio-pmt.so
@@ -181,7 +129,7 @@ lib/test-cv2x: /usr/lib/x86_64-linux-gnu/liblog4cpp.so
 lib/test-cv2x: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 lib/test-cv2x: /usr/lib/x86_64-linux-gnu/libboost_system.so
 lib/test-cv2x: lib/CMakeFiles/test-cv2x.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable test-cv2x"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable test-cv2x"
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test-cv2x.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -191,8 +139,6 @@ lib/CMakeFiles/test-cv2x.dir/build: lib/test-cv2x
 
 lib/CMakeFiles/test-cv2x.dir/requires: lib/CMakeFiles/test-cv2x.dir/test_cv2x.cc.o.requires
 lib/CMakeFiles/test-cv2x.dir/requires: lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o.requires
-lib/CMakeFiles/test-cv2x.dir/requires: lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o.requires
-lib/CMakeFiles/test-cv2x.dir/requires: lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o.requires
 
 .PHONY : lib/CMakeFiles/test-cv2x.dir/requires
 

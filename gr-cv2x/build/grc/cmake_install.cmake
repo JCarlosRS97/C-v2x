@@ -38,9 +38,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_SC_FDMA_Modulator.xml"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_LTECodePrefixer.xml"
-    )
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_slss_generator.xml")
 endif()
 

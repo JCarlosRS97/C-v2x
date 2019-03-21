@@ -4,8 +4,6 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_LTECodePrefixer.cc" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/test-cv2x.dir/qa_LTECodePrefixer.cc.o"
-  "/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_SC_FDMA_Modulator.cc" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/test-cv2x.dir/qa_SC_FDMA_Modulator.cc.o"
   "/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_cv2x.cc" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o"
   "/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/test_cv2x.cc" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/test-cv2x.dir/test_cv2x.cc.o"
   )

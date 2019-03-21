@@ -40,8 +40,7 @@ endif()
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/cv2x" TYPE FILE FILES
     "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/api.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/SC_FDMA_Modulator.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/LTECodePrefixer.h"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/slss_generator.h"
     )
 endif()
 

@@ -1,0 +1,33 @@
+Start testing: Mar 21 21:17 CET
+----------------------------------------------------------
+2/2 Testing: qa_slss_generator
+2/2 Test: qa_slss_generator
+Command: "/bin/sh" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/qa_slss_generator_test.sh"
+Directory: /home/jcrs/Escritorio/Bloques/gr-cv2x/build/python
+"qa_slss_generator" start time: Mar 21 21:17 CET
+Output:
+----------------------------------------------------------
+E
+======================================================================
+ERROR: test_001_t (__main__.qa_slss_generator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/jcrs/Escritorio/Bloques/gr-cv2x/python/qa_slss_generator.py", line 36, in test_001_t
+    sqr = cv2x.slss_generator(301, 0, 0, 160);
+  File "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig.py", line 156, in make
+    return _cv2x_swig.slss_generator_make(slssId, syncOffsetIndicator1, syncOffsetIndicator2, syncPeriod)
+RuntimeError: gr::io_signature(3)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
+<end of output>
+Test time =   0.32 sec
+----------------------------------------------------------
+Test Failed.
+"qa_slss_generator" end time: Mar 21 21:17 CET
+"qa_slss_generator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Mar 21 21:17 CET
