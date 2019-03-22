@@ -42,10 +42,11 @@ namespace gr {
       int syncPeriod;
       //Internal variables
       gr_complex psss_symbols[62]; //dos simbolos iguales y 62 subportadoras
-      gr_complex ssss_symbols[128]; //dos simbolos y 62 subportadoras
+      gr_complex ssss_symbols[62]; //dos simbolos iguales y 62 subportadoras
 
-      void create_pss();
-      void create_sss();
+      void create_psss();
+      void create_ssss();
+      void mapping(gr_complex[NSLRB*NRBsc*NSLsymb*2]);
 
      public:
       slss_generator_impl(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod);
