@@ -35,7 +35,7 @@ namespace gr {
       const int NSLsymb = 7;
       const int NRBsc = 12;
       const int ZC_roots[2] = {26, 37};
-      const int NSLsc = NSLRB*NRbsc;
+      const int NSLsc = NSLRB*NRBsc;
       const int TAM_VECTOR = NSLsc*NSLsymb*2;
       //Block configuration
       int slssId;

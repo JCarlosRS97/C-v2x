@@ -92,8 +92,30 @@ int main(){
       ssss_symbols[2 * i] = s_m1[i] * c0[i] * sqrt(72/62.0);
       ssss_symbols[2 * i  + 1] = s_m0[i] * c1[i] * z1_m1[i] * sqrt(72/62.0);
    }
+   //
+   // for(int i = 0; i < 62; i++){
+   //    std::cout<<ssss_symbols[i]<<std::endl;
+   // }
+   const int NSLRB = 6;
+   const int NSLsymb = 7;
+   const int NRBsc = 12;
+   int NSLsc = NSLRB*NRBsc;
+   std::complex<float> subframe[NSLsc*14];
+   int frecPos = NSLsc/2 - 31;
+   std::cout << frecPos << '\n';
 
    for(int i = 0; i < 62; i++){
-      std::cout<<ssss_symbols[i]<<std::endl;
+      subframe[1*NSLsc + frecPos] = psss_symbols[i];
+      subframe[2*NSLsc + frecPos] = psss_symbols[i];
+      subframe[11*NSLsc + frecPos] = ssss_symbols[i];
+      subframe[12*NSLsc + frecPos] = ssss_symbols[i];
+      frecPos += 1;
+   }
+   for(int i = 0; i < NSLsc; i++){
+      for(int k = 0; k < 14; k++){
+         std::cout << subframe[k * NSLsc + i] << ' ';
+      }
+         std::cout<< '\n';
+
    }
 }

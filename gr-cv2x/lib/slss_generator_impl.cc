@@ -167,7 +167,7 @@ namespace gr {
 
    void slss_generator_impl::CreateSubframe(gr_complex subframe[NSLRB*NRBsc*NSLsymb*2]){
       //map PSSS
-      int frecPos = NSLsc/2 - 31
+      int frecPos = NSLsc/2 - 31;
       for(int i = 0; i < 62; i++){
          subframe[1*NRBsc + frecPos] = psss_symbols[i];
          subframe[2*NRBsc + frecPos] = psss_symbols[i];
