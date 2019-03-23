@@ -31,10 +31,12 @@ namespace gr {
       //Queda pensiente incluir N_RB^SL
      private:
        //System values
-      const int NSLRB = 25;
+      const int NSLRB = 6;
       const int NSLsymb = 7;
       const int NRBsc = 12;
       const int ZC_roots[2] = {26, 37};
+      const int NSLsc = NSLRB*NRbsc;
+      const int TAM_VECTOR = NSLsc*NSLsymb*2;
       //Block configuration
       int slssId;
       int syncOffsetIndicator1;
@@ -43,10 +45,11 @@ namespace gr {
       //Internal variables
       gr_complex psss_symbols[62]; //dos simbolos iguales y 62 subportadoras
       gr_complex ssss_symbols[62]; //dos simbolos iguales y 62 subportadoras
+      int subframeCounter;
 
       void create_psss();
       void create_ssss();
-      void mapping(gr_complex[NSLRB*NRBsc*NSLsymb*2]);
+      void CreateSubframe(gr_complex subframe[]);
 
      public:
       slss_generator_impl(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod);

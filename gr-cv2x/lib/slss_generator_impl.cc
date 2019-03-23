@@ -43,11 +43,12 @@ namespace gr {
     slss_generator_impl::slss_generator_impl(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod)
       : gr::sync_block("slss_generator",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, 1, sizeof(gr_complex)*NSLRB*NRBsc*NSLsymb*2)),
+              gr::io_signature::make(1, 1, sizeof(gr_complex)*TAM_VECTOR)),
         slssId(slssId),
         syncOffsetIndicator1(syncOffsetIndicator1),
         syncOffsetIndicator2(syncOffsetIndicator2),
-        syncPeriod(syncPeriod)
+        syncPeriod(syncPeriod),
+        subframeCounter(0)
     {
       create_psss();
       create_ssss();
@@ -66,11 +67,21 @@ namespace gr {
         gr_vector_void_star &output_items)
     {
       gr_complex *out = (gr_complex *) output_items[0];
-
+      memset(out, 0, sizeof(gr_complex) * TAM_VECTOR);
       // Do <+signal processing+>
       for(int i = 0; i < noutput_items; i++) {
-
-            }
+         if((subframeCounter % syncPeriod) == syncOffsetIndicator1 ){
+            //It's a reference subframe
+            CreateSubframe(out)
+         }
+         //Update subframeCounter
+         subframeCounter++;
+         if(subframeCounter == syncPeriod){
+            subframeCounter = 0;
+         }
+         //update out pointer
+         out += TAM_VECTOR;
+      }
       // Tell runtime system how many output items we produced.
       return noutput_items;
     }
@@ -79,10 +90,10 @@ namespace gr {
       //6.11.1.1 of TS36.211
       int u = (slssId > 167)? ZC_roots[1] : ZC_roots[0];
       for(int i = 0; i < 31; i++){
-         psss_symbols[i] = std::polar(1.0f, float(-M_PI*u*(i+1.0)/63.0));
-         psss_symbols[i] *= sqrt(72/62.0);
-         psss_symbols[i + 31] = std::polar(1.0f, float(-M_PI*u*(i + 1.0)*(i + 2.0)/63.0));
-         psss_symbols[i + 31] *= sqrt(72/62.0);
+         float phase = -M_PI*u*(i+1.0)/63.0
+         psss_symbols[i] = std::polar(sqrt(72/62.0), phase);
+         phase = -M_PI*u*(i + 1.0)*(i + 2.0)/63.0;
+         psss_symbols[i + 31] = std::polar(sqrt(72/62.0), phase);
       }
    }
 
@@ -151,6 +162,20 @@ namespace gr {
          ssss_symbols[2 * i] = s_m1[i] * c0[i] * sqrt(72/62.0);
          ssss_symbols[2 * i  + 1] = s_m0[i] * c1[i] * z1_m1[i] * sqrt(72/62.0);
       }
+
+   }
+
+   void slss_generator_impl::CreateSubframe(gr_complex subframe[NSLRB*NRBsc*NSLsymb*2]){
+      //map PSSS
+      int frecPos = NSLsc/2 - 31
+      for(int i = 0; i < 62; i++){
+         subframe[1*NRBsc + frecPos] = psss_symbols[i];
+         subframe[2*NRBsc + frecPos] = psss_symbols[i];
+         subframe[11*NRBsc + frecPos] = ssss_symbols[i];
+         subframe[12*NRBsc + frecPos] = ssss_symbols[i];
+         frecPos += 1;
+      }
+
    }
 
   } /* namespace cv2x */
