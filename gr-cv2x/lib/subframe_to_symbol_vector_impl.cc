@@ -62,22 +62,24 @@ namespace gr {
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
 
+      //Center the pointer
+      out += NFFT/2 - NSLsc/2;
       // Do <+signal processing+>
       int consumed_items = 0;
-      printf("Se piden %i items.\n", noutput_items);
+     //printf("Se piden %i items.\n", noutput_items);
       for(int i = 0; i < noutput_items; i++){
-         printf("Simbolo: %i\n", symbol);
+        //printf("Simbolo: %i\n", symbol);
          memcpy(out, in + symbol*NSLsc + consumed_items*NSLsc*NSLsymb*2, sizeof(gr_complex)*NSLsc);
          out += NFFT;
          if(symbol == (NSLsymb*2 - 1)){
-            printf("Nuevo subframe\n");
+           //printf("Nuevo subframe\n");
             symbol = 0;
             consumed_items++;
          }else{
             symbol++;
          }
       }
-      printf("Se han requerido %i inputs\n", consumed_items);
+     //printf("Se han requerido %i inputs\n", consumed_items);
       consume_each(consumed_items);
       // Tell runtime system how many output items we produced.
       return noutput_items;

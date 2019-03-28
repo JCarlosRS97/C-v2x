@@ -1,6 +1,7 @@
 /usr/local/lib/cmake/cv2x/cv2xConfig.cmake
 /usr/local/include/cv2x/api.h
 /usr/local/include/cv2x/slss_generator.h
+/usr/local/include/cv2x/subframe_to_symbol_vector.h
 /usr/local/lib/libgnuradio-cv2x-1.0.0git.so.0.0.0
 /usr/local/lib/libgnuradio-cv2x-1.0.0git.so
 /usr/local/lib/libgnuradio-cv2x.so
@@ -15,6 +16,7 @@
 /usr/local/lib/python2.7/dist-packages/cv2x/__init__.pyc
 /usr/local/lib/python2.7/dist-packages/cv2x/__init__.pyo
 /usr/local/share/gnuradio/grc/blocks/cv2x_slss_generator.xml
+/usr/local/share/gnuradio/grc/blocks/cv2x_subframe_to_symbol_vector.xml
 /usr/local/share/doc/gr-cv2x/xml/slss__generator_8h.xml
 /usr/local/share/doc/gr-cv2x/xml/combine.xslt
 /usr/local/share/doc/gr-cv2x/xml/dir_d44c64559bbebec7f509842c48db8b23.xml

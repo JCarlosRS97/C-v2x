@@ -11,14 +11,14 @@
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>NSLRB</name>
-    <key>$NSLRB</key>
+    <name>BW(PRB)</name>
+    <key>NSLRB</key>
     <type>int</type>
   </param>
 
   <param>
-    <name>NFFT</name>
-    <key>$NFFT</key>
+    <name>FFT length</name>
+    <key>NFFT</key>
     <type>int</type>
   </param>
   <!-- Make one 'sink' node per input. Sub-nodes:

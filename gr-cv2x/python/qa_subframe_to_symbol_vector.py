@@ -22,6 +22,7 @@
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import cv2x_swig as cv2x
+from gnuradio import fft
 
 class qa_subframe_to_symbol_vector (gr_unittest.TestCase):
 
@@ -34,18 +35,19 @@ class qa_subframe_to_symbol_vector (gr_unittest.TestCase):
     def test_001_t (self):
         # set up fg
         sqr = cv2x.slss_generator(301, 0, 0, 3);
-        dst = blocks.file_sink(gr.sizeof_gr_complex*72, "capture.dat");
+        dst = blocks.file_sink(gr.sizeof_gr_complex*128, "capture.dat");
         test = blocks.file_sink(gr.sizeof_gr_complex*1008, "source.dat");
-        divisor = cv2x.subframe_to_symbol_vector(6, 72);
+        divisor = cv2x.subframe_to_symbol_vector(6, 128);
         h = blocks.head(1008*gr.sizeof_gr_complex, 5);
-        h2 = blocks.head(72*gr.sizeof_gr_complex, 14*5);
+        h2 = blocks.head(128*gr.sizeof_gr_complex, 14*5);
+        fft1 = fft.fft_vcc(128, False, (), True, 1)
         self.tb.connect (sqr,h)
         self.tb.connect(h, divisor);
-        self.tb.connect(divisor, h2);
+        self.tb.connect(divisor, fft1);
+        self.tb.connect(fft1, h2);
         self.tb.connect(h2, dst);
         self.tb.connect (h, test)
         self.tb.run ();
-
 
 
 if __name__ == '__main__':

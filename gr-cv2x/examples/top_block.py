@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Dec 13 18:04:26 2018
+# Generated: Thu Mar 28 19:40:12 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -20,7 +20,6 @@ if __name__ == '__main__':
 
 from PyQt5 import Qt
 from PyQt5 import Qt, QtCore
-from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import fft
@@ -30,6 +29,7 @@ from gnuradio.eng_option import eng_option
 from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
+import cv2x
 import howto
 import sip
 import sys
@@ -69,8 +69,8 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 32000
-        self.fft_len = fft_len = 2048
+        self.samp_rate = samp_rate = 30e3
+        self.fft_len = fft_len = 72
 
         ##################################################
         # Blocks
@@ -79,7 +79,7 @@ class top_block(gr.top_block, Qt.QWidget):
         	1024, #fftsize
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
         	0, #fc
-        	samp_rate, #bw
+        	30e6, #bw
         	"", #name
         	True, #plotfreq
         	True, #plotwaterfall
@@ -94,17 +94,24 @@ class top_block(gr.top_block, Qt.QWidget):
 
 
 
-        self.howto_ofdm_cyclic_prefixer_0 = howto.ofdm_cyclic_prefixer(fft_len, (160, 144, 144, 144, 144, 144 ,144 ), 0, "frame_len")
-        self.fft_vxx_0 = fft.fft_vcc(fft_len, False, (), False, 1)
-        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, fft_len)
-        self.analog_const_source_x_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
+        self.howto_ofdm_cyclic_prefixer_0 = howto.ofdm_cyclic_prefixer(fft_len, (int(160.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len),int(144.0/2048*fft_len)), 0, '')
+        self.fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
+        self.cv2x_subframe_to_symbol_vector_0 = cv2x.subframe_to_symbol_vector(6, fft_len)
+        self.cv2x_slss_generator_0 = cv2x.slss_generator(301, 0, 0, 1)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1008, samp_rate,True)
+        self.blocks_head_0 = blocks.head(gr.sizeof_gr_complex*1, fft_len*20)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/jcrs/Escritorio/output.dat', False)
+        self.blocks_file_sink_0.set_unbuffered(False)
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_const_source_x_0, 0), (self.blocks_stream_to_vector_0, 0))
-        self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
+        self.connect((self.blocks_head_0, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.cv2x_subframe_to_symbol_vector_0, 0))
+        self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.cv2x_subframe_to_symbol_vector_0, 0), (self.fft_vxx_0, 0))
         self.connect((self.fft_vxx_0, 0), (self.howto_ofdm_cyclic_prefixer_0, 0))
+        self.connect((self.howto_ofdm_cyclic_prefixer_0, 0), (self.blocks_head_0, 0))
         self.connect((self.howto_ofdm_cyclic_prefixer_0, 0), (self.qtgui_sink_x_0, 0))
 
     def closeEvent(self, event):
@@ -117,13 +124,14 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.qtgui_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_fft_len(self):
         return self.fft_len
 
     def set_fft_len(self, fft_len):
         self.fft_len = fft_len
+        self.blocks_head_0.set_length(self.fft_len*20)
 
 
 def main(top_block_cls=top_block, options=None):

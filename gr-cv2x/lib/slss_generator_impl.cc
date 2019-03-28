@@ -74,7 +74,7 @@ namespace gr {
          if((subframeCounter % syncPeriod) == syncOffsetIndicator1 ){
             //It's a reference subframe
             CreateSubframe(out);
-            printf("SLSS Gen: nuevo subframe de referencia en %i\n", subframeCounter);
+           //printf("SLSS Gen: nuevo subframe de referencia en %i\n", subframeCounter);
          }
          //Update subframeCounter
          subframeCounter++;
@@ -84,7 +84,7 @@ namespace gr {
          //update out pointer
          out += TAM_VECTOR;
       }
-      printf("SLSS Gen: Se han producido %i valores\n", noutput_items);
+     //printf("SLSS Gen: Se han producido %i valores\n", noutput_items);
       // Tell runtime system how many output items we produced.
       return noutput_items;
     }
