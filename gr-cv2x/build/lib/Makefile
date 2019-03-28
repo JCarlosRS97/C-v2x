@@ -251,6 +251,33 @@ slss_generator_impl.cc.s:
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.s
 .PHONY : slss_generator_impl.cc.s
 
+subframe_to_symbol_vector_impl.o: subframe_to_symbol_vector_impl.cc.o
+
+.PHONY : subframe_to_symbol_vector_impl.o
+
+# target to build an object file
+subframe_to_symbol_vector_impl.cc.o:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o
+.PHONY : subframe_to_symbol_vector_impl.cc.o
+
+subframe_to_symbol_vector_impl.i: subframe_to_symbol_vector_impl.cc.i
+
+.PHONY : subframe_to_symbol_vector_impl.i
+
+# target to preprocess a source file
+subframe_to_symbol_vector_impl.cc.i:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.i
+.PHONY : subframe_to_symbol_vector_impl.cc.i
+
+subframe_to_symbol_vector_impl.s: subframe_to_symbol_vector_impl.cc.s
+
+.PHONY : subframe_to_symbol_vector_impl.s
+
+# target to generate assembly for a file
+subframe_to_symbol_vector_impl.cc.s:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.s
+.PHONY : subframe_to_symbol_vector_impl.cc.s
+
 test_cv2x.o: test_cv2x.cc.o
 
 .PHONY : test_cv2x.o
@@ -299,6 +326,9 @@ help:
 	@echo "... slss_generator_impl.o"
 	@echo "... slss_generator_impl.i"
 	@echo "... slss_generator_impl.s"
+	@echo "... subframe_to_symbol_vector_impl.o"
+	@echo "... subframe_to_symbol_vector_impl.i"
+	@echo "... subframe_to_symbol_vector_impl.s"
 	@echo "... test_cv2x.o"
 	@echo "... test_cv2x.i"
 	@echo "... test_cv2x.s"

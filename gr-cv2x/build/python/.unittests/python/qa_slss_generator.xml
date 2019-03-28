@@ -1,14 +1,5 @@
-<testsuite errors="1" failures="0" name="unittest.suite.TestSuite" tests="1" time="0.001">
-  <testcase classname="__main__.qa_slss_generator" name="test_001_t" time="0.0005">
-    <error type="exceptions.RuntimeError">gr::io_signature(3)
-  File "/usr/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/home/jcrs/Escritorio/Bloques/gr-cv2x/python/qa_slss_generator.py", line 36, in test_001_t
-    sqr = cv2x.slss_generator(301, 0, 0, 160);
-  File "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig.py", line 156, in make
-    return _cv2x_swig.slss_generator_make(slssId, syncOffsetIndicator1, syncOffsetIndicator2, syncPeriod)
-    </error>
-  </testcase>
+<testsuite errors="0" failures="0" name="unittest.suite.TestSuite" tests="1" time="0.003">
+  <testcase classname="__main__.qa_slss_generator" name="test_001_t" time="0.0029"></testcase>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

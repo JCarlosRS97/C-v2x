@@ -26,6 +26,7 @@
 #include "slss_generator_impl.h"
 #include <cmath>
 #include <cstdlib>
+#include <complex>
 
 namespace gr {
   namespace cv2x {
@@ -72,16 +73,18 @@ namespace gr {
       for(int i = 0; i < noutput_items; i++) {
          if((subframeCounter % syncPeriod) == syncOffsetIndicator1 ){
             //It's a reference subframe
-            CreateSubframe(out)
+            CreateSubframe(out);
+            printf("SLSS Gen: nuevo subframe de referencia en %i\n", subframeCounter);
          }
          //Update subframeCounter
          subframeCounter++;
-         if(subframeCounter == syncPeriod){
-            subframeCounter = 0;
-         }
+         // if(subframeCounter == syncPeriod){
+         //    subframeCounter = 0;
+         // }
          //update out pointer
          out += TAM_VECTOR;
       }
+      printf("SLSS Gen: Se han producido %i valores\n", noutput_items);
       // Tell runtime system how many output items we produced.
       return noutput_items;
     }
@@ -90,10 +93,10 @@ namespace gr {
       //6.11.1.1 of TS36.211
       int u = (slssId > 167)? ZC_roots[1] : ZC_roots[0];
       for(int i = 0; i < 31; i++){
-         float phase = -M_PI*u*(i+1.0)/63.0
-         psss_symbols[i] = std::polar(sqrt(72/62.0), phase);
+         float phase = -M_PI*u*(i+1.0)/63.0;
+         psss_symbols[i] = std::polar(amplitude, phase);
          phase = -M_PI*u*(i + 1.0)*(i + 2.0)/63.0;
-         psss_symbols[i + 31] = std::polar(sqrt(72/62.0), phase);
+         psss_symbols[i + 31] = std::polar(amplitude, phase);
       }
    }
 
@@ -169,10 +172,10 @@ namespace gr {
       //map PSSS
       int frecPos = NSLsc/2 - 31;
       for(int i = 0; i < 62; i++){
-         subframe[1*NRBsc + frecPos] = psss_symbols[i];
-         subframe[2*NRBsc + frecPos] = psss_symbols[i];
-         subframe[11*NRBsc + frecPos] = ssss_symbols[i];
-         subframe[12*NRBsc + frecPos] = ssss_symbols[i];
+         subframe[1*NSLsc + frecPos] = psss_symbols[i];
+         subframe[2*NSLsc + frecPos] = psss_symbols[i];
+         subframe[11*NSLsc + frecPos] = ssss_symbols[i];
+         subframe[12*NSLsc + frecPos] = ssss_symbols[i];
          frecPos += 1;
       }
 

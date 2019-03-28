@@ -1,43 +1,36 @@
 <?xml version="1.0"?>
 <block>
-  <name>SLSS Generator</name>
-  <key>cv2x_slss_generator</key>
+  <name>Subframe-Symbol Cast</name>
+  <key>cv2x_subframe_to_symbol_vector</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.slss_generator($slssId, $syncOffsetIndicator1, $syncOffsetIndicator2, $syncPeriod)</make>
+  <make>cv2x.subframe_to_symbol_vector($NSLRB, $NFFT)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>SLSS ID</name>
-    <key>slssId</key>
-    <type>int</type>
-  </param>
-  <param>
-    <name>syncOffsetIndicator1</name>
-    <key>syncOffsetIndicator1</key>
-    <type>int</type>
-  </param>
-  <param>
-    <name>syncOffsetIndicator2</name>
-    <key>syncOffsetIndicator2</key>
-    <type>int</type>
-  </param>
-  <param>
-    <name>Sync Period</name>
-    <key>syncPeriod</key>
+    <name>NSLRB</name>
+    <key>$NSLRB</key>
     <type>int</type>
   </param>
 
-
+  <param>
+    <name>NFFT</name>
+    <key>$NFFT</key>
+    <type>int</type>
+  </param>
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
-
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+    <vlen>$NSLRB*14*12</vlen>
+  </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
@@ -47,6 +40,6 @@
   <source>
     <name>out</name>
     <type>complex</type>
-    <vlen>1008</vlen>
+    <vlen>$NFFT</vlen>
   </source>
 </block>

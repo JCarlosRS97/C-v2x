@@ -22,5 +22,6 @@
 ########################################################################
 install(FILES
     api.h
-    slss_generator.h DESTINATION include/cv2x
+    slss_generator.h
+    subframe_to_symbol_vector.h DESTINATION include/cv2x
 )

@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/slss_generator_impl.cc" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o"
+  "/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.cc" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

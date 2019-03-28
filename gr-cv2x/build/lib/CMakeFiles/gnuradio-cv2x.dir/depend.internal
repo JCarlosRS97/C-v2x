@@ -6,3 +6,8 @@ lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o
  ../include/cv2x/slss_generator.h
  /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/slss_generator_impl.cc
  /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/slss_generator_impl.h
+lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o
+ ../include/cv2x/api.h
+ ../include/cv2x/subframe_to_symbol_vector.h
+ /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.cc
+ /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.h

@@ -60,6 +60,7 @@ include swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/flags.make
 swig/cv2x_swig_swig_2d0df.cpp: ../swig/cv2x_swig.i
 swig/cv2x_swig_swig_2d0df.cpp: /usr/include/gnuradio/swig/gr_swig_block_magic.i
 swig/cv2x_swig_swig_2d0df.cpp: /usr/include/gnuradio/swig/gr_logger.i
+swig/cv2x_swig_swig_2d0df.cpp: swig/cv2x_swig_doc.i
 swig/cv2x_swig_swig_2d0df.cpp: /usr/include/gnuradio/swig/block_gateway.i
 swig/cv2x_swig_swig_2d0df.cpp: /usr/include/gnuradio/swig/tags.i
 swig/cv2x_swig_swig_2d0df.cpp: /usr/include/gnuradio/swig/top_block.i
@@ -91,14 +92,23 @@ swig/cv2x_swig_swig_2d0df.cpp: /usr/include/gnuradio/swig/block_detail.i
 swig/cv2x_swig_swig_2d0df.cpp: swig/cv2x_swig.tag
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig && /usr/bin/cmake -E copy /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig_swig_2d0df.cpp.in /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig_swig_2d0df.cpp
 
+swig/cv2x_swig_doc.i: swig/cv2x_swig_doc_swig_docs/xml/index.xml
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating python docstrings for cv2x_swig_doc"
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/docs/doxygen && /usr/bin/python2 -B /home/jcrs/Escritorio/Bloques/gr-cv2x/docs/doxygen/swig_doc.py /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig_doc_swig_docs/xml /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig_doc.i
+
 swig/cv2x_swig.tag: swig/_cv2x_swig_swig_tag
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating cv2x_swig.tag"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating cv2x_swig.tag"
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig && ./_cv2x_swig_swig_tag
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig && /usr/bin/cmake -E touch /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig.tag
 
+swig/cv2x_swig_doc_swig_docs/xml/index.xml: swig/_cv2x_swig_doc_tag
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating doxygen xml for cv2x_swig_doc docs"
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig && ./_cv2x_swig_doc_tag
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig && /usr/bin/doxygen /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig_doc_swig_docs/Doxyfile
+
 swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/cv2x_swig_swig_2d0df.cpp.o: swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/flags.make
 swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/cv2x_swig_swig_2d0df.cpp.o: swig/cv2x_swig_swig_2d0df.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/cv2x_swig_swig_2d0df.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/cv2x_swig_swig_2d0df.cpp.o"
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cv2x_swig_swig_2d0df.dir/cv2x_swig_swig_2d0df.cpp.o -c /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig_swig_2d0df.cpp
 
 swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/cv2x_swig_swig_2d0df.cpp.i: cmake_force
@@ -130,7 +140,7 @@ cv2x_swig_swig_2d0df_EXTERNAL_OBJECTS =
 swig/cv2x_swig_swig_2d0df: swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/cv2x_swig_swig_2d0df.cpp.o
 swig/cv2x_swig_swig_2d0df: swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/build.make
 swig/cv2x_swig_swig_2d0df: swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable cv2x_swig_swig_2d0df"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable cv2x_swig_swig_2d0df"
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cv2x_swig_swig_2d0df.dir/link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Swig source"
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig && /usr/bin/cmake -E make_directory /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig
@@ -150,7 +160,9 @@ swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/clean:
 .PHONY : swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/clean
 
 swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/depend: swig/cv2x_swig_swig_2d0df.cpp
+swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/depend: swig/cv2x_swig_doc.i
 swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/depend: swig/cv2x_swig.tag
+swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/depend: swig/cv2x_swig_doc_swig_docs/xml/index.xml
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jcrs/Escritorio/Bloques/gr-cv2x /home/jcrs/Escritorio/Bloques/gr-cv2x/swig /home/jcrs/Escritorio/Bloques/gr-cv2x/build /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig /home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/depend
 

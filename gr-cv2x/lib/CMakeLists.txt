@@ -25,7 +25,8 @@ include(GrPlatform) #define LIB_SUFFIX
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND cv2x_sources
-    slss_generator_impl.cc )
+    slss_generator_impl.cc
+    subframe_to_symbol_vector_impl.cc )
 
 set(cv2x_sources "${cv2x_sources}" PARENT_SCOPE)
 if(NOT cv2x_sources)

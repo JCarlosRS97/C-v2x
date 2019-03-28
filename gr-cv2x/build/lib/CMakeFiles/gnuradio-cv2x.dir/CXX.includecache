@@ -16,6 +16,12 @@ cv2x/api.h
 gnuradio/sync_block.h
 -
 
+../include/cv2x/subframe_to_symbol_vector.h
+cv2x/api.h
+-
+gnuradio/sync_interpolator.h
+-
+
 /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/slss_generator_impl.cc
 config.h
 /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/config.h
@@ -27,8 +33,22 @@ cmath
 -
 cstdlib
 -
+complex
+-
 
 /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/slss_generator_impl.h
 cv2x/slss_generator.h
+-
+
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.cc
+config.h
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/config.h
+gnuradio/io_signature.h
+-
+subframe_to_symbol_vector_impl.h
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.h
+
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.h
+cv2x/subframe_to_symbol_vector.h
 -
 

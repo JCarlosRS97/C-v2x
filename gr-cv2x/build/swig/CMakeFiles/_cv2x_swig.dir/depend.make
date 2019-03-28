@@ -3,6 +3,7 @@
 
 swig/CMakeFiles/_cv2x_swig.dir/cv2x_swigPYTHON_wrap.cxx.o: ../include/cv2x/api.h
 swig/CMakeFiles/_cv2x_swig.dir/cv2x_swigPYTHON_wrap.cxx.o: ../include/cv2x/slss_generator.h
+swig/CMakeFiles/_cv2x_swig.dir/cv2x_swigPYTHON_wrap.cxx.o: ../include/cv2x/subframe_to_symbol_vector.h
 swig/CMakeFiles/_cv2x_swig.dir/cv2x_swigPYTHON_wrap.cxx.o: swig/cv2x_swigPYTHON_wrap.cxx
 swig/CMakeFiles/_cv2x_swig.dir/cv2x_swigPYTHON_wrap.cxx.o: /usr/include/gnuradio/swig/gnuradio_swig_bug_workaround.h
 swig/CMakeFiles/_cv2x_swig.dir/cv2x_swigPYTHON_wrap.cxx.o: /usr/include/python2.7/Python.h

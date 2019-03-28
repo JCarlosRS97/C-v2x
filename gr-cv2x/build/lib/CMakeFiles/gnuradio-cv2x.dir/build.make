@@ -81,14 +81,40 @@ lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o.provides: lib/CMakeFil
 lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o.provides.build: lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o
 
 
+lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o: lib/CMakeFiles/gnuradio-cv2x.dir/flags.make
+lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o: ../lib/subframe_to_symbol_vector_impl.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o"
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o -c /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.cc
+
+lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.i"
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.cc > CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.i
+
+lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.s"
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/subframe_to_symbol_vector_impl.cc -o CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.s
+
+lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o.requires:
+
+.PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o.requires
+
+lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o.provides: lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o.requires
+	$(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o.provides.build
+.PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o.provides
+
+lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o.provides.build: lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o
+
+
 # Object files for target gnuradio-cv2x
 gnuradio__cv2x_OBJECTS = \
-"CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o"
+"CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o" \
+"CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o"
 
 # External object files for target gnuradio-cv2x
 gnuradio__cv2x_EXTERNAL_OBJECTS =
 
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o
+lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/build.make
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libboost_system.so
@@ -96,7 +122,7 @@ lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libgnuradio-ru
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libgnuradio-pmt.so
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/liblog4cpp.so
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libgnuradio-cv2x-1.0.0git.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jcrs/Escritorio/Bloques/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library libgnuradio-cv2x-1.0.0git.so"
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gnuradio-cv2x.dir/link.txt --verbose=$(VERBOSE)
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && $(CMAKE_COMMAND) -E cmake_symlink_library libgnuradio-cv2x-1.0.0git.so.0.0.0 libgnuradio-cv2x-1.0.0git.so.0.0.0 libgnuradio-cv2x-1.0.0git.so
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib && /usr/bin/cmake -E create_symlink libgnuradio-cv2x-1.0.0git.so.0.0.0 /home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/libgnuradio-cv2x.so
@@ -112,6 +138,7 @@ lib/CMakeFiles/gnuradio-cv2x.dir/build: lib/libgnuradio-cv2x-1.0.0git.so
 .PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/build
 
 lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o.requires
+lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o.requires
 
 .PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/requires
 

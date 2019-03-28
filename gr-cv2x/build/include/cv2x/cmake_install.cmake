@@ -41,6 +41,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/cv2x" TYPE FILE FILES
     "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/api.h"
     "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/slss_generator.h"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/subframe_to_symbol_vector.h"
     )
 endif()
 
