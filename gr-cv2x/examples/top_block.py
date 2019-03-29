@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Mar 28 19:40:12 2019
+# Generated: Fri Mar 29 17:32:06 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -20,6 +20,7 @@ if __name__ == '__main__':
 
 from PyQt5 import Qt
 from PyQt5 import Qt, QtCore
+from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import fft
@@ -69,8 +70,8 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 30e3
-        self.fft_len = fft_len = 72
+        self.samp_rate = samp_rate = 30e6
+        self.fft_len = fft_len = 1024
 
         ##################################################
         # Blocks
@@ -99,20 +100,19 @@ class top_block(gr.top_block, Qt.QWidget):
         self.cv2x_subframe_to_symbol_vector_0 = cv2x.subframe_to_symbol_vector(6, fft_len)
         self.cv2x_slss_generator_0 = cv2x.slss_generator(301, 0, 0, 1)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1008, samp_rate,True)
-        self.blocks_head_0 = blocks.head(gr.sizeof_gr_complex*1, fft_len*20)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/jcrs/Escritorio/output.dat', False)
-        self.blocks_file_sink_0.set_unbuffered(False)
+        self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
+        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, -7500000, 1, 0)
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_head_0, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_sink_x_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.cv2x_subframe_to_symbol_vector_0, 0))
         self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.cv2x_subframe_to_symbol_vector_0, 0), (self.fft_vxx_0, 0))
         self.connect((self.fft_vxx_0, 0), (self.howto_ofdm_cyclic_prefixer_0, 0))
-        self.connect((self.howto_ofdm_cyclic_prefixer_0, 0), (self.blocks_head_0, 0))
-        self.connect((self.howto_ofdm_cyclic_prefixer_0, 0), (self.qtgui_sink_x_0, 0))
+        self.connect((self.howto_ofdm_cyclic_prefixer_0, 0), (self.blocks_multiply_xx_0, 1))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
@@ -125,13 +125,13 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
+        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
 
     def get_fft_len(self):
         return self.fft_len
 
     def set_fft_len(self, fft_len):
         self.fft_len = fft_len
-        self.blocks_head_0.set_length(self.fft_len*20)
 
 
 def main(top_block_cls=top_block, options=None):

@@ -1,10 +1,10 @@
-Start testing: Mar 28 19:16 CET
+Start testing: Mar 29 16:53 CET
 ----------------------------------------------------------
 3/3 Testing: qa_subframe_to_symbol_vector
 3/3 Test: qa_subframe_to_symbol_vector
 Command: "/bin/sh" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/qa_subframe_to_symbol_vector_test.sh"
 Directory: /home/jcrs/Escritorio/Bloques/gr-cv2x/build/python
-"qa_subframe_to_symbol_vector" start time: Mar 28 19:16 CET
+"qa_subframe_to_symbol_vector" start time: Mar 29 16:53 CET
 Output:
 ----------------------------------------------------------
 gr::buffer::allocate_buffer: warning: tried to allocate
@@ -29,15 +29,15 @@ gr::buffer::allocate_buffer: warning: tried to allocate
    On this platform, our allocation granularity is 4096 bytes.
 .
 ----------------------------------------------------------------------
-Ran 1 test in 0.005s
+Ran 1 test in 0.006s
 
 OK
 <end of output>
-Test time =   0.43 sec
+Test time =   0.42 sec
 ----------------------------------------------------------
 Test Passed.
-"qa_subframe_to_symbol_vector" end time: Mar 28 19:16 CET
+"qa_subframe_to_symbol_vector" end time: Mar 29 16:53 CET
 "qa_subframe_to_symbol_vector" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Mar 28 19:16 CET
+End testing: Mar 29 16:53 CET

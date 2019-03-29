@@ -170,16 +170,17 @@ namespace gr {
 
    void slss_generator_impl::CreateSubframe(gr_complex subframe[NSLRB*NRBsc*NSLsymb*2]){
       //map PSSS
-      int frecPos = NSLsc/2 - 31;
-      for(int i = 0; i < 62; i++){
-         subframe[1*NSLsc + frecPos] = psss_symbols[i];
-         subframe[2*NSLsc + frecPos] = psss_symbols[i];
-         subframe[11*NSLsc + frecPos] = ssss_symbols[i];
-         subframe[12*NSLsc + frecPos] = ssss_symbols[i];
-         frecPos += 1;
-      }
+      int frecPosNegative = NSLsc/2 - 31;
+      //PSSS
+      memcpy(subframe + 1*NSLsc + frecPosNegative, psss_symbols, sizeof(gr_complex)*62);
+      memcpy(subframe + 2*NSLsc + frecPosNegative, psss_symbols, sizeof(gr_complex)*62);
+      //SSSS
+      memcpy(subframe + 11*NSLsc + frecPosNegative, ssss_symbols, sizeof(gr_complex)*62);
+      memcpy(subframe + 12*NSLsc + frecPosNegative, ssss_symbols, sizeof(gr_complex)*62);
 
    }
+
+
 
   } /* namespace cv2x */
 } /* namespace gr */
