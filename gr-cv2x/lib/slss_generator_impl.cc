@@ -74,7 +74,7 @@ namespace gr {
          if((subframeCounter % syncPeriod) == syncOffsetIndicator1 ){
             //It's a reference subframe
             CreateSubframe(out);
-           //printf("SLSS Gen: nuevo subframe de referencia en %i\n", subframeCounter);
+           printf("SLSS Gen: nuevo subframe de referencia en %i\n", subframeCounter);
          }
          //Update subframeCounter
          subframeCounter++;
