@@ -1,4 +1,4 @@
-# Install script for directory: /home/jcrs/Escritorio/Bloques/gr-cv2x/lib
+# Install script for directory: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,12 +32,7 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-# Is this installation the result of a crosscompile?
-if(NOT DEFINED CMAKE_CROSSCOMPILING)
-  set(CMAKE_CROSSCOMPILING "FALSE")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xcv2x_runtimex" OR NOT CMAKE_INSTALL_COMPONENT)
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "cv2x_runtime")
   foreach(file
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-cv2x-1.0.0git.so.0.0.0"
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-cv2x-1.0.0git.so"
@@ -50,8 +45,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xcv2x_runtimex" OR NOT CMAKE_INSTALL
     endif()
   endforeach()
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/libgnuradio-cv2x-1.0.0git.so.0.0.0"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/libgnuradio-cv2x-1.0.0git.so"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/libgnuradio-cv2x-1.0.0git.so.0.0.0"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/libgnuradio-cv2x-1.0.0git.so"
     )
   foreach(file
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-cv2x-1.0.0git.so.0.0.0"
@@ -66,10 +61,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xcv2x_runtimex" OR NOT CMAKE_INSTALL
   endforeach()
 endif()
 
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xcv2x_runtimex" OR NOT CMAKE_INSTALL_COMPONENT)
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "cv2x_runtime")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE FILE FILES
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/libgnuradio-cv2x.so"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/libgnuradio-cv2x-1.0.0git.so.0"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/libgnuradio-cv2x.so"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/libgnuradio-cv2x-1.0.0git.so.0"
     )
 endif()
 

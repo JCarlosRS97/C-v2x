@@ -1,5 +1,0 @@
-<testsuite errors="0" failures="0" name="unittest.suite.TestSuite" tests="1" time="0.025">
-  <testcase classname="__main__.qa_subframe_to_symbol_vector" name="test_001_t" time="0.0248"></testcase>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

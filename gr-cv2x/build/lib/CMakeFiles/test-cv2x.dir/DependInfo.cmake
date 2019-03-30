@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/qa_cv2x.cc" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o"
-  "/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/test_cv2x.cc" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/test-cv2x.dir/test_cv2x.cc.o"
+  "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/qa_cv2x.cc" "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.o"
+  "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/test_cv2x.cc" "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/CMakeFiles/test-cv2x.dir/test_cv2x.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -19,7 +19,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/CMakeFiles/gnuradio-cv2x.dir/DependInfo.cmake"
+  "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/CMakeFiles/gnuradio-cv2x.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

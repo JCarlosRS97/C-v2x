@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared  -o _cv2x_swig.so CMakeFiles/_cv2x_swig.dir/cv2x_swigPYTHON_wrap.cxx.o -Wl,-rpath,/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib: -lpython2.7 ../lib/libgnuradio-cv2x-1.0.0git.so.0.0.0 -lboost_filesystem -lboost_system -lgnuradio-runtime -lgnuradio-pmt -llog4cpp 

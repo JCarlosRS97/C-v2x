@@ -1,4 +1,4 @@
-# Install script for directory: /home/jcrs/Escritorio/Bloques/gr-cv2x/docs
+# Install script for directory: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/docs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,14 +32,9 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-# Is this installation the result of a crosscompile?
-if(NOT DEFINED CMAKE_CROSSCOMPILING)
-  set(CMAKE_CROSSCOMPILING "FALSE")
-endif()
-
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/jcrs/Escritorio/Bloques/gr-cv2x/build/docs/doxygen/cmake_install.cmake")
+  include("/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/docs/doxygen/cmake_install.cmake")
 
 endif()
 
