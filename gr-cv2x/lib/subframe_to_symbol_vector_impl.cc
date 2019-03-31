@@ -45,7 +45,8 @@ namespace gr {
               NSLsc(NSLRB*NRBsc),
               symbol(0),
               NFFT(NFFT)
-    {}
+    {
+    }
 
     /*
      * Our virtual destructor.
@@ -69,7 +70,7 @@ namespace gr {
      //printf("Se piden %i items.\n", noutput_items);
       for(int i = 0; i < noutput_items; i++){
          memcpy(out, in + symbol*NSLsc + consumed_items*NSLsc*NSLsymb*2, sizeof(gr_complex)*NSLsc);
-         printf("Simbolo: %f, %f\n", std::real(out[31]), std::imag(out[31]));
+         //printf("Simbolo: %f, %f\n", std::real(out[31]), std::imag(out[31]));
          out += NFFT;
          if(symbol == (NSLsymb*2 - 1)){
            //printf("Nuevo subframe\n");

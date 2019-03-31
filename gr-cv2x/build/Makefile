@@ -205,6 +205,84 @@ test-cv2x/fast:
 .PHONY : test-cv2x/fast
 
 #=============================================================================
+# Target rules for targets named pygen_swig_62163
+
+# Build rule for target.
+pygen_swig_62163: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pygen_swig_62163
+.PHONY : pygen_swig_62163
+
+# fast build rule for target.
+pygen_swig_62163/fast:
+	$(MAKE) -f swig/CMakeFiles/pygen_swig_62163.dir/build.make swig/CMakeFiles/pygen_swig_62163.dir/build
+.PHONY : pygen_swig_62163/fast
+
+#=============================================================================
+# Target rules for targets named cv2x_swig_swig_doc
+
+# Build rule for target.
+cv2x_swig_swig_doc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cv2x_swig_swig_doc
+.PHONY : cv2x_swig_swig_doc
+
+# fast build rule for target.
+cv2x_swig_swig_doc/fast:
+	$(MAKE) -f swig/CMakeFiles/cv2x_swig_swig_doc.dir/build.make swig/CMakeFiles/cv2x_swig_swig_doc.dir/build
+.PHONY : cv2x_swig_swig_doc/fast
+
+#=============================================================================
+# Target rules for targets named cv2x_swig_swig_2d0df
+
+# Build rule for target.
+cv2x_swig_swig_2d0df: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cv2x_swig_swig_2d0df
+.PHONY : cv2x_swig_swig_2d0df
+
+# fast build rule for target.
+cv2x_swig_swig_2d0df/fast:
+	$(MAKE) -f swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/build.make swig/CMakeFiles/cv2x_swig_swig_2d0df.dir/build
+.PHONY : cv2x_swig_swig_2d0df/fast
+
+#=============================================================================
+# Target rules for targets named _cv2x_swig_doc_tag
+
+# Build rule for target.
+_cv2x_swig_doc_tag: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _cv2x_swig_doc_tag
+.PHONY : _cv2x_swig_doc_tag
+
+# fast build rule for target.
+_cv2x_swig_doc_tag/fast:
+	$(MAKE) -f swig/CMakeFiles/_cv2x_swig_doc_tag.dir/build.make swig/CMakeFiles/_cv2x_swig_doc_tag.dir/build
+.PHONY : _cv2x_swig_doc_tag/fast
+
+#=============================================================================
+# Target rules for targets named _cv2x_swig
+
+# Build rule for target.
+_cv2x_swig: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _cv2x_swig
+.PHONY : _cv2x_swig
+
+# fast build rule for target.
+_cv2x_swig/fast:
+	$(MAKE) -f swig/CMakeFiles/_cv2x_swig.dir/build.make swig/CMakeFiles/_cv2x_swig.dir/build
+.PHONY : _cv2x_swig/fast
+
+#=============================================================================
+# Target rules for targets named _cv2x_swig_swig_tag
+
+# Build rule for target.
+_cv2x_swig_swig_tag: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _cv2x_swig_swig_tag
+.PHONY : _cv2x_swig_swig_tag
+
+# fast build rule for target.
+_cv2x_swig_swig_tag/fast:
+	$(MAKE) -f swig/CMakeFiles/_cv2x_swig_swig_tag.dir/build.make swig/CMakeFiles/_cv2x_swig_swig_tag.dir/build
+.PHONY : _cv2x_swig_swig_tag/fast
+
+#=============================================================================
 # Target rules for targets named pygen_python_b6d27
 
 # Build rule for target.
@@ -259,6 +337,12 @@ help:
 	@echo "... test"
 	@echo "... gnuradio-cv2x"
 	@echo "... test-cv2x"
+	@echo "... pygen_swig_62163"
+	@echo "... cv2x_swig_swig_doc"
+	@echo "... cv2x_swig_swig_2d0df"
+	@echo "... _cv2x_swig_doc_tag"
+	@echo "... _cv2x_swig"
+	@echo "... _cv2x_swig_swig_tag"
 	@echo "... pygen_python_b6d27"
 	@echo "... pygen_apps_9a6dd"
 	@echo "... doxygen_target"

@@ -29,12 +29,6 @@ gnuradio/io_signature.h
 -
 slss_generator_impl.h
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/slss_generator_impl.h
-cmath
--
-cstdlib
--
-complex
--
 
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/slss_generator_impl.h
 cv2x/slss_generator.h

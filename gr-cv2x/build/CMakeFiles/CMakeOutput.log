@@ -552,3 +552,88 @@ make[1]: se sale del directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/b
     Feature record: C_FEATURE:0c_restrict
     Feature record: C_FEATURE:0c_static_assert
     Feature record: C_FEATURE:0c_variadic_macros
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_cd8b8/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cd8b8.dir/build.make CMakeFiles/cmTC_cd8b8.dir/build
+make[1]: se entra en el directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_cd8b8.dir/CheckIncludeFile.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_cd8b8.dir/CheckIncludeFile.c.o   -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_cd8b8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cd8b8.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_cd8b8.dir/CheckIncludeFile.c.o  -o cmTC_cd8b8 -rdynamic 
+make[1]: se sale del directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b6bea/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b6bea.dir/build.make CMakeFiles/cmTC_b6bea.dir/build
+make[1]: se entra en el directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b6bea.dir/CheckIncludeFile.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_b6bea.dir/CheckIncludeFile.c.o   -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_b6bea
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b6bea.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_b6bea.dir/CheckIncludeFile.c.o  -o cmTC_b6bea -rdynamic 
+make[1]: se sale del directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7fd8d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7fd8d.dir/build.make CMakeFiles/cmTC_7fd8d.dir/build
+make[1]: se entra en el directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7fd8d.dir/CheckIncludeFile.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_7fd8d.dir/CheckIncludeFile.c.o   -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_7fd8d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7fd8d.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_7fd8d.dir/CheckIncludeFile.c.o  -o cmTC_7fd8d -rdynamic 
+make[1]: se sale del directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+
+
+Determining size of size_t passed with the following output:
+Change Dir: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6e316/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6e316.dir/build.make CMakeFiles/cmTC_6e316.dir/build
+make[1]: se entra en el directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6e316.dir/SIZEOF_SIZE_T.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_6e316.dir/SIZEOF_SIZE_T.c.o   -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CheckTypeSize/SIZEOF_SIZE_T.c
+Linking C executable cmTC_6e316
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6e316.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_6e316.dir/SIZEOF_SIZE_T.c.o  -o cmTC_6e316 -rdynamic 
+make[1]: se sale del directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+
+
+Determining size of unsigned int passed with the following output:
+Change Dir: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9298b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_9298b.dir/build.make CMakeFiles/cmTC_9298b.dir/build
+make[1]: se entra en el directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9298b.dir/SIZEOF_UINT.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_9298b.dir/SIZEOF_UINT.c.o   -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CheckTypeSize/SIZEOF_UINT.c
+Linking C executable cmTC_9298b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9298b.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_9298b.dir/SIZEOF_UINT.c.o  -o cmTC_9298b -rdynamic 
+make[1]: se sale del directorio '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+
+
+Performing C++ SOURCE FILE Test HAVE_WNO_UNUSED_BUT_SET_VARIABLE succeeded with the following output:
+Change Dir: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7a95b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7a95b.dir/build.make CMakeFiles/cmTC_7a95b.dir/build
+make[1]: Entering directory '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_7a95b.dir/src.cxx.o
+/usr/bin/c++     -DHAVE_WNO_UNUSED_BUT_SET_VARIABLE   -Wno-unused-but-set-variable -o CMakeFiles/cmTC_7a95b.dir/src.cxx.o -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_7a95b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7a95b.dir/link.txt --verbose=1
+/usr/bin/c++    -DHAVE_WNO_UNUSED_BUT_SET_VARIABLE    CMakeFiles/cmTC_7a95b.dir/src.cxx.o  -o cmTC_7a95b -rdynamic 
+make[1]: Leaving directory '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }

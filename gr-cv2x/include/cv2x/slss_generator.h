@@ -46,7 +46,7 @@ namespace gr {
        * class. cv2x::slss_generator::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod);
+      static sptr make(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod, int NFFT);
     };
 
   } // namespace cv2x

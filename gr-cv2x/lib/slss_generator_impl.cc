@@ -24,35 +24,38 @@
 
 #include <gnuradio/io_signature.h>
 #include "slss_generator_impl.h"
-#include <cmath>
-#include <cstdlib>
-#include <complex>
 
 namespace gr {
   namespace cv2x {
 
     slss_generator::sptr
-    slss_generator::make(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod)
+    slss_generator::make(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod, int NFFT)
     {
       return gnuradio::get_initial_sptr
-        (new slss_generator_impl(slssId, syncOffsetIndicator1, syncOffsetIndicator2, syncPeriod));
+        (new slss_generator_impl(slssId, syncOffsetIndicator1, syncOffsetIndicator2, syncPeriod, NFFT));
     }
 
     /*
      * The private constructor
      */
-    slss_generator_impl::slss_generator_impl(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod)
+    slss_generator_impl::slss_generator_impl(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod, int NFFT)
       : gr::sync_block("slss_generator",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, 1, sizeof(gr_complex)*TAM_VECTOR)),
+              gr::io_signature::make(1, 1, sizeof(gr_complex)*NFFT)),
         slssId(slssId),
         syncOffsetIndicator1(syncOffsetIndicator1),
         syncOffsetIndicator2(syncOffsetIndicator2),
         syncPeriod(syncPeriod),
-        subframeCounter(0)
+        subframeCounter(0),
+        amplitude(sqrt(72/62.0)),
+        symbolCounter(0),
+        NFFT(NFFT)
     {
+      ZC_roots[0] = 26;
+      ZC_roots[1] = 37;
       create_psss();
       create_ssss();
+      CreateSubframe();
    }
 
     /*
@@ -68,21 +71,25 @@ namespace gr {
         gr_vector_void_star &output_items)
     {
       gr_complex *out = (gr_complex *) output_items[0];
-      memset(out, 0, sizeof(gr_complex) * TAM_VECTOR);
       // Do <+signal processing+>
       for(int i = 0; i < noutput_items; i++) {
          if((subframeCounter % syncPeriod) == syncOffsetIndicator1 ){
             //It's a reference subframe
-            CreateSubframe(out);
-           printf("SLSS Gen: nuevo subframe de referencia en %i\n", subframeCounter);
+            memcpy(out + ((NFFT-Subcarriers)/2), subframe[symbolCounter], sizeof(gr_complex)*Subcarriers);
+            printf("SLSS Gen: nuevo subframe de referencia en %i\n", subframeCounter);
+         }else{
+           memset(out, 0, sizeof(gr_complex)*NFFT);
          }
-         //Update subframeCounter
-         subframeCounter++;
-         // if(subframeCounter == syncPeriod){
-         //    subframeCounter = 0;
-         // }
+         //Update counters
+         if(symbolCounter == (NSLsymb*2-1)){
+           subframeCounter++;
+           symbolCounter = 0;
+         }else{
+           symbolCounter++;
+         }
          //update out pointer
-         out += TAM_VECTOR;
+         out += NFFT;
+
       }
      //printf("SLSS Gen: Se han producido %i valores\n", noutput_items);
       // Tell runtime system how many output items we produced.
@@ -162,25 +169,23 @@ namespace gr {
       }
       //final sequence
       for(int i = 0; i < 31; i++){
-         ssss_symbols[2 * i] = s_m1[i] * c0[i] * sqrt(72/62.0);
-         ssss_symbols[2 * i  + 1] = s_m0[i] * c1[i] * z1_m1[i] * sqrt(72/62.0);
+         ssss_symbols[2 * i] = s_m1[i] * c0[i] * amplitude;
+         ssss_symbols[2 * i  + 1] = s_m0[i] * c1[i] * z1_m1[i] * amplitude;
       }
 
    }
 
-   void slss_generator_impl::CreateSubframe(gr_complex subframe[NSLRB*NRBsc*NSLsymb*2]){
+   void slss_generator_impl::CreateSubframe(){
       //map PSSS
-      int frecPosNegative = NSLsc/2 - 31;
+      int frecPosNegative = Subcarriers/2 - 31;
       //PSSS
-      memcpy(subframe + 1*NSLsc + frecPosNegative, psss_symbols, sizeof(gr_complex)*62);
-      memcpy(subframe + 2*NSLsc + frecPosNegative, psss_symbols, sizeof(gr_complex)*62);
+      memcpy(subframe[1] + frecPosNegative, psss_symbols, sizeof(gr_complex)*Subcarriers);
+      memcpy(subframe[2] + frecPosNegative, psss_symbols, sizeof(gr_complex)*Subcarriers);
       //SSSS
-      memcpy(subframe + 11*NSLsc + frecPosNegative, ssss_symbols, sizeof(gr_complex)*62);
-      memcpy(subframe + 12*NSLsc + frecPosNegative, ssss_symbols, sizeof(gr_complex)*62);
+      memcpy(subframe[11] + frecPosNegative, ssss_symbols, sizeof(gr_complex)*Subcarriers);
+      memcpy(subframe[12] + frecPosNegative, ssss_symbols, sizeof(gr_complex)*Subcarriers);
 
    }
-
-
 
   } /* namespace cv2x */
 } /* namespace gr */

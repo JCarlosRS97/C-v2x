@@ -34,8 +34,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_slss_generator.xml"
     "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_subframe_to_symbol_vector.xml"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_slss_generator.xml"
     )
 endif()
 

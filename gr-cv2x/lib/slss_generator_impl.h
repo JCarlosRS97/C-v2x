@@ -28,32 +28,31 @@ namespace gr {
 
     class slss_generator_impl : public slss_generator
     {
-      //Queda pensiente incluir N_RB^SL
      private:
        //System values
-      static const int NSLRB = 6;
       static const int NSLsymb = 7;
-      static const int NRBsc = 12;
-      static constexpr int ZC_roots[2] = {26, 37};
-      static const int NSLsc = NSLRB*NRBsc;
-      static const int TAM_VECTOR = NSLsc*NSLsymb*2;
+      static const int Subcarriers = 62;
+      int ZC_roots[2];
       //Block configuration
       int slssId;
       int syncOffsetIndicator1;
       int syncOffsetIndicator2;
       int syncPeriod;
       //Internal variables
-      gr_complex psss_symbols[62]; //dos simbolos iguales y 62 subportadoras
-      gr_complex ssss_symbols[62]; //dos simbolos iguales y 62 subportadoras
+      gr_complex psss_symbols[Subcarriers]; //dos simbolos iguales y 62 subportadoras
+      gr_complex ssss_symbols[Subcarriers]; //dos simbolos iguales y 62 subportadoras
+      gr_complex subframe[NSLsymb*2][Subcarriers];
       int subframeCounter;
-      float amplitude = sqrt(72/62.0);
+      int symbolCounter;
+      int NFFT;
+      float amplitude;
 
       void create_psss();
       void create_ssss();
-      void CreateSubframe(gr_complex subframe[]);
+      void CreateSubframe();
 
      public:
-      slss_generator_impl(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod);
+      slss_generator_impl(int slssId, int syncOffsetIndicator1, int syncOffsetIndicator2, int syncPeriod, int NFFT);
       ~slss_generator_impl();
 
       // Where all the action really happens

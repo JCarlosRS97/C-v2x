@@ -4,49 +4,54 @@
   <key>cv2x_slss_generator</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.slss_generator($slssId, $syncOffsetIndicator1, $syncOffsetIndicator2, $syncPeriod)</make>
+  <make>cv2x.slss_generator($slssId, $syncOffsetIndicator1, $syncOffsetIndicator2, $syncPeriod, $NFFT)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-  <param>
-    <name>SLSS ID</name>
-    <key>slssId</key>
-    <type>int</type>
-  </param>
-  <param>
-    <name>syncOffsetIndicator1</name>
-    <key>syncOffsetIndicator1</key>
-    <type>int</type>
-  </param>
-  <param>
-    <name>syncOffsetIndicator2</name>
-    <key>syncOffsetIndicator2</key>
-    <type>int</type>
-  </param>
-  <param>
-    <name>Sync Period</name>
-    <key>syncPeriod</key>
-    <type>int</type>
-  </param>
+       <param>
+         <name>SLSS ID</name>
+         <key>slssId</key>
+         <type>int</type>
+       </param>
+       <param>
+         <name>syncOffsetIndicator1</name>
+         <key>syncOffsetIndicator1</key>
+         <type>int</type>
+       </param>
+       <param>
+         <name>syncOffsetIndicator2</name>
+         <key>syncOffsetIndicator2</key>
+         <type>int</type>
+       </param>
+       <param>
+         <name>Sync Period</name>
+         <key>syncPeriod</key>
+         <type>int</type>
+       </param>
+       <param>
+         <name>FFT length</name>
+         <key>NFFT</key>
+         <type>int</type>
+       </param>
 
 
-  <!-- Make one 'sink' node per input. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
+       <!-- Make one 'sink' node per input. Sub-nodes:
+            * name (an identifier for the GUI)
+            * type
+            * vlen
+            * optional (set to 1 for optional inputs) -->
 
 
-  <!-- Make one 'source' node per output. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
-  <source>
-    <name>out</name>
-    <type>complex</type>
-    <vlen>1008</vlen>
-  </source>
-</block>
+       <!-- Make one 'source' node per output. Sub-nodes:
+            * name (an identifier for the GUI)
+            * type
+            * vlen
+            * optional (set to 1 for optional inputs) -->
+       <source>
+         <name>out</name>
+         <type>complex</type>
+         <vlen>$NFFT</vlen>
+       </source>
+     </block>

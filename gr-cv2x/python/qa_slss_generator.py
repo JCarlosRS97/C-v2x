@@ -32,15 +32,14 @@ class qa_slss_generator (gr_unittest.TestCase):
         self.tb = None
 
     def test_001_t (self):
-        # set up fg
-        sqr = cv2x.slss_generator(301, 0, 0, 160);
-        dst = blocks.file_sink(gr.sizeof_gr_complex*1008, "capture.dat");
-        h = blocks.head(1008*8, 2);
-        self.tb.connect (sqr,h)
+        sqr = cv2x.slss_generator(301, 0, 0, 8,128);
+        tr = blocks.throttle(gr.sizeof_gr_complex*128,500, True);
+        dst = blocks.file_sink(gr.sizeof_gr_complex*128, "capture.dat");
+        h = blocks.head(128*gr.sizeof_gr_complex, 50*14);
+        self.tb.connect (sqr,tr)
+        self.tb.connect(tr, h);
         self.tb.connect(h, dst);
         self.tb.run ();
-
-        # check data
 
 
 if __name__ == '__main__':

@@ -34,12 +34,12 @@ class qa_subframe_to_symbol_vector (gr_unittest.TestCase):
 
     def test_001_t (self):
         # set up fg
-        sqr = cv2x.slss_generator(301, 0, 0, 3);
+        sqr = cv2x.slss_generator(301, 1, 0, 10);
         dst = blocks.file_sink(gr.sizeof_gr_complex*128, "capture.dat");
         test = blocks.file_sink(gr.sizeof_gr_complex*1008, "source.dat");
         divisor = cv2x.subframe_to_symbol_vector(6, 128);
         h = blocks.head(1008*gr.sizeof_gr_complex, 5);
-        h2 = blocks.head(128*gr.sizeof_gr_complex, 14*5);
+        h2 = blocks.head(128*gr.sizeof_gr_complex, 14*25);
         fft1 = fft.fft_vcc(128, False, (), True, 1)
         self.tb.connect (sqr,h)
         self.tb.connect(h, divisor);
