@@ -227,13 +227,14 @@ pss_calculator_vcm_impl::find_pss_symbol(gr_complex *chuX)
 bool
 pss_calculator_vcm_impl::tracking(gr_complex *chu)
 {
-    int len = 63;
+    int len = 124;
     int pos = 0;
     float max = 0.0;
     switch(d_N_id_2){
         case 0: max_pos(max, pos, d_chu0, chu, len); break;
         case 1: max_pos(max, pos, d_chu1, chu, len); break;
     }
+    printf("Nuevo maximo: %f\n", max);
     if(d_corr_val < max){
         d_corr_val = max;
         return true;

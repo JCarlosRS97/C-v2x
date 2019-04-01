@@ -76,7 +76,6 @@ namespace gr {
          if((subframeCounter % syncPeriod) == syncOffsetIndicator1 ){
             //It's a reference subframe
             memcpy(out + ((NFFT-Subcarriers)/2), subframe[symbolCounter], sizeof(gr_complex)*Subcarriers);
-            printf("SLSS Gen: nuevo subframe de referencia en %i\n", subframeCounter);
          }else{
            memset(out, 0, sizeof(gr_complex)*NFFT);
          }

@@ -425,6 +425,10 @@
       <value>True</value>
     </param>
     <param>
+      <key>NFFT</key>
+      <value>fft_len</value>
+    </param>
+    <param>
       <key>_coordinate</key>
       <value>(168, 260)</value>
     </param>
