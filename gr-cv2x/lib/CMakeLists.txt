@@ -26,7 +26,12 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND cv2x_sources
     subframe_to_symbol_vector_impl.cc
-    slss_generator_impl.cc )
+    slss_generator_impl.cc
+    correlator.cc
+    pss_symbol_selector_cvc_impl.cc
+    extract_subcarriers_vcvc_impl.cc
+    rough_symbol_sync_cc_impl.cc
+    pss_calculator_vcm_impl.cc )
 
 set(cv2x_sources "${cv2x_sources}" PARENT_SCOPE)
 if(NOT cv2x_sources)
@@ -78,4 +83,3 @@ GR_ADD_TEST(test_cv2x test-cv2x)
 ########################################################################
 message(STATUS "Using install prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "Building for version: ${VERSION} / ${LIBVER}")
-

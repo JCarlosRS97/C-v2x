@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<block>
+  <name>extract_subcarriers_vcvc</name>
+  <key>cv2x_extract_subcarriers_vcvc</key>
+  <category>[cv2x]</category>
+  <import>import cv2x</import>
+  <make>cv2x.extract_subcarriers_vcvc($N_rb, $fftl)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+       <param>
+         <name>resource blocks</name>
+         <key>N_rb</key>
+         <type>int</type>
+       </param>
+
+       <param>
+         <name>FFT length</name>
+         <key>fftl</key>
+         <type>int</type>
+       </param>
+
+
+       <sink>
+         <name>in</name>
+         <type>complex</type>
+         <vlen>$fftl</vlen>
+       </sink>
+
+
+       <source>
+         <name>out</name>
+         <type>complex</type>
+         <vlen>12*$N_rb</vlen>
+       </source>
+</block>

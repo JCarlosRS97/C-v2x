@@ -18,5 +18,9 @@
 # Boston, MA 02110-1301, USA.
 install(FILES
     cv2x_subframe_to_symbol_vector.xml
-    cv2x_slss_generator.xml DESTINATION share/gnuradio/grc/blocks
+    cv2x_slss_generator.xml
+    cv2x_pss_symbol_selector_cvc.xml
+    cv2x_extract_subcarriers_vcvc.xml
+    cv2x_rough_symbol_sync_cc.xml
+    cv2x_pss_calculator_vcm.xml DESTINATION share/gnuradio/grc/blocks
 )

@@ -195,6 +195,114 @@ test-cv2x/fast:
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/build
 .PHONY : test-cv2x/fast
 
+correlator.o: correlator.cc.o
+
+.PHONY : correlator.o
+
+# target to build an object file
+correlator.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/correlator.cc.o
+.PHONY : correlator.cc.o
+
+correlator.i: correlator.cc.i
+
+.PHONY : correlator.i
+
+# target to preprocess a source file
+correlator.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/correlator.cc.i
+.PHONY : correlator.cc.i
+
+correlator.s: correlator.cc.s
+
+.PHONY : correlator.s
+
+# target to generate assembly for a file
+correlator.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/correlator.cc.s
+.PHONY : correlator.cc.s
+
+extract_subcarriers_vcvc_impl.o: extract_subcarriers_vcvc_impl.cc.o
+
+.PHONY : extract_subcarriers_vcvc_impl.o
+
+# target to build an object file
+extract_subcarriers_vcvc_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o
+.PHONY : extract_subcarriers_vcvc_impl.cc.o
+
+extract_subcarriers_vcvc_impl.i: extract_subcarriers_vcvc_impl.cc.i
+
+.PHONY : extract_subcarriers_vcvc_impl.i
+
+# target to preprocess a source file
+extract_subcarriers_vcvc_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.i
+.PHONY : extract_subcarriers_vcvc_impl.cc.i
+
+extract_subcarriers_vcvc_impl.s: extract_subcarriers_vcvc_impl.cc.s
+
+.PHONY : extract_subcarriers_vcvc_impl.s
+
+# target to generate assembly for a file
+extract_subcarriers_vcvc_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.s
+.PHONY : extract_subcarriers_vcvc_impl.cc.s
+
+pss_calculator_vcm_impl.o: pss_calculator_vcm_impl.cc.o
+
+.PHONY : pss_calculator_vcm_impl.o
+
+# target to build an object file
+pss_calculator_vcm_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o
+.PHONY : pss_calculator_vcm_impl.cc.o
+
+pss_calculator_vcm_impl.i: pss_calculator_vcm_impl.cc.i
+
+.PHONY : pss_calculator_vcm_impl.i
+
+# target to preprocess a source file
+pss_calculator_vcm_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.i
+.PHONY : pss_calculator_vcm_impl.cc.i
+
+pss_calculator_vcm_impl.s: pss_calculator_vcm_impl.cc.s
+
+.PHONY : pss_calculator_vcm_impl.s
+
+# target to generate assembly for a file
+pss_calculator_vcm_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.s
+.PHONY : pss_calculator_vcm_impl.cc.s
+
+pss_symbol_selector_cvc_impl.o: pss_symbol_selector_cvc_impl.cc.o
+
+.PHONY : pss_symbol_selector_cvc_impl.o
+
+# target to build an object file
+pss_symbol_selector_cvc_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_symbol_selector_cvc_impl.cc.o
+.PHONY : pss_symbol_selector_cvc_impl.cc.o
+
+pss_symbol_selector_cvc_impl.i: pss_symbol_selector_cvc_impl.cc.i
+
+.PHONY : pss_symbol_selector_cvc_impl.i
+
+# target to preprocess a source file
+pss_symbol_selector_cvc_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_symbol_selector_cvc_impl.cc.i
+.PHONY : pss_symbol_selector_cvc_impl.cc.i
+
+pss_symbol_selector_cvc_impl.s: pss_symbol_selector_cvc_impl.cc.s
+
+.PHONY : pss_symbol_selector_cvc_impl.s
+
+# target to generate assembly for a file
+pss_symbol_selector_cvc_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_symbol_selector_cvc_impl.cc.s
+.PHONY : pss_symbol_selector_cvc_impl.cc.s
+
 qa_cv2x.o: qa_cv2x.cc.o
 
 .PHONY : qa_cv2x.o
@@ -221,6 +329,33 @@ qa_cv2x.s: qa_cv2x.cc.s
 qa_cv2x.cc.s:
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/test-cv2x.dir/build.make lib/CMakeFiles/test-cv2x.dir/qa_cv2x.cc.s
 .PHONY : qa_cv2x.cc.s
+
+rough_symbol_sync_cc_impl.o: rough_symbol_sync_cc_impl.cc.o
+
+.PHONY : rough_symbol_sync_cc_impl.o
+
+# target to build an object file
+rough_symbol_sync_cc_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.o
+.PHONY : rough_symbol_sync_cc_impl.cc.o
+
+rough_symbol_sync_cc_impl.i: rough_symbol_sync_cc_impl.cc.i
+
+.PHONY : rough_symbol_sync_cc_impl.i
+
+# target to preprocess a source file
+rough_symbol_sync_cc_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.i
+.PHONY : rough_symbol_sync_cc_impl.cc.i
+
+rough_symbol_sync_cc_impl.s: rough_symbol_sync_cc_impl.cc.s
+
+.PHONY : rough_symbol_sync_cc_impl.s
+
+# target to generate assembly for a file
+rough_symbol_sync_cc_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.s
+.PHONY : rough_symbol_sync_cc_impl.cc.s
 
 slss_generator_impl.o: slss_generator_impl.cc.o
 
@@ -318,9 +453,24 @@ help:
 	@echo "... test-cv2x"
 	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... correlator.o"
+	@echo "... correlator.i"
+	@echo "... correlator.s"
+	@echo "... extract_subcarriers_vcvc_impl.o"
+	@echo "... extract_subcarriers_vcvc_impl.i"
+	@echo "... extract_subcarriers_vcvc_impl.s"
+	@echo "... pss_calculator_vcm_impl.o"
+	@echo "... pss_calculator_vcm_impl.i"
+	@echo "... pss_calculator_vcm_impl.s"
+	@echo "... pss_symbol_selector_cvc_impl.o"
+	@echo "... pss_symbol_selector_cvc_impl.i"
+	@echo "... pss_symbol_selector_cvc_impl.s"
 	@echo "... qa_cv2x.o"
 	@echo "... qa_cv2x.i"
 	@echo "... qa_cv2x.s"
+	@echo "... rough_symbol_sync_cc_impl.o"
+	@echo "... rough_symbol_sync_cc_impl.i"
+	@echo "... rough_symbol_sync_cc_impl.s"
 	@echo "... slss_generator_impl.o"
 	@echo "... slss_generator_impl.i"
 	@echo "... slss_generator_impl.s"

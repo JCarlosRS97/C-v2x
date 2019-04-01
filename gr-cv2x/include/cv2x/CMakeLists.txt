@@ -23,5 +23,9 @@
 install(FILES
     api.h
     subframe_to_symbol_vector.h
-    slss_generator.h DESTINATION include/cv2x
+    slss_generator.h
+    pss_symbol_selector_cvc.h
+    extract_subcarriers_vcvc.h
+    rough_symbol_sync_cc.h
+    pss_calculator_vcm.h DESTINATION include/cv2x
 )
