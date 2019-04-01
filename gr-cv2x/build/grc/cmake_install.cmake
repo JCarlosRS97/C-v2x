@@ -1,4 +1,4 @@
-# Install script for directory: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc
+# Install script for directory: /home/jcrs/Escritorio/Bloques/gr-cv2x/grc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,14 +32,19 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+# Is this installation the result of a crosscompile?
+if(NOT DEFINED CMAKE_CROSSCOMPILING)
+  set(CMAKE_CROSSCOMPILING "FALSE")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_subframe_to_symbol_vector.xml"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_slss_generator.xml"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_pss_symbol_selector_cvc.xml"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_extract_subcarriers_vcvc.xml"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_rough_symbol_sync_cc.xml"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/grc/cv2x_pss_calculator_vcm.xml"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_subframe_to_symbol_vector.xml"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_slss_generator.xml"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_pss_symbol_selector_cvc.xml"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_extract_subcarriers_vcvc.xml"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_rough_symbol_sync_cc.xml"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_pss_calculator_vcm.xml"
     )
 endif()
 

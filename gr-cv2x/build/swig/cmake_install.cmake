@@ -1,4 +1,4 @@
-# Install script for directory: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/swig
+# Install script for directory: /home/jcrs/Escritorio/Bloques/gr-cv2x/swig
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,19 +32,24 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+# Is this installation the result of a crosscompile?
+if(NOT DEFINED CMAKE_CROSSCOMPILING)
+  set(CMAKE_CROSSCOMPILING "FALSE")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x/_cv2x_swig.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x/_cv2x_swig.so")
     file(RPATH_CHECK
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x/_cv2x_swig.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x" TYPE MODULE FILES "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/swig/_cv2x_swig.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x" TYPE MODULE FILES "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/_cv2x_swig.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x/_cv2x_swig.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x/_cv2x_swig.so")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x/_cv2x_swig.so"
-         OLD_RPATH "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib:"
+         OLD_RPATH "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x/_cv2x_swig.so")
@@ -52,21 +57,21 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
   endif()
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x" TYPE FILE FILES "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/swig/cv2x_swig.py")
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x" TYPE FILE FILES "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig.py")
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x" TYPE FILE FILES
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/swig/cv2x_swig.pyc"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/swig/cv2x_swig.pyo"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig.pyc"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig.pyo"
     )
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/cv2x/cv2x/swig" TYPE FILE FILES
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/swig/cv2x_swig.i"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/swig/cv2x_swig_doc.i"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/swig/cv2x_swig.i"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cv2x_swig_doc.i"
     )
 endif()
 

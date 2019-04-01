@@ -1,4 +1,4 @@
-# Install script for directory: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/python
+# Install script for directory: /home/jcrs/Escritorio/Bloques/gr-cv2x/python
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,14 +32,19 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x" TYPE FILE FILES "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/python/__init__.py")
+# Is this installation the result of a crosscompile?
+if(NOT DEFINED CMAKE_CROSSCOMPILING)
+  set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x" TYPE FILE FILES "/home/jcrs/Escritorio/Bloques/gr-cv2x/python/__init__.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/cv2x" TYPE FILE FILES
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/python/__init__.pyc"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/python/__init__.pyo"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/__init__.pyc"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/__init__.pyo"
     )
 endif()
 

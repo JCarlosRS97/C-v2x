@@ -1,4 +1,4 @@
-# Install script for directory: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x
+# Install script for directory: /home/jcrs/Escritorio/Bloques/gr-cv2x
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,19 +32,24 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/cv2x" TYPE FILE FILES "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/cmake/Modules/cv2xConfig.cmake")
+# Is this installation the result of a crosscompile?
+if(NOT DEFINED CMAKE_CROSSCOMPILING)
+  set(CMAKE_CROSSCOMPILING "FALSE")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/cv2x" TYPE FILE FILES "/home/jcrs/Escritorio/Bloques/gr-cv2x/cmake/Modules/cv2xConfig.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/include/cv2x/cmake_install.cmake")
-  include("/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/cmake_install.cmake")
-  include("/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/swig/cmake_install.cmake")
-  include("/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/python/cmake_install.cmake")
-  include("/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/grc/cmake_install.cmake")
-  include("/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/apps/cmake_install.cmake")
-  include("/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/docs/cmake_install.cmake")
+  include("/home/jcrs/Escritorio/Bloques/gr-cv2x/build/include/cv2x/cmake_install.cmake")
+  include("/home/jcrs/Escritorio/Bloques/gr-cv2x/build/lib/cmake_install.cmake")
+  include("/home/jcrs/Escritorio/Bloques/gr-cv2x/build/swig/cmake_install.cmake")
+  include("/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/cmake_install.cmake")
+  include("/home/jcrs/Escritorio/Bloques/gr-cv2x/build/grc/cmake_install.cmake")
+  include("/home/jcrs/Escritorio/Bloques/gr-cv2x/build/apps/cmake_install.cmake")
+  include("/home/jcrs/Escritorio/Bloques/gr-cv2x/build/docs/cmake_install.cmake")
 
 endif()
 
@@ -56,5 +61,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

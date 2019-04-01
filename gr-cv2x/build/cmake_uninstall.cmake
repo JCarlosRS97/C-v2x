@@ -1,10 +1,10 @@
 # http://www.vtk.org/Wiki/CMake_FAQ#Can_I_do_.22make_uninstall.22_with_CMake.3F
 
-IF(NOT EXISTS "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/install_manifest.txt")
-  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/install_manifest.txt\"")
-ENDIF(NOT EXISTS "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/install_manifest.txt")
+IF(NOT EXISTS "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/install_manifest.txt")
+  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"/home/jcrs/Escritorio/Bloques/gr-cv2x/build/install_manifest.txt\"")
+ENDIF(NOT EXISTS "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/install_manifest.txt")
 
-FILE(READ "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/install_manifest.txt" files)
+FILE(READ "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/install_manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
   MESSAGE(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")

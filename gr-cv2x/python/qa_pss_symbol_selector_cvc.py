@@ -33,8 +33,11 @@ class qa_pss_symbol_selector_cvc (gr_unittest.TestCase):
 
     def test_001_t (self):
         # set up fg
-        src = blocks.file_source(gr.sizeof_gr_complex, "capture.dat");
-        simbolsync = cv2x.rough_symbol_sync_cc(512, 1);
+        src = blocks.file_source(gr.sizeof_gr_complex, "capture.dat", True);
+        simbolsync = lte.rough_symbol_sync_cc(512, 1);
+        dst = blocks.file_sink(gr.sizeof_gr_complex, "lol.dat")
+        self.tb.connect (src,simbolsync)
+        self.tb.connect(simbolsync, dst);
         self.tb.run ()
         # check data
 

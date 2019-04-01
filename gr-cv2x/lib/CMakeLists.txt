@@ -22,8 +22,8 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIRS})
+include_directories(${Boost_INCLUDE_DIR} ${FFTW3F_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS} ${FFTW3F_LIBRARY_DIRS})
 list(APPEND cv2x_sources
     subframe_to_symbol_vector_impl.cc
     slss_generator_impl.cc
@@ -40,7 +40,8 @@ if(NOT cv2x_sources)
 endif(NOT cv2x_sources)
 
 add_library(gnuradio-cv2x SHARED ${cv2x_sources})
-target_link_libraries(gnuradio-cv2x ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+target_link_libraries(gnuradio-cv2x ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES}   ${FFTW3F_LIBRARIES}
+ )
 set_target_properties(gnuradio-cv2x PROPERTIES DEFINE_SYMBOL "gnuradio_cv2x_EXPORTS")
 
 if(APPLE)
@@ -73,6 +74,7 @@ target_link_libraries(
   ${GNURADIO_RUNTIME_LIBRARIES}
   ${Boost_LIBRARIES}
   ${CPPUNIT_LIBRARIES}
+  ${FFTW3F_LIBRARIES}
   gnuradio-cv2x
 )
 
