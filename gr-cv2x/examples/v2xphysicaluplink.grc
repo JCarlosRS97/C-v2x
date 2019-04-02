@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2048</value>
+      <value>512</value>
     </param>
   </block>
   <block>
@@ -155,7 +155,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>freq</key>
@@ -289,7 +289,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>(fft_len*14+2048)*25</value>
+      <value>25*(fft_len*14+2*(int(160.0/2048*fft_len) + int(144.0/2048*fft_len)+ int(144.0/2048*fft_len)+ int(144.0/2048*fft_len)+ int(144.0/2048*fft_len)+ int(144.0/2048*fft_len)+int(144.0/2048*fft_len)))</value>
     </param>
     <param>
       <key>type</key>
@@ -316,7 +316,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -403,7 +403,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>1008</value>
+      <value>fft_len</value>
     </param>
   </block>
   <block>
@@ -430,7 +430,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(168, 260)</value>
+      <value>(168, 204)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -462,53 +462,6 @@
     </param>
     <param>
       <key>syncOffsetIndicator2</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>cv2x_subframe_to_symbol_vector</key>
-    <param>
-      <key>NSLRB</key>
-      <value>6</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>NFFT</key>
-      <value>fft_len</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(840, 276)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>cv2x_subframe_to_symbol_vector_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
       <value>0</value>
     </param>
   </block>
@@ -650,7 +603,7 @@
   </connection>
   <connection>
     <source_block_id>blocks_throttle_0</source_block_id>
-    <sink_block_id>cv2x_subframe_to_symbol_vector_0</sink_block_id>
+    <sink_block_id>fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -661,14 +614,14 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>cv2x_subframe_to_symbol_vector_0</source_block_id>
-    <sink_block_id>fft_vxx_0</sink_block_id>
+    <source_block_id>fft_vxx_0</source_block_id>
+    <sink_block_id>howto_ofdm_cyclic_prefixer_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>fft_vxx_0</source_block_id>
-    <sink_block_id>howto_ofdm_cyclic_prefixer_0</sink_block_id>
+    <source_block_id>howto_ofdm_cyclic_prefixer_0</source_block_id>
+    <sink_block_id>blocks_head_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

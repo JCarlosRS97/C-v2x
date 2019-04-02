@@ -14,6 +14,7 @@
 #include "cv2x/extract_subcarriers_vcvc.h"
 #include "cv2x/rough_symbol_sync_cc.h"
 #include "cv2x/pss_calculator_vcm.h"
+#include "cv2x/ofdm_cyclic_prefixer.h"
 %}
 
 
@@ -29,3 +30,5 @@ GR_SWIG_BLOCK_MAGIC2(cv2x, extract_subcarriers_vcvc);
 GR_SWIG_BLOCK_MAGIC2(cv2x, rough_symbol_sync_cc);
 %include "cv2x/pss_calculator_vcm.h"
 GR_SWIG_BLOCK_MAGIC2(cv2x, pss_calculator_vcm);
+%include "cv2x/ofdm_cyclic_prefixer.h"
+GR_SWIG_BLOCK_MAGIC2(cv2x, ofdm_cyclic_prefixer);

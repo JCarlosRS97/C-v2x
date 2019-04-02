@@ -45,6 +45,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_extract_subcarriers_vcvc.xml"
     "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_rough_symbol_sync_cc.xml"
     "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_pss_calculator_vcm.xml"
+    "/home/jcrs/Escritorio/Bloques/gr-cv2x/grc/cv2x_ofdm_cyclic_prefixer.xml"
     )
 endif()
 

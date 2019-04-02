@@ -9,3 +9,4 @@ add_test(qa_slss_generator "/bin/sh" "/home/jcrs/Escritorio/Bloques/gr-cv2x/buil
 add_test(qa_pss_symbol_selector_cvc "/bin/sh" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/qa_pss_symbol_selector_cvc_test.sh")
 add_test(qa_extract_subcarriers_vcvc "/bin/sh" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/qa_extract_subcarriers_vcvc_test.sh")
 add_test(qa_pss_calculator_vcm "/bin/sh" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/qa_pss_calculator_vcm_test.sh")
+add_test(qa_ofdm_cyclic_prefixer "/bin/sh" "/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/qa_ofdm_cyclic_prefixer_test.sh")
