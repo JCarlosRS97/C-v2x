@@ -10,6 +10,11 @@ lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o: ../include/
 lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o: ../lib/extract_subcarriers_vcvc_impl.cc
 lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o: ../lib/extract_subcarriers_vcvc_impl.h
 
+lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o: ../include/cv2x/api.h
+lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o: ../include/cv2x/ofdm_cyclic_prefixer.h
+lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o: ../lib/ofdm_cyclic_prefixer_impl.cc
+lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o: ../lib/ofdm_cyclic_prefixer_impl.h
+
 lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o: ../include/cv2x/api.h
 lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o: ../include/cv2x/pss_calculator_vcm.h
 lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o: ../lib/correlator.h

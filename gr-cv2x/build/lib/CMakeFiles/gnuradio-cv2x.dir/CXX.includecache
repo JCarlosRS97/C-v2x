@@ -16,6 +16,12 @@ cv2x/api.h
 gnuradio/sync_block.h
 -
 
+../include/cv2x/ofdm_cyclic_prefixer.h
+cv2x/api.h
+-
+gnuradio/tagged_stream_block.h
+-
+
 ../include/cv2x/pss_calculator_vcm.h
 cv2x/api.h
 -
@@ -80,6 +86,20 @@ extract_subcarriers_vcvc_impl.h
 
 /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/extract_subcarriers_vcvc_impl.h
 cv2x/extract_subcarriers_vcvc.h
+-
+
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/ofdm_cyclic_prefixer_impl.cc
+config.h
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/config.h
+fstream
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/fstream
+gnuradio/io_signature.h
+-
+ofdm_cyclic_prefixer_impl.h
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/ofdm_cyclic_prefixer_impl.h
+
+/home/jcrs/Escritorio/Bloques/gr-cv2x/lib/ofdm_cyclic_prefixer_impl.h
+cv2x/ofdm_cyclic_prefixer.h
 -
 
 /home/jcrs/Escritorio/Bloques/gr-cv2x/lib/pss_calculator_vcm_impl.cc

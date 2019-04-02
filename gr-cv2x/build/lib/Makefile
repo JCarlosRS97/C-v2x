@@ -251,6 +251,33 @@ extract_subcarriers_vcvc_impl.cc.s:
 	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.s
 .PHONY : extract_subcarriers_vcvc_impl.cc.s
 
+ofdm_cyclic_prefixer_impl.o: ofdm_cyclic_prefixer_impl.cc.o
+
+.PHONY : ofdm_cyclic_prefixer_impl.o
+
+# target to build an object file
+ofdm_cyclic_prefixer_impl.cc.o:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o
+.PHONY : ofdm_cyclic_prefixer_impl.cc.o
+
+ofdm_cyclic_prefixer_impl.i: ofdm_cyclic_prefixer_impl.cc.i
+
+.PHONY : ofdm_cyclic_prefixer_impl.i
+
+# target to preprocess a source file
+ofdm_cyclic_prefixer_impl.cc.i:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.i
+.PHONY : ofdm_cyclic_prefixer_impl.cc.i
+
+ofdm_cyclic_prefixer_impl.s: ofdm_cyclic_prefixer_impl.cc.s
+
+.PHONY : ofdm_cyclic_prefixer_impl.s
+
+# target to generate assembly for a file
+ofdm_cyclic_prefixer_impl.cc.s:
+	cd /home/jcrs/Escritorio/Bloques/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.s
+.PHONY : ofdm_cyclic_prefixer_impl.cc.s
+
 pss_calculator_vcm_impl.o: pss_calculator_vcm_impl.cc.o
 
 .PHONY : pss_calculator_vcm_impl.o
@@ -461,6 +488,9 @@ help:
 	@echo "... extract_subcarriers_vcvc_impl.o"
 	@echo "... extract_subcarriers_vcvc_impl.i"
 	@echo "... extract_subcarriers_vcvc_impl.s"
+	@echo "... ofdm_cyclic_prefixer_impl.o"
+	@echo "... ofdm_cyclic_prefixer_impl.i"
+	@echo "... ofdm_cyclic_prefixer_impl.s"
 	@echo "... pss_calculator_vcm_impl.o"
 	@echo "... pss_calculator_vcm_impl.i"
 	@echo "... pss_calculator_vcm_impl.s"
