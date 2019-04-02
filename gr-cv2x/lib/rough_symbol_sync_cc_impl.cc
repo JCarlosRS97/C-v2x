@@ -127,13 +127,13 @@ namespace gr {
               if(d_corr_val < abs(val) ){
                   d_corr_val = abs(val);
                   d_sym_pos = (nitems_read(0) + coarse_pos)%d_slotl;
-                printf("%s %i\tNEW coarse max!\tval = %f\tcoarse_pos = %i\t",name().c_str(), d_work_call, abs(val), coarse_pos );
-                printf("corr_val = %f\tsym_pos = %ld\n", d_corr_val, d_sym_pos);
+                printf("%s %i\tNEW coarse max!\tval = %f\tcoarse_pos = %i\t\n",name().c_str(), d_work_call, abs(val), coarse_pos );
+                //printf("corr_val = %f\tsym_pos = %ld\n", d_corr_val, d_sym_pos);
               }
               it_val = val;
           }
           if(nitems_read(0) < 10000){
-              printf("%s\tcorr_val = %f\tnitems_read = %ld\n", name().c_str(), abs(val), nitems_read(0) );
+              //printf("%s\tcorr_val = %f\tnitems_read = %ld\n", name().c_str(), abs(val), nitems_read(0) );
          }
           nout = i;
       }
@@ -154,8 +154,8 @@ namespace gr {
                       d_corr_val = abs(val);
                       long abs_pos = nitems_read(0) + fine_pos;
                       d_sym_pos = (nitems_read(0) + fine_pos)%d_slotl;
-                      printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
-                      printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
+                      //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
+                      //printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
                   }
               }
           }

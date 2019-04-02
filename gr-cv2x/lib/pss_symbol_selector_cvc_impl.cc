@@ -45,18 +45,19 @@ namespace gr {
             d_fftl(fft),
             d_cpl(144*fft/2048),
             d_cpl0(160*fft/2048),
+            d_slotl(7*fft+6*d_cpl+d_cpl0),
             d_syml(fft+d_cpl),
             d_syml0(fft+d_cpl0),
-            d_slotl(7*fft+6*d_cpl+d_cpl0),
             d_offset(0),
             d_sym_pos(0),
-            d_ass_half_frame_start(200*d_slotl),
+            d_ass_half_frame_start(3*syncPeriod*d_slotl),
             d_off_sym_count(0),
             d_work_call(0),
             d_is_locked(false),
             syncPeriod(syncPeriod),
             syncOffsetIndicator(syncOffsetIndicator)
     {
+      set_output_multiple(2);
       set_tag_propagation_policy(TPP_DONT);
       d_key = pmt::string_to_symbol("offset_marker");
       d_sym_key = pmt::string_to_symbol("symbol");
@@ -99,7 +100,7 @@ namespace gr {
     {
       unsigned ninputs = ninput_items_required.size ();
       for (unsigned i = 0; i < ninputs; i++)
-          ninput_items_required[i] = 2*d_syml0 * noutput_items + history() - 1;
+          ninput_items_required[i] = 3*d_syml0 * noutput_items + history() - 1;
     }
 
     int
@@ -126,7 +127,6 @@ namespace gr {
           }
       }
       int offset = d_offset;
-      int syncPeriod = 160;
       if(offset == 0){ // if offset is "0" then there is no symbol sync yet --> return!
           consume_each(nin);
           return 0;
@@ -139,14 +139,14 @@ namespace gr {
       long pss_pos1 = (d_ass_half_frame_start+(d_fftl+d_cpl0)-4 )%(syncPeriod*2*d_slotl);
       //long pss_pos2 = (d_ass_half_frame_start+(2*d_fftl+d_cpl+d_cpl0)-4 )%(10*d_slotl);
       long abs_pos = nir;
-      int mod_pss = abs( (int(abs_pos-(pss_pos1) ))%(syncPeriod*2*d_slotl) );
-      for(int i = 0 ; i+2*d_syml0 < nin ; i++){
+      int mod_pss = abs( (int(abs_pos - pss_pos1))%(syncPeriod*2*d_slotl) );
+      for(int i = 0 ; (i+2*d_syml0) < nin ; i++){
           abs_pos = nir+long(i); // calculate new absolute sample position
           mod_pss = abs( (int(abs_pos-(pss_pos1) ))%(syncPeriod*2*d_slotl) );
           if(d_ass_half_frame_start < syncPeriod*2* d_slotl && mod_pss < 10 ){ // Si ya ha sincronizado alguna vez
               produce_output(out, in+i, abs_pos, nout);
               consumed_items = i+1;
-              //printf("%s--> generate output half_frame_start\tmod_pss = %i\tabs_pos = %ld\t modulo %ld\n", name().c_str(), mod_pss, abs_pos, pss_pos%offset );
+              printf("%s--> generate output half_frame_start\tmod_pss = %i\tabs_pos = %ld\t modulo %ld\n", name().c_str(), mod_pss, abs_pos, pss_pos1%offset );
           }
           else if(is_locked){//For now step over all samples
               consumed_items = i+1;
@@ -154,7 +154,7 @@ namespace gr {
           else if(  (((abs(abs_pos-offset))%d_slotl)-d_syml0)%d_syml == 0){
              // si se esta al principio de cualquier simbolo distinto del primero
               produce_output(out, in+i, abs_pos, nout);
-              i += (d_syml-50);
+              i += (d_syml-50); //optimizable en el futuro
               consumed_items = i+1; // +1 because i is initialized with 0
           }
 
@@ -163,6 +163,7 @@ namespace gr {
 
       // Tell runtime system how many input items we consumed on each input stream.
       consume_each (consumed_items);
+      printf("Numero de items producidos: %i\n", nout);
       // Tell runtime system how many output items we produced.
       return nout;
     }

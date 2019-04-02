@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Tue Apr  2 16:24:57 2019
+# Generated: Tue Apr  2 22:17:03 2019
 ##################################################
 
 from distutils.version import StrictVersion
@@ -28,7 +28,9 @@ from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import cv2x
+import foo
 import howto
+import pmt
 import sys
 from gnuradio import qtgui
 
@@ -66,6 +68,7 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.syncPeriod = syncPeriod = 5
         self.samp_rate = samp_rate = 30720000
         self.fft_len = fft_len = 512
 
@@ -73,40 +76,55 @@ class top_block(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self.howto_ofdm_cyclic_prefixer_0 = howto.ofdm_cyclic_prefixer(fft_len, (int(160.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len),int(144.0/2048*fft_len)), 0, '')
+        self.foo_random_periodic_msg_source_0 = foo.random_periodic_msg_source(64, 100000000, 1, True, False, 1)
+        self.fft_vxx_1 = fft.fft_vcc(fft_len, True, (), False, 1)
         self.fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
-        self.cv2x_slss_generator_0 = cv2x.slss_generator(301, 0, 0, 40, fft_len)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate,True)
-        self.blocks_head_0 = blocks.head(gr.sizeof_gr_complex*1, 25*(fft_len*14+2*(int(160.0/2048*fft_len) + int(144.0/2048*fft_len)+ int(144.0/2048*fft_len)+ int(144.0/2048*fft_len)+ int(144.0/2048*fft_len)+ int(144.0/2048*fft_len)+int(144.0/2048*fft_len))))
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/ultima.dat', False)
+        self.cv2x_slss_generator_0 = cv2x.slss_generator(101, 0, 0, syncPeriod, fft_len)
+        self.cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, 1)
+        self.cv2x_pss_symbol_selector_cvc_0 = cv2x.pss_symbol_selector_cvc(fft_len, syncPeriod, 0)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
+        self.blocks_head_0 = blocks.head(gr.sizeof_gr_complex*fft_len, 45)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*fft_len, '/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/trasselector.dat', False)
         self.blocks_file_sink_0.set_unbuffered(False)
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.foo_random_periodic_msg_source_0, 'out'), (self.cv2x_pss_symbol_selector_cvc_0, 'half_frame'))
+        self.msg_connect((self.foo_random_periodic_msg_source_0, 'out'), (self.cv2x_pss_symbol_selector_cvc_0, 'lock'))
         self.connect((self.blocks_head_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))
+        self.connect((self.cv2x_pss_symbol_selector_cvc_0, 0), (self.fft_vxx_1, 0))
+        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.cv2x_pss_symbol_selector_cvc_0, 0))
         self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.fft_vxx_0, 0), (self.howto_ofdm_cyclic_prefixer_0, 0))
-        self.connect((self.howto_ofdm_cyclic_prefixer_0, 0), (self.blocks_head_0, 0))
+        self.connect((self.fft_vxx_1, 0), (self.blocks_head_0, 0))
+        self.connect((self.howto_ofdm_cyclic_prefixer_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
+    def get_syncPeriod(self):
+        return self.syncPeriod
+
+    def set_syncPeriod(self, syncPeriod):
+        self.syncPeriod = syncPeriod
+
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
 
     def get_fft_len(self):
         return self.fft_len
 
     def set_fft_len(self, fft_len):
         self.fft_len = fft_len
-        self.blocks_head_0.set_length(25*(self.fft_len*14+2*(int(160.0/2048*self.fft_len) + int(144.0/2048*self.fft_len)+ int(144.0/2048*self.fft_len)+ int(144.0/2048*self.fft_len)+ int(144.0/2048*self.fft_len)+ int(144.0/2048*self.fft_len)+int(144.0/2048*self.fft_len))))
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
 
 
 def main(top_block_cls=top_block, options=None):
