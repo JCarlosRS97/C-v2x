@@ -195,24 +195,15 @@ pss_calculator_vcm_impl::find_pss_symbol(gr_complex *chuX)
     float max0 = 0.0;
     int pos0 = 0;
     max_pos(max0, pos0, d_chu0, chuX, len);
+    printf("Maximo u = 26 -> %f\n", max0);
 
     float max1 = 0.0;
     int pos1 = 0;
     max_pos(max1, pos1, d_chu1, chuX, len);
+    printf("Maximo u = 37 -> %f\n", max1);
 
-
-    int N_id_2 = -1;
-    float max[2];
-    max[0]=max0;
-    max[1]=max1;
-
-    float maxc = 0.0;
-    for(int i = 0; i < 2; i++){
-        if(max[i] > maxc){
-            maxc = max[i];
-            N_id_2 = i;
-        }
-    }
+    int N_id_2 = (max1 > max0)? 1: 0;
+    float maxc = (max1 > max0)? max1: max0;
 
     //Calculate return value
     bool has_changed = false;

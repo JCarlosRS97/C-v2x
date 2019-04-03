@@ -50,7 +50,7 @@ namespace gr {
             d_syml0(fft+d_cpl0),
             d_offset(0),
             d_sym_pos(0),
-            d_ass_half_frame_start(3*syncPeriod*d_slotl),
+            d_ass_half_frame_start(2*syncPeriod*d_slotl),
             d_off_sym_count(0),
             d_work_call(0),
             d_is_locked(false),
@@ -123,13 +123,17 @@ namespace gr {
       if (v_off.size() > 0){
           long offset = pmt::to_long(v_off[0].value);
           if(offset != d_offset){
+              printf("El offset es %i\n", d_offset);
               d_offset = offset;
           }
       }
       int offset = d_offset;
-      if(offset == 0){ // if offset is "0" then there is no symbol sync yet --> return!
+      if(offset == 0){ // if offset is "0" then there is no symbol sync yet --> return!7
+        printf("Estamos jodidos.\n" );
           consume_each(nin);
           return 0;
+      }else{
+        printf("El problema es del calculator nigga.\n" );
       }
 
       // generate output
@@ -163,7 +167,6 @@ namespace gr {
 
       // Tell runtime system how many input items we consumed on each input stream.
       consume_each (consumed_items);
-      printf("Numero de items producidos: %i\n", nout);
       // Tell runtime system how many output items we produced.
       return nout;
     }

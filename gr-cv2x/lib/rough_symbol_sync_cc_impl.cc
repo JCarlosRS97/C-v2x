@@ -127,7 +127,7 @@ namespace gr {
               if(d_corr_val < abs(val) ){
                   d_corr_val = abs(val);
                   d_sym_pos = (nitems_read(0) + coarse_pos)%d_slotl;
-                printf("%s %i\tNEW coarse max!\tval = %f\tcoarse_pos = %i\t\n",name().c_str(), d_work_call, abs(val), coarse_pos );
+                //printf("%s %i\tNEW coarse max!\tval = %f\tcoarse_pos = %i\t\n",name().c_str(), d_work_call, abs(val), coarse_pos );
                 //printf("corr_val = %f\tsym_pos = %ld\n", d_corr_val, d_sym_pos);
               }
               it_val = val;

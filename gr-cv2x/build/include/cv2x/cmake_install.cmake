@@ -1,4 +1,4 @@
-# Install script for directory: /home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x
+# Install script for directory: /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,21 +32,16 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-# Is this installation the result of a crosscompile?
-if(NOT DEFINED CMAKE_CROSSCOMPILING)
-  set(CMAKE_CROSSCOMPILING "FALSE")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/cv2x" TYPE FILE FILES
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/api.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/subframe_to_symbol_vector.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/slss_generator.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/pss_symbol_selector_cvc.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/extract_subcarriers_vcvc.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/rough_symbol_sync_cc.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/pss_calculator_vcm.h"
-    "/home/jcrs/Escritorio/Bloques/gr-cv2x/include/cv2x/ofdm_cyclic_prefixer.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/api.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/subframe_to_symbol_vector.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/slss_generator.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/pss_symbol_selector_cvc.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/extract_subcarriers_vcvc.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/rough_symbol_sync_cc.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/pss_calculator_vcm.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/ofdm_cyclic_prefixer.h"
     )
 endif()
 

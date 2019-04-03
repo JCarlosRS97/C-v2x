@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.11'?>
+<?grc format='1' created='3.7.10'?>
 <flow_graph>
   <timestamp>Thu Dec 13 17:08:40 2018</timestamp>
   <block>
@@ -147,7 +147,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(264, 4)</value>
+      <value>(272, 4)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -159,7 +159,54 @@
     </param>
     <param>
       <key>value</key>
-      <value>5</value>
+      <value>4</value>
+    </param>
+  </block>
+  <block>
+    <key>analog_const_source_x</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1160, 316)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>analog_const_source_x_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
     </param>
   </block>
   <block>
@@ -226,6 +273,112 @@
     </param>
   </block>
   <block>
+    <key>blocks_add_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(832, 288)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_add_xx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_delay</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>delay</key>
+      <value>20</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1040, 284)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_delay_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_ports</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_file_sink</key>
     <param>
       <key>append</key>
@@ -249,11 +402,11 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/jcrs/Escritorio/Bloques/gr-cv2x/build/python/trasselector.dat</value>
+      <value>/home/carlos/Escritorio/memuero.dat</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 564)</value>
+      <value>(1056, 464)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -273,7 +426,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>fft_len</value>
+      <value>72</value>
     </param>
   </block>
   <block>
@@ -347,7 +500,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1080, 436)</value>
+      <value>(1088, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -367,7 +520,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>45</value>
+      <value>10000</value>
     </param>
     <param>
       <key>type</key>
@@ -375,7 +528,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>fft_len</value>
+      <value>72</value>
     </param>
   </block>
   <block>
@@ -398,7 +551,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(856, 636)</value>
+      <value>(848, 940)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -445,11 +598,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 496)</value>
+      <value>(408, 584)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -458,6 +611,53 @@
     <param>
       <key>id</key>
       <value>blocks_message_debug_1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_message_strobe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(96, 460)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_message_strobe_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>msg</key>
+      <value>pmt.intern("TEST")</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>period</key>
+      <value>100000000</value>
     </param>
   </block>
   <block>
@@ -555,7 +755,7 @@
     </param>
     <param>
       <key>samples_per_second</key>
-      <value>samp_rate/fft_len</value>
+      <value>100000</value>
     </param>
     <param>
       <key>type</key>
@@ -582,7 +782,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>fftl</key>
@@ -590,7 +790,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(840, 412)</value>
+      <value>(840, 380)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -614,6 +814,61 @@
     </param>
   </block>
   <block>
+    <key>cv2x_ofdm_cyclic_prefixer</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>cp_lengths</key>
+      <value>(int(160.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len))</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>fft_len</key>
+      <value>fft_len</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(856, 204)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>cv2x_ofdm_cyclic_prefixer_0</value>
+    </param>
+    <param>
+      <key>len_tag_key</key>
+      <value></value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>rolloff_len</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>cv2x_pss_calculator_vcm</key>
     <param>
       <key>alias</key>
@@ -629,7 +884,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>fftl</key>
@@ -637,7 +892,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 584)</value>
+      <value>(632, 480)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -727,7 +982,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(816, 292)</value>
+      <value>(384, 300)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -774,7 +1029,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 180)</value>
+      <value>(136, 144)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -794,7 +1049,7 @@
     </param>
     <param>
       <key>slssId</key>
-      <value>101</value>
+      <value>301</value>
     </param>
     <param>
       <key>syncPeriod</key>
@@ -900,7 +1155,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(600, 396)</value>
+      <value>(600, 360)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -936,10 +1191,22 @@
     </param>
   </block>
   <block>
-    <key>foo_random_periodic_msg_source</key>
+    <key>qtgui_sink_x</key>
+    <param>
+      <key>bw</key>
+      <value>samp_rate</value>
+    </param>
     <param>
       <key>alias</key>
       <value></value>
+    </param>
+    <param>
+      <key>fc</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>freqchangevar</key>
+      <value>None</value>
     </param>
     <param>
       <key>comment</key>
@@ -950,95 +1217,28 @@
       <value></value>
     </param>
     <param>
-      <key>debug</key>
-      <value>False</value>
-    </param>
-    <param>
       <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(24, 556)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>foo_random_periodic_msg_source_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>msg_len</key>
-      <value>64</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>num</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>interval</key>
-      <value>100000000</value>
-    </param>
-    <param>
-      <key>quit</key>
       <value>True</value>
     </param>
     <param>
-      <key>seed</key>
-      <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>howto_ofdm_cyclic_prefixer</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>cp_lengths</key>
-      <value>(int(160.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len),int(144.0/2048*fft_len))</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>fft_len</key>
-      <value>fft_len</value>
+      <key>fftsize</key>
+      <value>1024</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 196)</value>
+      <value>(56, 280)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>0</value>
+      <value>180</value>
     </param>
     <param>
       <key>id</key>
-      <value>howto_ofdm_cyclic_prefixer_0</value>
-    </param>
-    <param>
-      <key>len_tag_key</key>
-      <value></value>
+      <value>qtgui_sink_x_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1049,15 +1249,69 @@
       <value>0</value>
     </param>
     <param>
-      <key>rolloff</key>
-      <value>0</value>
+      <key>name</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>plotconst</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>plotfreq</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>plottime</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>plotwaterfall</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>showports</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>showrf</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>rate</key>
+      <value>10</value>
+    </param>
+    <param>
+      <key>wintype</key>
+      <value>firdes.WIN_BLACKMAN_hARRIS</value>
     </param>
   </block>
+  <connection>
+    <source_block_id>analog_const_source_x_0</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
   <connection>
     <source_block_id>analog_sig_source_x_0</source_block_id>
     <sink_block_id>blocks_multiply_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_add_xx_0</source_block_id>
+    <sink_block_id>cv2x_rough_symbol_sync_cc_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_delay_0</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_head_0</source_block_id>
@@ -1070,6 +1324,18 @@
     <sink_block_id>blocks_file_sink_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_message_strobe_0</source_block_id>
+    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>half_frame</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_message_strobe_0</source_block_id>
+    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
+    <source_key>strobe</source_key>
+    <sink_key>lock</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_throttle_0</source_block_id>
@@ -1086,6 +1352,12 @@
   <connection>
     <source_block_id>cv2x_extract_subcarriers_vcvc_0</source_block_id>
     <sink_block_id>cv2x_pss_calculator_vcm_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_ofdm_cyclic_prefixer_0</source_block_id>
+    <sink_block_id>blocks_delay_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1120,6 +1392,12 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>cv2x_rough_symbol_sync_cc_0</source_block_id>
+    <sink_block_id>qtgui_sink_x_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>cv2x_slss_generator_0</source_block_id>
     <sink_block_id>blocks_throttle_0</sink_block_id>
     <source_key>0</source_key>
@@ -1127,43 +1405,13 @@
   </connection>
   <connection>
     <source_block_id>fft_vxx_0</source_block_id>
-    <sink_block_id>howto_ofdm_cyclic_prefixer_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>fft_vxx_1</source_block_id>
-    <sink_block_id>blocks_head_0_0</sink_block_id>
+    <sink_block_id>cv2x_ofdm_cyclic_prefixer_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>fft_vxx_1</source_block_id>
     <sink_block_id>cv2x_extract_subcarriers_vcvc_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>foo_random_periodic_msg_source_0</source_block_id>
-    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>half_frame</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>foo_random_periodic_msg_source_0</source_block_id>
-    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
-    <source_key>out</source_key>
-    <sink_key>lock</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>howto_ofdm_cyclic_prefixer_0</source_block_id>
-    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>howto_ofdm_cyclic_prefixer_0</source_block_id>
-    <sink_block_id>cv2x_rough_symbol_sync_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

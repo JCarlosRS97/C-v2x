@@ -19,7 +19,7 @@
   </param>
   <param>
     <name>Rolloff</name>
-    <key>rolloff</key>
+    <key>rolloff_len</key>
     <value>0</value>
     <type>int</type>
     <hide>#if $rolloff() == 0 then "part" else "none"#</hide>
