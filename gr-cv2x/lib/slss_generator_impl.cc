@@ -79,9 +79,6 @@ namespace gr {
          }else{
            memset(out, 0, sizeof(gr_complex)*NFFT);
          }
-         if(symbolCounter == 0){
-           out[(NFFT/2)] = subframeCounter;
-         }
          //Update counters
          if(symbolCounter == (NSLsymb*2-1)){
            subframeCounter++;

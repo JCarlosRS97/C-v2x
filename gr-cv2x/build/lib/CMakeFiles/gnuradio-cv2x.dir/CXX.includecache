@@ -25,7 +25,7 @@ gnuradio/tagged_stream_block.h
 ../include/cv2x/pss_calculator_vcm.h
 cv2x/api.h
 -
-gnuradio/sync_block.h
+gnuradio/sync_decimator.h
 -
 
 ../include/cv2x/pss_symbol_selector_cvc.h

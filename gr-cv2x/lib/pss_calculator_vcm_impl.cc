@@ -45,9 +45,9 @@ namespace gr {
      * The private constructor
      */
     pss_calculator_vcm_impl::pss_calculator_vcm_impl(int fftl)
-      : gr::sync_block("pss_calculator_vcm",
+      : gr::sync_decimator("pss_calculator_vcm",
               gr::io_signature::make(1, 1, sizeof(gr_complex) * 72),
-              gr::io_signature::make(0, 0, 0)),
+              gr::io_signature::make(0, 0, 0),2),
         //~ d_tag(tag),
         //~ d_sel(sel),
         d_fftl(fftl),
@@ -60,7 +60,6 @@ namespace gr {
         d_lock_count(0),
         d_is_locked(false)
       {
-          set_history(2);// el anterior y el nuevo. Por tanto in[0] sera el vector antiguo
           d_port_lock = pmt::string_to_symbol("lock");
           message_port_register_out(d_port_lock);
           d_port_half_frame_start = pmt::string_to_symbol("half_frame");
@@ -117,12 +116,11 @@ namespace gr {
         // tracking does need less cross correlation calculations!
         if(d_is_locked){ changed = tracking(chuX); }
         else{ changed = find_pss_symbol(chuX); }
-
+        //printf("Calculator: %s\n", changed?"si":"no");
         //Do things if new max is found!
         if(changed){
             d_lock_count = 0; // reset lock count!
             int half_frame_start = calculate_half_frame_start(nir+i);
-
             if(d_half_frame_start != half_frame_start ){
                 if(!d_is_locked){
                     printf("\n%s NEW half_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_half_frame_start, d_N_id_2, d_corr_val );
@@ -195,12 +193,12 @@ pss_calculator_vcm_impl::find_pss_symbol(gr_complex *chuX)
     float max0 = 0.0;
     int pos0 = 0;
     max_pos(max0, pos0, d_chu0, chuX, len);
-    printf("Maximo u = 26 -> %f\n", max0);
+    //printf("Maximo u = 26 -> %f\n", max0);
 
     float max1 = 0.0;
     int pos1 = 0;
     max_pos(max1, pos1, d_chu1, chuX, len);
-    printf("Maximo u = 37 -> %f\n", max1);
+    //printf("Maximo u = 37 -> %f\n", max1);
 
     int N_id_2 = (max1 > max0)? 1: 0;
     float maxc = (max1 > max0)? max1: max0;
@@ -225,7 +223,7 @@ pss_calculator_vcm_impl::tracking(gr_complex *chu)
         case 0: max_pos(max, pos, d_chu0, chu, len); break;
         case 1: max_pos(max, pos, d_chu1, chu, len); break;
     }
-    printf("Nuevo maximo: %f\n", max);
+    //printf("Nuevo maximo: %f\n", max);
     if(d_corr_val < max){
         d_corr_val = max;
         return true;
@@ -256,7 +254,7 @@ pss_calculator_vcm_impl::calculate_half_frame_start(long pos)
     std::vector <gr::tag_t> v_off;
     get_tags_in_range(v_off, 0, pos, pos+1);
     long offset = pmt::to_long(v_off[0].value) - (d_fftl+d_cpl0);
-    return int( offset%(160*d_slotl) );
+    return int( offset%(syncPeriod*2*d_slotl) );
 }
 
 //convenience method for better readability
@@ -265,7 +263,10 @@ void
 pss_calculator_vcm_impl::extract_pss(gr_complex *chu, const gr_complex *in)
 {
     memcpy(chu   , in+5   , sizeof(gr_complex)*62 );
+    //printf("Lectura 1: %f\n", real(chu[0]));
     memcpy(chu +62 , in+5 +72  , sizeof(gr_complex)*62 );
+    //printf("Lectura 2: %f\n", real(chu[63]));
+
 }
 
   } /* namespace cv2x */

@@ -41,6 +41,7 @@ namespace gr {
        float d_corr_val;
        int d_lock_count;
        bool d_is_locked;
+       int syncPeriod = 4;
        gr_complex d_chu0[124];
        gr_complex d_chu1[124];
 

@@ -123,17 +123,13 @@ namespace gr {
       if (v_off.size() > 0){
           long offset = pmt::to_long(v_off[0].value);
           if(offset != d_offset){
-              printf("El offset es %i\n", d_offset);
               d_offset = offset;
           }
       }
       int offset = d_offset;
-      if(offset == 0){ // if offset is "0" then there is no symbol sync yet --> return!7
-        printf("Estamos jodidos.\n" );
+      if(offset == 0){ // if offset is "0" then there is no symbol sync yet --> return!
           consume_each(nin);
           return 0;
-      }else{
-        printf("El problema es del calculator nigga.\n" );
       }
 
       // generate output
@@ -150,7 +146,7 @@ namespace gr {
           if(d_ass_half_frame_start < syncPeriod*2* d_slotl && mod_pss < 10 ){ // Si ya ha sincronizado alguna vez
               produce_output(out, in+i, abs_pos, nout);
               consumed_items = i+1;
-              printf("%s--> generate output half_frame_start\tmod_pss = %i\tabs_pos = %ld\t modulo %ld\n", name().c_str(), mod_pss, abs_pos, pss_pos1%offset );
+              //printf("%s--> generate output half_frame_start\tmod_pss = %i\tabs_pos = %ld\t modulo %ld\n", name().c_str(), mod_pss, abs_pos, pss_pos1%offset );
           }
           else if(is_locked){//For now step over all samples
               consumed_items = i+1;
@@ -158,7 +154,7 @@ namespace gr {
           else if(  (((abs(abs_pos-offset))%d_slotl)-d_syml0)%d_syml == 0){
              // si se esta al principio de cualquier simbolo distinto del primero
               produce_output(out, in+i, abs_pos, nout);
-              i += (d_syml-50); //optimizable en el futuro
+              i += (2*d_syml-50); //optimizable en el futuro
               consumed_items = i+1; // +1 because i is initialized with 0
           }
 
@@ -183,6 +179,7 @@ namespace gr {
         out+=d_fftl; //move pointer to output buffer by the size of one vector
         //segundo simbolo
         memcpy(out,in+d_cpl*2 + d_fftl,sizeof(gr_complex)*d_fftl); //copy samples to output buffer!
+        add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);
 
         nout++; // 1 output vector produced
         out+=d_fftl; //move pointer to output buffer by the size of one vector
