@@ -13,8 +13,9 @@
 #include "cv2x/pss_symbol_selector_cvc.h"
 #include "cv2x/extract_subcarriers_vcvc.h"
 #include "cv2x/rough_symbol_sync_cc.h"
-#include "cv2x/pss_calculator_vcm.h"
 #include "cv2x/ofdm_cyclic_prefixer.h"
+#include "cv2x/pss_calculator_vcm.h"
+#include "cv2x/pss_tagger_cc.h"
 %}
 
 
@@ -28,7 +29,11 @@ GR_SWIG_BLOCK_MAGIC2(cv2x, pss_symbol_selector_cvc);
 GR_SWIG_BLOCK_MAGIC2(cv2x, extract_subcarriers_vcvc);
 %include "cv2x/rough_symbol_sync_cc.h"
 GR_SWIG_BLOCK_MAGIC2(cv2x, rough_symbol_sync_cc);
-%include "cv2x/pss_calculator_vcm.h"
-GR_SWIG_BLOCK_MAGIC2(cv2x, pss_calculator_vcm);
+
 %include "cv2x/ofdm_cyclic_prefixer.h"
 GR_SWIG_BLOCK_MAGIC2(cv2x, ofdm_cyclic_prefixer);
+%include "cv2x/pss_calculator_vcm.h"
+GR_SWIG_BLOCK_MAGIC2(cv2x, pss_calculator_vcm);
+%include "cv2x/pss_tagger_cc.h"
+GR_SWIG_BLOCK_MAGIC2(cv2x, pss_tagger_cc);
+

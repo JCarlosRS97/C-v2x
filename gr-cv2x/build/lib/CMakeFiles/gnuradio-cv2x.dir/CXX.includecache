@@ -34,6 +34,12 @@ cv2x/api.h
 gnuradio/block.h
 -
 
+../include/cv2x/pss_tagger_cc.h
+cv2x/api.h
+-
+gnuradio/sync_block.h
+-
+
 ../include/cv2x/rough_symbol_sync_cc.h
 cv2x/api.h
 -
@@ -109,16 +115,6 @@ gnuradio/io_signature.h
 -
 pss_calculator_vcm_impl.h
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_calculator_vcm_impl.h
-cstdio
--
-cmath
--
-fftw3.h
--
-volk/volk.h
--
-complex
--
 
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_calculator_vcm_impl.h
 cv2x/pss_calculator_vcm.h
@@ -136,6 +132,18 @@ pss_symbol_selector_cvc_impl.h
 
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_symbol_selector_cvc_impl.h
 cv2x/pss_symbol_selector_cvc.h
+-
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_tagger_cc_impl.cc
+config.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/config.h
+gnuradio/io_signature.h
+-
+pss_tagger_cc_impl.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_tagger_cc_impl.h
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_tagger_cc_impl.h
+cv2x/pss_tagger_cc.h
 -
 
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/rough_symbol_sync_cc_impl.cc

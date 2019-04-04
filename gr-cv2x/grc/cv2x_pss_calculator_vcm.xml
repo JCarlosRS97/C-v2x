@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>PSS Calculator</name>
+  <name>pss_calculator_vcm</name>
   <key>cv2x_pss_calculator_vcm</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.pss_calculator_vcm($fftl)</make>
+  <make>cv2x.pss_calculator_vcm($fftl, $syncPeriod)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -15,30 +15,35 @@
          <key>fftl</key>
          <type>int</type>
        </param>
+       <param>
+         <name>Sync Period</name>
+         <key>syncPeriod</key>
+         <type>int</type>
+       </param>
 
-       <!-- Make one 'sink' node per input. Sub-nodes:
-            * name (an identifier for the GUI)
-            * type
-            * vlen
-            * optional (set to 1 for optional inputs) -->
-       <sink>
-         <name>in</name>
-         <type>complex</type>
-         <vlen>72</vlen>
-       </sink>
+           <!-- Make one 'sink' node per input. Sub-nodes:
+                * name (an identifier for the GUI)
+                * type
+                * vlen
+                * optional (set to 1 for optional inputs) -->
+      <sink>
+       <name>in</name>
+       <type>complex</type>
+       <vlen>72</vlen>
+     </sink>
 
-       <source>
-         <name>lock</name>
-         <type>message</type>
-       </source>
+     <source>
+       <name>lock</name>
+       <type>message</type>
+     </source>
 
-       <source>
-         <name>half_frame</name>
-         <type>message</type>
-       </source>
+     <source>
+       <name>sync_frame</name>
+       <type>message</type>
+     </source>
 
-       <source>
-         <name>N_id_2</name>
-         <type>message</type>
-       </source>
-</block>
+     <source>
+       <name>N_id_2</name>
+       <type>message</type>
+     </source>
+  </block>

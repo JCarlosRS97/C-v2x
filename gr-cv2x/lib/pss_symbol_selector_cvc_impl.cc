@@ -50,7 +50,7 @@ namespace gr {
             d_syml0(fft+d_cpl0),
             d_offset(0),
             d_sym_pos(0),
-            d_ass_half_frame_start(2*syncPeriod*d_slotl),
+            d_ass_sync_frame_start(2*syncPeriod*d_slotl),
             d_off_sym_count(0),
             d_work_call(0),
             d_is_locked(false),
@@ -66,14 +66,14 @@ namespace gr {
       message_port_register_in(pmt::mp("lock"));
       set_msg_handler(pmt::mp("lock"), boost::bind(&pss_symbol_selector_cvc_impl::handle_msg_lock, this, _1));
 
-      message_port_register_in(pmt::mp("half_frame"));
-      set_msg_handler(pmt::mp("half_frame"), boost::bind(&pss_symbol_selector_cvc_impl::handle_msg_half_frame_start, this, _1));
+      message_port_register_in(pmt::mp("sync_frame"));
+      set_msg_handler(pmt::mp("sync_frame"), boost::bind(&pss_symbol_selector_cvc_impl::handle_msg_sync_frame_start, this, _1));
     }
 
     void
-    pss_symbol_selector_cvc_impl::handle_msg_half_frame_start(pmt::pmt_t msg)
+    pss_symbol_selector_cvc_impl::handle_msg_sync_frame_start(pmt::pmt_t msg)
     {
-        set_half_frame_start(pmt::to_long(msg) );
+        set_sync_frame_start(pmt::to_long(msg) );
     }
 
     void
@@ -135,18 +135,18 @@ namespace gr {
       // generate output
       int consumed_items = 0;
       int nout = 0;
-      //d_ass_half_frame_start para nosotros será donde comienza la subtrama de referencia
-      long pss_pos1 = (d_ass_half_frame_start+(d_fftl+d_cpl0)-4 )%(syncPeriod*2*d_slotl);
-      //long pss_pos2 = (d_ass_half_frame_start+(2*d_fftl+d_cpl+d_cpl0)-4 )%(10*d_slotl);
+      //d_ass_sync_frame_start para nosotros será donde comienza la subtrama de referencia
+      long pss_pos1 = (d_ass_sync_frame_start+(d_fftl+d_cpl0)-4 )%(syncPeriod*2*d_slotl);
+      //long pss_pos2 = (d_ass_sync_frame_start+(2*d_fftl+d_cpl+d_cpl0)-4 )%(10*d_slotl);
       long abs_pos = nir;
       int mod_pss = abs( (int(abs_pos - pss_pos1))%(syncPeriod*2*d_slotl) );
       for(int i = 0 ; (i+2*d_syml0) < nin ; i++){
           abs_pos = nir+long(i); // calculate new absolute sample position
           mod_pss = abs( (int(abs_pos-(pss_pos1) ))%(syncPeriod*2*d_slotl) );
-          if(d_ass_half_frame_start < syncPeriod*2* d_slotl && mod_pss < 10 ){ // Si ya ha sincronizado alguna vez
+          if(d_ass_sync_frame_start < syncPeriod*2* d_slotl && mod_pss < 10 ){ // Si ya ha sincronizado alguna vez
               produce_output(out, in+i, abs_pos, nout);
               consumed_items = i+1;
-              //printf("%s--> generate output half_frame_start\tmod_pss = %i\tabs_pos = %ld\t modulo %ld\n", name().c_str(), mod_pss, abs_pos, pss_pos1%offset );
+              //printf("%s--> generate output sync_frame_start\tmod_pss = %i\tabs_pos = %ld\t modulo %ld\n", name().c_str(), mod_pss, abs_pos, pss_pos1%offset );
           }
           else if(is_locked){//For now step over all samples
               consumed_items = i+1;

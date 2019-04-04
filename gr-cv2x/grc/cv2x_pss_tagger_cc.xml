@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>pss_symbol_selector_cvc</name>
-  <key>cv2x_pss_symbol_selector_cvc</key>
+  <name>pss_tagger_cc</name>
+  <key>cv2x_pss_tagger_cc</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.pss_symbol_selector_cvc($fft, $syncPeriod, 0)</make>
+  <make>cv2x.pss_tagger_cc($fftl, $syncPeriod)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -12,9 +12,10 @@
        * type -->
        <param>
          <name>FFT length</name>
-         <key>fft</key>
+         <key>fftl</key>
          <type>int</type>
        </param>
+
        <param>
          <name>Sync Period</name>
          <key>syncPeriod</key>
@@ -41,6 +42,11 @@
          <type>message</type>
        </sink>
 
+       <sink>
+         <name>N_id_2</name>
+         <type>message</type>
+       </sink>
+
        <!-- Make one 'source' node per output. Sub-nodes:
             * name (an identifier for the GUI)
             * type
@@ -49,6 +55,5 @@
        <source>
          <name>out</name>
          <type>complex</type>
-         <vlen>$fft</vlen>
        </source>
-</block>
+     </block>

@@ -330,6 +330,33 @@ pss_symbol_selector_cvc_impl.cc.s:
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_symbol_selector_cvc_impl.cc.s
 .PHONY : pss_symbol_selector_cvc_impl.cc.s
 
+pss_tagger_cc_impl.o: pss_tagger_cc_impl.cc.o
+
+.PHONY : pss_tagger_cc_impl.o
+
+# target to build an object file
+pss_tagger_cc_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o
+.PHONY : pss_tagger_cc_impl.cc.o
+
+pss_tagger_cc_impl.i: pss_tagger_cc_impl.cc.i
+
+.PHONY : pss_tagger_cc_impl.i
+
+# target to preprocess a source file
+pss_tagger_cc_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.i
+.PHONY : pss_tagger_cc_impl.cc.i
+
+pss_tagger_cc_impl.s: pss_tagger_cc_impl.cc.s
+
+.PHONY : pss_tagger_cc_impl.s
+
+# target to generate assembly for a file
+pss_tagger_cc_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.s
+.PHONY : pss_tagger_cc_impl.cc.s
+
 qa_cv2x.o: qa_cv2x.cc.o
 
 .PHONY : qa_cv2x.o
@@ -495,6 +522,9 @@ help:
 	@echo "... pss_symbol_selector_cvc_impl.o"
 	@echo "... pss_symbol_selector_cvc_impl.i"
 	@echo "... pss_symbol_selector_cvc_impl.s"
+	@echo "... pss_tagger_cc_impl.o"
+	@echo "... pss_tagger_cc_impl.i"
+	@echo "... pss_tagger_cc_impl.s"
 	@echo "... qa_cv2x.o"
 	@echo "... qa_cv2x.i"
 	@echo "... qa_cv2x.s"

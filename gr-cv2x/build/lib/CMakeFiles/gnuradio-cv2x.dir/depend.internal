@@ -26,6 +26,11 @@ lib/CMakeFiles/gnuradio-cv2x.dir/pss_symbol_selector_cvc_impl.cc.o
  ../include/cv2x/pss_symbol_selector_cvc.h
  /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_symbol_selector_cvc_impl.cc
  /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_symbol_selector_cvc_impl.h
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o
+ ../include/cv2x/api.h
+ ../include/cv2x/pss_tagger_cc.h
+ /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_tagger_cc_impl.cc
+ /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_tagger_cc_impl.h
 lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.o
  ../include/cv2x/api.h
  ../include/cv2x/rough_symbol_sync_cc.h

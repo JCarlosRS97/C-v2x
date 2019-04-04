@@ -38,7 +38,7 @@ namespace gr {
 
        long d_offset;
        long d_sym_pos;
-       long d_ass_half_frame_start;
+       long d_ass_sync_frame_start;
        int d_off_sym_count;
        int d_work_call;
        pmt::pmt_t d_key;
@@ -50,7 +50,7 @@ namespace gr {
 
        void produce_output(gr_complex *&out, const gr_complex *in, long abs_pos, int &nout);
        void handle_msg_lock(pmt::pmt_t msg);
-       void handle_msg_half_frame_start(pmt::pmt_t msg);
+       void handle_msg_sync_frame_start(pmt::pmt_t msg);
 
      public:
       pss_symbol_selector_cvc_impl(int fft, int syncPeriod, int syncOffsetIndicator);
@@ -63,7 +63,7 @@ namespace gr {
            gr_vector_int &ninput_items,
            gr_vector_const_void_star &input_items,
            gr_vector_void_star &output_items);
-     void set_half_frame_start(long start){d_ass_half_frame_start = start;}
+     void set_sync_frame_start(long start){d_ass_sync_frame_start = start;}
      void lock(){d_is_locked = true;}
      void unlock(){d_is_locked = false;}
     };

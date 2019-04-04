@@ -19,11 +19,11 @@
  */
 
 
-#ifndef INCLUDED_CV2X_PSS_CALCULATOR_VCM_H
-#define INCLUDED_CV2X_PSS_CALCULATOR_VCM_H
+#ifndef INCLUDED_CV2X_PSS_TAGGER_CC_H
+#define INCLUDED_CV2X_PSS_TAGGER_CC_H
 
 #include <cv2x/api.h>
-#include <gnuradio/sync_decimator.h>
+#include <gnuradio/sync_block.h>
 
 namespace gr {
   namespace cv2x {
@@ -33,17 +33,17 @@ namespace gr {
      * \ingroup cv2x
      *
      */
-    class CV2X_API pss_calculator_vcm : virtual public gr::sync_decimator
+    class CV2X_API pss_tagger_cc : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<pss_calculator_vcm> sptr;
+      typedef boost::shared_ptr<pss_tagger_cc> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of cv2x::pss_calculator_vcm.
+       * \brief Return a shared_ptr to a new instance of cv2x::pss_tagger_cc.
        *
-       * To avoid accidental use of raw pointers, cv2x::pss_calculator_vcm's
+       * To avoid accidental use of raw pointers, cv2x::pss_tagger_cc's
        * constructor is in a private implementation
-       * class. cv2x::pss_calculator_vcm::make is the public interface for
+       * class. cv2x::pss_tagger_cc::make is the public interface for
        * creating new instances.
        */
       static sptr make(int fftl, int syncPeriod);
@@ -52,5 +52,5 @@ namespace gr {
   } // namespace cv2x
 } // namespace gr
 
-#endif /* INCLUDED_CV2X_PSS_CALCULATOR_VCM_H */
+#endif /* INCLUDED_CV2X_PSS_TAGGER_CC_H */
 

@@ -201,33 +201,9 @@ lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.o.provides: lib/CM
 lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.o.provides.build: lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.o
 
 
-lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o: lib/CMakeFiles/gnuradio-cv2x.dir/flags.make
-lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o: ../lib/pss_calculator_vcm_impl.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o"
-	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_calculator_vcm_impl.cc
-
-lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.i"
-	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_calculator_vcm_impl.cc > CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.i
-
-lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.s"
-	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_calculator_vcm_impl.cc -o CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.s
-
-lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.requires:
-
-.PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.requires
-
-lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.provides: lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.requires
-	$(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.provides.build
-.PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.provides
-
-lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.provides.build: lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o
-
-
 lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o: lib/CMakeFiles/gnuradio-cv2x.dir/flags.make
 lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o: ../lib/ofdm_cyclic_prefixer_impl.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o"
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ofdm_cyclic_prefixer_impl.cc
 
 lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.i: cmake_force
@@ -249,6 +225,54 @@ lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o.provides: lib/CM
 lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o.provides.build: lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o
 
 
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o: lib/CMakeFiles/gnuradio-cv2x.dir/flags.make
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o: ../lib/pss_calculator_vcm_impl.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o"
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_calculator_vcm_impl.cc
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.i"
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_calculator_vcm_impl.cc > CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.i
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.s"
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_calculator_vcm_impl.cc -o CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.s
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.requires:
+
+.PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.requires
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.provides: lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.requires
+	$(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.provides.build
+.PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.provides
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.provides.build: lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o
+
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o: lib/CMakeFiles/gnuradio-cv2x.dir/flags.make
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o: ../lib/pss_tagger_cc_impl.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o"
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o -c /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_tagger_cc_impl.cc
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.i"
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_tagger_cc_impl.cc > CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.i
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.s"
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/pss_tagger_cc_impl.cc -o CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.s
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o.requires:
+
+.PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o.requires
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o.provides: lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o.requires
+	$(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o.provides.build
+.PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o.provides
+
+lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o.provides.build: lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o
+
+
 # Object files for target gnuradio-cv2x
 gnuradio__cv2x_OBJECTS = \
 "CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o" \
@@ -257,8 +281,9 @@ gnuradio__cv2x_OBJECTS = \
 "CMakeFiles/gnuradio-cv2x.dir/pss_symbol_selector_cvc_impl.cc.o" \
 "CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o" \
 "CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.o" \
+"CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o" \
 "CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o" \
-"CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o"
+"CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o"
 
 # External object files for target gnuradio-cv2x
 gnuradio__cv2x_EXTERNAL_OBJECTS =
@@ -269,8 +294,9 @@ lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/correla
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/pss_symbol_selector_cvc_impl.cc.o
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.o
-lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o
+lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o
+lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/build.make
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libboost_system.so
@@ -278,7 +304,7 @@ lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libgnuradio-ru
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libgnuradio-pmt.so
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: /usr/lib/x86_64-linux-gnu/libfftw3f.so
 lib/libgnuradio-cv2x-1.0.0git.so.0.0.0: lib/CMakeFiles/gnuradio-cv2x.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX shared library libgnuradio-cv2x-1.0.0git.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX shared library libgnuradio-cv2x-1.0.0git.so"
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gnuradio-cv2x.dir/link.txt --verbose=$(VERBOSE)
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && $(CMAKE_COMMAND) -E cmake_symlink_library libgnuradio-cv2x-1.0.0git.so.0.0.0 libgnuradio-cv2x-1.0.0git.so.0.0.0 libgnuradio-cv2x-1.0.0git.so
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib && /usr/bin/cmake -E create_symlink libgnuradio-cv2x-1.0.0git.so.0.0.0 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/lib/libgnuradio-cv2x.so
@@ -299,8 +325,9 @@ lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/corr
 lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/pss_symbol_selector_cvc_impl.cc.o.requires
 lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o.requires
 lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/rough_symbol_sync_cc_impl.cc.o.requires
-lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.requires
 lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/ofdm_cyclic_prefixer_impl.cc.o.requires
+lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/pss_calculator_vcm_impl.cc.o.requires
+lib/CMakeFiles/gnuradio-cv2x.dir/requires: lib/CMakeFiles/gnuradio-cv2x.dir/pss_tagger_cc_impl.cc.o.requires
 
 .PHONY : lib/CMakeFiles/gnuradio-cv2x.dir/requires
 

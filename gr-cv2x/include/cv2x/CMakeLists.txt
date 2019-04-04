@@ -27,6 +27,8 @@ install(FILES
     pss_symbol_selector_cvc.h
     extract_subcarriers_vcvc.h
     rough_symbol_sync_cc.h
+    ofdm_cyclic_prefixer.h
     pss_calculator_vcm.h
-    ofdm_cyclic_prefixer.h DESTINATION include/cv2x
+    pss_tagger_cc.h
+    DESTINATION include/cv2x
 )

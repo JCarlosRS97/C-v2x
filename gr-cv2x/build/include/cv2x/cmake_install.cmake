@@ -40,8 +40,9 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
     "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/pss_symbol_selector_cvc.h"
     "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/extract_subcarriers_vcvc.h"
     "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/rough_symbol_sync_cc.h"
-    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/pss_calculator_vcm.h"
     "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/ofdm_cyclic_prefixer.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/pss_calculator_vcm.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/pss_tagger_cc.h"
     )
 endif()
 

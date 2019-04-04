@@ -31,8 +31,10 @@ list(APPEND cv2x_sources
     pss_symbol_selector_cvc_impl.cc
     extract_subcarriers_vcvc_impl.cc
     rough_symbol_sync_cc_impl.cc
+    ofdm_cyclic_prefixer_impl.cc
     pss_calculator_vcm_impl.cc
-    ofdm_cyclic_prefixer_impl.cc )
+    pss_tagger_cc_impl.cc
+    )
 
 set(cv2x_sources "${cv2x_sources}" PARENT_SCOPE)
 if(NOT cv2x_sources)
