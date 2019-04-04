@@ -164,11 +164,11 @@ pss_calculator_vcm_impl::zc(gr_complex *zc, int cell_id)
     // generate zadoff-chu sequences according to original algorithm
     //gr_complex zcs[63];
     for(int i = 0; i < 31; i++){
-      float phase = -M_PI*u*(i+1.0)/63.0;
-      zc[i] = std::polar(1.0f, phase);
-      phase = -M_PI*u*(i + 1.0)*(i + 2.0)/63.0;
-      zc[i + 31] = std::polar(1.0f, phase);
-   }
+       float phase = -M_PI*u*i*(i+1.0)/63.0;
+       zc[i] = std::polar(1.0f, phase);
+       phase = -M_PI*u*(i + 32.0)*(i + 33.0)/63.0;
+       zc[i + 31] = std::polar(1.0f, phase);
+    }
    memcpy(zc + 62, zc, sizeof(gr_complex)*62); //Se forma el segundo simbolo
     //remove DC carrier (maybe changed in the future)
     //memcpy(zc, zcs, sizeof(gr_complex)*63);

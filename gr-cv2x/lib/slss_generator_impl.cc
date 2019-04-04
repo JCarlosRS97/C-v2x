@@ -99,9 +99,9 @@ namespace gr {
       //6.11.1.1 of TS36.211
       int u = (slssId > 167)? ZC_roots[1] : ZC_roots[0];
       for(int i = 0; i < 31; i++){
-         float phase = -M_PI*u*(i+1.0)/63.0;
+         float phase = -M_PI*u*i*(i+1.0)/63.0;
          psss_symbols[i] = std::polar(amplitude, phase);
-         phase = -M_PI*u*(i + 1.0)*(i + 2.0)/63.0;
+         phase = -M_PI*u*(i + 32.0)*(i + 33.0)/63.0;
          psss_symbols[i + 31] = std::polar(amplitude, phase);
       }
    }

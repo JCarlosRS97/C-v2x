@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Wed Apr  3 23:58:54 2019
+# Generated: Thu Apr  4 18:07:52 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -96,9 +96,6 @@ class top_block(gr.top_block, Qt.QWidget):
         self.cv2x_extract_subcarriers_vcvc_0 = cv2x.extract_subcarriers_vcvc(6, fft_len)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, 100000,True)
         self.blocks_message_debug_1 = blocks.message_debug()
-        self.blocks_head_0 = blocks.head(gr.sizeof_gr_complex*512, 20)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*512, '/home/carlos/Escritorio/memuero.dat', False)
-        self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_const_source_x_0 = analog.sig_source_c(0, analog.GR_CONST_WAVE, 0, 0, 0)
@@ -112,14 +109,12 @@ class top_block(gr.top_block, Qt.QWidget):
         self.connect((self.analog_const_source_x_0, 0), (self.blocks_add_xx_0, 0))    
         self.connect((self.blocks_add_xx_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))    
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))    
-        self.connect((self.blocks_head_0, 0), (self.blocks_file_sink_0, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))    
         self.connect((self.cv2x_extract_subcarriers_vcvc_0, 0), (self.cv2x_pss_calculator_vcm_0, 0))    
         self.connect((self.cv2x_ofdm_cyclic_prefixer_0, 0), (self.blocks_delay_0, 0))    
         self.connect((self.cv2x_pss_symbol_selector_cvc_0, 0), (self.fft_vxx_1, 0))    
         self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.cv2x_pss_symbol_selector_cvc_0, 0))    
         self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.qtgui_sink_x_0, 0))    
-        self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_head_0, 0))    
         self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.fft_vxx_0, 0), (self.cv2x_ofdm_cyclic_prefixer_0, 0))    
         self.connect((self.fft_vxx_1, 0), (self.cv2x_extract_subcarriers_vcvc_0, 0))    

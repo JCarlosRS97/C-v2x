@@ -179,7 +179,7 @@ namespace gr {
         out+=d_fftl; //move pointer to output buffer by the size of one vector
         //segundo simbolo
         memcpy(out,in+d_cpl*2 + d_fftl,sizeof(gr_complex)*d_fftl); //copy samples to output buffer!
-        add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);
+        add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos),d_tag_id);
 
         nout++; // 1 output vector produced
         out+=d_fftl; //move pointer to output buffer by the size of one vector

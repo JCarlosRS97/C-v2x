@@ -398,7 +398,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>file</key>
@@ -426,7 +426,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>72</value>
+      <value>512</value>
     </param>
   </block>
   <block>
@@ -445,7 +445,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -469,7 +469,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>5000</value>
+      <value>10</value>
     </param>
     <param>
       <key>type</key>
@@ -477,7 +477,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>72</value>
+      <value>512</value>
     </param>
   </block>
   <block>
@@ -1173,12 +1173,6 @@
   <connection>
     <source_block_id>blocks_throttle_0</source_block_id>
     <sink_block_id>fft_vxx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cv2x_extract_subcarriers_vcvc_0</source_block_id>
-    <sink_block_id>blocks_head_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
