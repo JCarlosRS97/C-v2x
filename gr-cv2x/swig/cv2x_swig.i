@@ -19,6 +19,7 @@
 #include "cv2x/sync_frequency_c.h"
 #include "cv2x/ssss_symbol_selector_cvc.h"
 #include "cv2x/ssss_calculator_vcm.h"
+#include "cv2x/ssss_tagger_cc.h"
 %}
 
 
@@ -46,3 +47,5 @@ GR_SWIG_BLOCK_MAGIC2(cv2x, sync_frequency_c);
 GR_SWIG_BLOCK_MAGIC2(cv2x, ssss_symbol_selector_cvc);
 %include "cv2x/ssss_calculator_vcm.h"
 GR_SWIG_BLOCK_MAGIC2(cv2x, ssss_calculator_vcm);
+%include "cv2x/ssss_tagger_cc.h"
+GR_SWIG_BLOCK_MAGIC2(cv2x, ssss_tagger_cc);

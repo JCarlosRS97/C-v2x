@@ -14,3 +14,4 @@ add_test(qa_pss_tagger_cc "/bin/sh" "/home/carlos/Escritorio/bloques/C-v2x/gr-cv
 add_test(qa_sync_frequency_c "/bin/sh" "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/python/qa_sync_frequency_c_test.sh")
 add_test(qa_ssss_symbol_selector_cvc "/bin/sh" "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/python/qa_ssss_symbol_selector_cvc_test.sh")
 add_test(qa_ssss_calculator_vcm "/bin/sh" "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/python/qa_ssss_calculator_vcm_test.sh")
+add_test(qa_ssss_tagger_cc "/bin/sh" "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build/python/qa_ssss_tagger_cc_test.sh")

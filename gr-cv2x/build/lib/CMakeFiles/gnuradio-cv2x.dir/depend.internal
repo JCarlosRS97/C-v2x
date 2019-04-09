@@ -51,6 +51,11 @@ lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.o
  ../include/cv2x/ssss_symbol_selector_cvc.h
  /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_symbol_selector_cvc_impl.cc
  /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_symbol_selector_cvc_impl.h
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_tagger_cc_impl.cc.o
+ ../include/cv2x/api.h
+ ../include/cv2x/ssss_tagger_cc.h
+ /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_tagger_cc_impl.cc
+ /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_tagger_cc_impl.h
 lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o
  ../include/cv2x/api.h
  ../include/cv2x/subframe_to_symbol_vector.h

@@ -133,8 +133,11 @@ namespace gr {
           }
         }
 
-        // After a certain amount of unchanged N_id_2 calculations. calculation is stopped and block has no further function.
-        if( !d_is_locked && d_lock_count > 2400 && d_N_id_2 >=0 ){
+        // After a certain amount of unchanged N_id_2 calculations. calculation
+        //is stopped and block has no further function.
+        //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
+        //periodo y se le añade un poco de holgura.
+        if( !d_is_locked && d_lock_count > (14.5*syncPeriod) && d_N_id_2 >=0 ){
           printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
           d_is_locked = true;
           //~ (*d_tag).lock();
@@ -157,7 +160,6 @@ namespace gr {
         }
 
         // generate zadoff-chu sequences according to original algorithm
-        //gr_complex zcs[63];
         for(int i = 0; i < 31; i++){
           float phase = -M_PI*u*i*(i+1.0)/63.0;
           zc[i] = std::polar(1.0f, phase);
@@ -165,8 +167,6 @@ namespace gr {
           zc[i + 31] = std::polar(1.0f, phase);
         }
         memcpy(zc + 62, zc, sizeof(gr_complex)*62); //Se forma el segundo simbolo
-        //remove DC carrier (maybe changed in the future)
-        //memcpy(zc, zcs, sizeof(gr_complex)*63);
       }
 
       void

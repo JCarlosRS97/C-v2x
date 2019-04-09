@@ -492,6 +492,33 @@ ssss_symbol_selector_cvc_impl.cc.s:
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.s
 .PHONY : ssss_symbol_selector_cvc_impl.cc.s
 
+ssss_tagger_cc_impl.o: ssss_tagger_cc_impl.cc.o
+
+.PHONY : ssss_tagger_cc_impl.o
+
+# target to build an object file
+ssss_tagger_cc_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_tagger_cc_impl.cc.o
+.PHONY : ssss_tagger_cc_impl.cc.o
+
+ssss_tagger_cc_impl.i: ssss_tagger_cc_impl.cc.i
+
+.PHONY : ssss_tagger_cc_impl.i
+
+# target to preprocess a source file
+ssss_tagger_cc_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_tagger_cc_impl.cc.i
+.PHONY : ssss_tagger_cc_impl.cc.i
+
+ssss_tagger_cc_impl.s: ssss_tagger_cc_impl.cc.s
+
+.PHONY : ssss_tagger_cc_impl.s
+
+# target to generate assembly for a file
+ssss_tagger_cc_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_tagger_cc_impl.cc.s
+.PHONY : ssss_tagger_cc_impl.cc.s
+
 subframe_to_symbol_vector_impl.o: subframe_to_symbol_vector_impl.cc.o
 
 .PHONY : subframe_to_symbol_vector_impl.o
@@ -621,6 +648,9 @@ help:
 	@echo "... ssss_symbol_selector_cvc_impl.o"
 	@echo "... ssss_symbol_selector_cvc_impl.i"
 	@echo "... ssss_symbol_selector_cvc_impl.s"
+	@echo "... ssss_tagger_cc_impl.o"
+	@echo "... ssss_tagger_cc_impl.i"
+	@echo "... ssss_tagger_cc_impl.s"
 	@echo "... subframe_to_symbol_vector_impl.o"
 	@echo "... subframe_to_symbol_vector_impl.i"
 	@echo "... subframe_to_symbol_vector_impl.s"

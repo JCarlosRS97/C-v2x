@@ -46,6 +46,7 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
     "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/sync_frequency_c.h"
     "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/ssss_symbol_selector_cvc.h"
     "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/ssss_calculator_vcm.h"
+    "/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/include/cv2x/ssss_tagger_cc.h"
     )
 endif()
 
