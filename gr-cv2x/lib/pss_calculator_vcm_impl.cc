@@ -106,19 +106,18 @@ namespace gr {
           //extract PSS from its carriers.
           gr_complex chuX[124] = {0};
           extract_pss(chuX, in);
-          in += 72*2; //move pointer on input buffer by one input vector
+          in += 72*2; //move pointer on input buffer by two input vector
 
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(chuX); }
           else{ changed = find_pss_symbol(chuX); }
-          //printf("Calculator: %s\n", changed?"si":"no");
           //Do things if new max is found!
           if(changed){
             d_lock_count = 0; // reset lock count!
-            int sync_frame_start = calculate_sync_frame_start(nir+i);
+            int sync_frame_start = calculate_sync_frame_start(nir+2*i);
             if(d_sync_frame_start != sync_frame_start ){
               if(!d_is_locked){
-                printf("\n%s NEW sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
+                printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
                 message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                 d_sync_frame_start = sync_frame_start;
@@ -129,12 +128,13 @@ namespace gr {
               }
               set_sync_frame_start();
             }
+          }else{
+            d_lock_count++;
           }
-          else{d_lock_count++;}
         }
 
         // After a certain amount of unchanged N_id_2 calculations. calculation is stopped and block has no further function.
-        if( !d_is_locked && d_lock_count > 300 && d_N_id_2 >=0 ){
+        if( !d_is_locked && d_lock_count > 2400 && d_N_id_2 >=0 ){
           printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
           d_is_locked = true;
           //~ (*d_tag).lock();
@@ -188,12 +188,10 @@ namespace gr {
         float max0 = 0.0;
         int pos0 = 0;
         max_pos(max0, pos0, d_chu0, chuX, len);
-        //printf("Maximo u = 26 -> %f\n", max0);
 
         float max1 = 0.0;
         int pos1 = 0;
         max_pos(max1, pos1, d_chu1, chuX, len);
-        //printf("Maximo u = 37 -> %f\n", max1);
 
         int N_id_2 = (max1 > max0)? 1: 0;
         float maxc = (max1 > max0)? max1: max0;
@@ -218,7 +216,6 @@ namespace gr {
           case 0: max_pos(max, pos, d_chu0, chu, len); break;
           case 1: max_pos(max, pos, d_chu1, chu, len); break;
         }
-        //printf("Nuevo maximo: %f\n", max);
         if(d_corr_val < max){
           d_corr_val = max;
           return true;
@@ -258,9 +255,7 @@ namespace gr {
       pss_calculator_vcm_impl::extract_pss(gr_complex *chu, const gr_complex *in)
       {
         memcpy(chu   , in+5   , sizeof(gr_complex)*62 );
-        //printf("Lectura 1: %f\n", real(chu[0]));
         memcpy(chu +62 , in+5 +72  , sizeof(gr_complex)*62 );
-        //printf("Lectura 2: %f\n", real(chu[63]));
 
       }
 

@@ -50,7 +50,7 @@ namespace gr {
             d_syml0(fft+d_cpl0),
             d_offset(0),
             d_sym_pos(0),
-            d_ass_sync_frame_start(2*syncPeriod*d_slotl),
+            d_ass_sync_frame_start(3*syncPeriod*d_slotl),
             d_off_sym_count(0),
             d_work_call(0),
             d_is_locked(false),
@@ -99,8 +99,9 @@ namespace gr {
     pss_symbol_selector_cvc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
       unsigned ninputs = ninput_items_required.size ();
-      for (unsigned i = 0; i < ninputs; i++)
-          ninput_items_required[i] = 3*d_syml0 * noutput_items + history() - 1;
+      for (unsigned i = 0; i < ninputs; i++){
+          ninput_items_required[i] = 2*d_syml0 * noutput_items + history() - 1;
+      }
     }
 
     int
@@ -146,7 +147,7 @@ namespace gr {
           if(d_ass_sync_frame_start < syncPeriod*2* d_slotl && mod_pss < 10 ){ // Si ya ha sincronizado alguna vez
               produce_output(out, in+i, abs_pos, nout);
               consumed_items = i+1;
-              //printf("%s--> generate output sync_frame_start\tmod_pss = %i\tabs_pos = %ld\t modulo %ld\n", name().c_str(), mod_pss, abs_pos, pss_pos1%offset );
+              //printf("%s--> generate output sync_frame_start\tmod_pss = %i\tabs_pos = %ld\tpss_pos = %ld\tframe = %ld\t offset %i\n", name().c_str(), mod_pss, abs_pos,pss_pos1,d_ass_sync_frame_start, offset );
           }
           else if(is_locked){//For now step over all samples
               consumed_items = i+1;
@@ -154,14 +155,20 @@ namespace gr {
           else if(  (((abs(abs_pos-offset))%d_slotl)-d_syml0)%d_syml == 0){
              // si se esta al principio de cualquier simbolo distinto del primero
               produce_output(out, in+i, abs_pos, nout);
-              i += (2*d_syml-50); //optimizable en el futuro
+              i += (d_syml-50); //optimizable en el futuro
               consumed_items = i+1; // +1 because i is initialized with 0
           }
 
           if((nout == noutput_items) || (nout == (noutput_items-1))){break;}// very important! break if maximum number of output vectors are produced!
       }
-
-      // Tell runtime system how many input items we consumed on each input stream.
+      if(nout != noutput_items){
+        if(is_locked){
+          consumed_items = nin;
+        }else{
+          consumed_items = nin-2*d_syml0;
+        }
+      }
+      // Tell runtime system how many input items we consumed on each input stream
       consume_each (consumed_items);
       // Tell runtime system how many output items we produced.
       return nout;
@@ -179,7 +186,7 @@ namespace gr {
         out+=d_fftl; //move pointer to output buffer by the size of one vector
         //segundo simbolo
         memcpy(out,in+d_cpl*2 + d_fftl,sizeof(gr_complex)*d_fftl); //copy samples to output buffer!
-        add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos),d_tag_id);
+        add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);//TODO
 
         nout++; // 1 output vector produced
         out+=d_fftl; //move pointer to output buffer by the size of one vector

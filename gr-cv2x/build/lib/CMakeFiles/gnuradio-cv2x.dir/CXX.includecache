@@ -52,10 +52,32 @@ cv2x/api.h
 gnuradio/sync_block.h
 -
 
+../include/cv2x/ssss_calculator_vcm.h
+cv2x/api.h
+-
+gnuradio/sync_decimator.h
+-
+cstdio
+-
+
+../include/cv2x/ssss_symbol_selector_cvc.h
+cv2x/api.h
+-
+gnuradio/block.h
+-
+
 ../include/cv2x/subframe_to_symbol_vector.h
 cv2x/api.h
 -
 gnuradio/sync_interpolator.h
+-
+
+../include/cv2x/sync_frequency_c.h
+cv2x/api.h
+-
+gnuradio/sync_block.h
+-
+gnuradio/analog/sig_source_c.h
 -
 
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/correlator.cc
@@ -176,6 +198,30 @@ slss_generator_impl.h
 cv2x/slss_generator.h
 -
 
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_calculator_vcm_impl.cc
+config.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/config.h
+gnuradio/io_signature.h
+-
+ssss_calculator_vcm_impl.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_calculator_vcm_impl.h
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_calculator_vcm_impl.h
+cv2x/ssss_calculator_vcm.h
+-
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_symbol_selector_cvc_impl.cc
+config.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/config.h
+gnuradio/io_signature.h
+-
+ssss_symbol_selector_cvc_impl.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_symbol_selector_cvc_impl.h
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/ssss_symbol_selector_cvc_impl.h
+cv2x/ssss_symbol_selector_cvc.h
+-
+
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/subframe_to_symbol_vector_impl.cc
 config.h
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/config.h
@@ -186,5 +232,23 @@ subframe_to_symbol_vector_impl.h
 
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/subframe_to_symbol_vector_impl.h
 cv2x/subframe_to_symbol_vector.h
+-
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/sync_frequency_c_impl.cc
+config.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/config.h
+gnuradio/io_signature.h
+-
+sync_frequency_c_impl.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/sync_frequency_c_impl.h
+fftw3.h
+-
+volk/volk.h
+-
+cmath
+-
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/sync_frequency_c_impl.h
+cv2x/sync_frequency_c.h
 -
 

@@ -115,7 +115,7 @@ namespace gr {
         for (int i = 0 ; i < noutput_items; i++){
 
           if( (nin+i)%d_slotl == offset){ // removed abs
-            int caca = (nin+i)%sync_framel;
+
             if((nin+i)%sync_framel == d_sync_frame_start){ // removed abs
               //printf("found sync_frame_start\t num = %li\t0 < %li\n", nitems_read(0)+i,(nitems_read(0)+i-d_sync_frame_start) );
               if(d_is_locked){

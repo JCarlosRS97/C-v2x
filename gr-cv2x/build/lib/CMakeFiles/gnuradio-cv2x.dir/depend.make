@@ -41,8 +41,23 @@ lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o: ../include/cv2x/slss_
 lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o: ../lib/slss_generator_impl.cc
 lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.o: ../lib/slss_generator_impl.h
 
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_calculator_vcm_impl.cc.o: ../include/cv2x/api.h
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_calculator_vcm_impl.cc.o: ../include/cv2x/ssss_calculator_vcm.h
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_calculator_vcm_impl.cc.o: ../lib/ssss_calculator_vcm_impl.cc
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_calculator_vcm_impl.cc.o: ../lib/ssss_calculator_vcm_impl.h
+
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.o: ../include/cv2x/api.h
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.o: ../include/cv2x/ssss_symbol_selector_cvc.h
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.o: ../lib/ssss_symbol_selector_cvc_impl.cc
+lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.o: ../lib/ssss_symbol_selector_cvc_impl.h
+
 lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o: ../include/cv2x/api.h
 lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o: ../include/cv2x/subframe_to_symbol_vector.h
 lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o: ../lib/subframe_to_symbol_vector_impl.cc
 lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.o: ../lib/subframe_to_symbol_vector_impl.h
+
+lib/CMakeFiles/gnuradio-cv2x.dir/sync_frequency_c_impl.cc.o: ../include/cv2x/api.h
+lib/CMakeFiles/gnuradio-cv2x.dir/sync_frequency_c_impl.cc.o: ../include/cv2x/sync_frequency_c.h
+lib/CMakeFiles/gnuradio-cv2x.dir/sync_frequency_c_impl.cc.o: ../lib/sync_frequency_c_impl.cc
+lib/CMakeFiles/gnuradio-cv2x.dir/sync_frequency_c_impl.cc.o: ../lib/sync_frequency_c_impl.h
 

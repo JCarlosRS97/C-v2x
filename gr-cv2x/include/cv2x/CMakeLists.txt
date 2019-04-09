@@ -30,5 +30,7 @@ install(FILES
     ofdm_cyclic_prefixer.h
     pss_calculator_vcm.h
     pss_tagger_cc.h
-    DESTINATION include/cv2x
+    sync_frequency_c.h
+    ssss_symbol_selector_cvc.h
+    ssss_calculator_vcm.h DESTINATION include/cv2x
 )

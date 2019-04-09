@@ -48,3 +48,6 @@ GR_ADD_TEST(qa_extract_subcarriers_vcvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOU
 GR_ADD_TEST(qa_ofdm_cyclic_prefixer ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ofdm_cyclic_prefixer.py)
 GR_ADD_TEST(qa_pss_calculator_vcm ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_pss_calculator_vcm.py)
 GR_ADD_TEST(qa_pss_tagger_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_pss_tagger_cc.py)
+GR_ADD_TEST(qa_sync_frequency_c ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_sync_frequency_c.py)
+GR_ADD_TEST(qa_ssss_symbol_selector_cvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ssss_symbol_selector_cvc.py)
+GR_ADD_TEST(qa_ssss_calculator_vcm ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ssss_calculator_vcm.py)

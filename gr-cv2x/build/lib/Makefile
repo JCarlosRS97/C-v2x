@@ -438,6 +438,60 @@ slss_generator_impl.cc.s:
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/slss_generator_impl.cc.s
 .PHONY : slss_generator_impl.cc.s
 
+ssss_calculator_vcm_impl.o: ssss_calculator_vcm_impl.cc.o
+
+.PHONY : ssss_calculator_vcm_impl.o
+
+# target to build an object file
+ssss_calculator_vcm_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_calculator_vcm_impl.cc.o
+.PHONY : ssss_calculator_vcm_impl.cc.o
+
+ssss_calculator_vcm_impl.i: ssss_calculator_vcm_impl.cc.i
+
+.PHONY : ssss_calculator_vcm_impl.i
+
+# target to preprocess a source file
+ssss_calculator_vcm_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_calculator_vcm_impl.cc.i
+.PHONY : ssss_calculator_vcm_impl.cc.i
+
+ssss_calculator_vcm_impl.s: ssss_calculator_vcm_impl.cc.s
+
+.PHONY : ssss_calculator_vcm_impl.s
+
+# target to generate assembly for a file
+ssss_calculator_vcm_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_calculator_vcm_impl.cc.s
+.PHONY : ssss_calculator_vcm_impl.cc.s
+
+ssss_symbol_selector_cvc_impl.o: ssss_symbol_selector_cvc_impl.cc.o
+
+.PHONY : ssss_symbol_selector_cvc_impl.o
+
+# target to build an object file
+ssss_symbol_selector_cvc_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.o
+.PHONY : ssss_symbol_selector_cvc_impl.cc.o
+
+ssss_symbol_selector_cvc_impl.i: ssss_symbol_selector_cvc_impl.cc.i
+
+.PHONY : ssss_symbol_selector_cvc_impl.i
+
+# target to preprocess a source file
+ssss_symbol_selector_cvc_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.i
+.PHONY : ssss_symbol_selector_cvc_impl.cc.i
+
+ssss_symbol_selector_cvc_impl.s: ssss_symbol_selector_cvc_impl.cc.s
+
+.PHONY : ssss_symbol_selector_cvc_impl.s
+
+# target to generate assembly for a file
+ssss_symbol_selector_cvc_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.s
+.PHONY : ssss_symbol_selector_cvc_impl.cc.s
+
 subframe_to_symbol_vector_impl.o: subframe_to_symbol_vector_impl.cc.o
 
 .PHONY : subframe_to_symbol_vector_impl.o
@@ -464,6 +518,33 @@ subframe_to_symbol_vector_impl.s: subframe_to_symbol_vector_impl.cc.s
 subframe_to_symbol_vector_impl.cc.s:
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/subframe_to_symbol_vector_impl.cc.s
 .PHONY : subframe_to_symbol_vector_impl.cc.s
+
+sync_frequency_c_impl.o: sync_frequency_c_impl.cc.o
+
+.PHONY : sync_frequency_c_impl.o
+
+# target to build an object file
+sync_frequency_c_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/sync_frequency_c_impl.cc.o
+.PHONY : sync_frequency_c_impl.cc.o
+
+sync_frequency_c_impl.i: sync_frequency_c_impl.cc.i
+
+.PHONY : sync_frequency_c_impl.i
+
+# target to preprocess a source file
+sync_frequency_c_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/sync_frequency_c_impl.cc.i
+.PHONY : sync_frequency_c_impl.cc.i
+
+sync_frequency_c_impl.s: sync_frequency_c_impl.cc.s
+
+.PHONY : sync_frequency_c_impl.s
+
+# target to generate assembly for a file
+sync_frequency_c_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/sync_frequency_c_impl.cc.s
+.PHONY : sync_frequency_c_impl.cc.s
 
 test_cv2x.o: test_cv2x.cc.o
 
@@ -534,9 +615,18 @@ help:
 	@echo "... slss_generator_impl.o"
 	@echo "... slss_generator_impl.i"
 	@echo "... slss_generator_impl.s"
+	@echo "... ssss_calculator_vcm_impl.o"
+	@echo "... ssss_calculator_vcm_impl.i"
+	@echo "... ssss_calculator_vcm_impl.s"
+	@echo "... ssss_symbol_selector_cvc_impl.o"
+	@echo "... ssss_symbol_selector_cvc_impl.i"
+	@echo "... ssss_symbol_selector_cvc_impl.s"
 	@echo "... subframe_to_symbol_vector_impl.o"
 	@echo "... subframe_to_symbol_vector_impl.i"
 	@echo "... subframe_to_symbol_vector_impl.s"
+	@echo "... sync_frequency_c_impl.o"
+	@echo "... sync_frequency_c_impl.i"
+	@echo "... sync_frequency_c_impl.s"
 	@echo "... test_cv2x.o"
 	@echo "... test_cv2x.i"
 	@echo "... test_cv2x.s"

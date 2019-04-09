@@ -25,5 +25,7 @@ install(FILES
     cv2x_ofdm_cyclic_prefixer.xml
     cv2x_pss_calculator_vcm.xml
     cv2x_pss_tagger_cc.xml
-    DESTINATION share/gnuradio/grc/blocks
+    cv2x_sync_frequency_c.xml
+    cv2x_ssss_symbol_selector_cvc.xml
+    cv2x_ssss_calculator_vcm.xml DESTINATION share/gnuradio/grc/blocks
 )
