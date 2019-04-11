@@ -58,6 +58,7 @@ namespace gr {
             syncOffsetIndicator(syncOffsetIndicator)
     {
       set_output_multiple(2);
+      set_max_noutput_items(2);
       set_tag_propagation_policy(TPP_DONT);
       d_key = pmt::string_to_symbol("offset_marker");
       d_sym_key = pmt::string_to_symbol("symbol");
@@ -137,14 +138,16 @@ namespace gr {
       int consumed_items = 0;
       int nout = 0;
       //d_ass_sync_frame_start para nosotros será donde comienza la subtrama de referencia
-      long pss_pos1 = (d_ass_sync_frame_start+(d_fftl+d_cpl0)-4 )%(syncPeriod*2*d_slotl);
+      long pss_pos1 = (d_ass_sync_frame_start+(d_fftl+d_cpl0)-1 )%(syncPeriod*2*d_slotl);
       //long pss_pos2 = (d_ass_sync_frame_start+(2*d_fftl+d_cpl+d_cpl0)-4 )%(10*d_slotl);
       long abs_pos = nir;
       int mod_pss = abs( (int(abs_pos - pss_pos1))%(syncPeriod*2*d_slotl) );
       for(int i = 0 ; (i+2*d_syml0) < nin ; i++){
           abs_pos = nir+long(i); // calculate new absolute sample position
           mod_pss = abs( (int(abs_pos-(pss_pos1) ))%(syncPeriod*2*d_slotl) );
-          if(d_ass_sync_frame_start < syncPeriod*2* d_slotl && mod_pss < 10 ){ // Si ya ha sincronizado alguna vez
+          if(d_ass_sync_frame_start < syncPeriod*2* d_slotl && mod_pss < 3 ){ // Si ya ha sincronizado alguna vez
+            printf("Zona de interes\n");
+
               produce_output(out, in+i, abs_pos, nout);
               consumed_items = i+1;
               //printf("%s--> generate output sync_frame_start\tmod_pss = %i\tabs_pos = %ld\tpss_pos = %ld\tframe = %ld\t offset %i\n", name().c_str(), mod_pss, abs_pos,pss_pos1,d_ass_sync_frame_start, offset );
@@ -153,6 +156,7 @@ namespace gr {
               consumed_items = i+1;
           }
           else if(  (((abs(abs_pos-offset))%d_slotl)-d_syml0)%d_syml == 0){
+            printf("Soy un simbolo\n");
              // si se esta al principio de cualquier simbolo distinto del primero
               produce_output(out, in+i, abs_pos, nout);
               i += (d_syml-50); //optimizable en el futuro
@@ -169,6 +173,8 @@ namespace gr {
         }
       }
       // Tell runtime system how many input items we consumed on each input stream
+      printf("consumed items: %i\n", consumed_items);
+      printf("Input buffer %f\n", pc_input_buffers_full(0));
       consume_each (consumed_items);
       // Tell runtime system how many output items we produced.
       return nout;

@@ -904,7 +904,7 @@
     </param>
     <param>
       <key>fft_len</key>
-      <value>512</value>
+      <value>fft_len</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -928,7 +928,7 @@
     </param>
     <param>
       <key>syncPeriod</key>
-      <value>160</value>
+      <value>syncPeriod</value>
     </param>
   </block>
   <block>

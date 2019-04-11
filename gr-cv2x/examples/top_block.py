@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Tue Apr  9 19:52:29 2019
+# Generated: Thu Apr 11 17:15:45 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -97,8 +97,8 @@ class top_block(gr.top_block, Qt.QWidget):
             syncPeriod=syncPeriod,
         )
         self.lte_ssss_sync_0 = lte_ssss_sync(
-            fft_len=512,
-            syncPeriod=160,
+            fft_len=fft_len,
+            syncPeriod=syncPeriod,
         )
         self.lte_cp_ffo_sync_hier_0 = lte_cp_ffo_sync_hier(
             fft_len=fft_len,
@@ -141,6 +141,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.fft_len = fft_len
         self.set_samp_rate(15000*self.fft_len)
         self.ltev_psss_sync_0.set_fft_len(self.fft_len)
+        self.lte_ssss_sync_0.set_fft_len(self.fft_len)
         self.lte_cp_ffo_sync_hier_0.set_fft_len(self.fft_len)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
 
@@ -150,6 +151,7 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_syncPeriod(self, syncPeriod):
         self.syncPeriod = syncPeriod
         self.ltev_psss_sync_0.set_syncPeriod(self.syncPeriod)
+        self.lte_ssss_sync_0.set_syncPeriod(self.syncPeriod)
 
     def get_samp_rate(self):
         return self.samp_rate
