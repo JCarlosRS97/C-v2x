@@ -20,6 +20,7 @@
 #include "cv2x/ssss_symbol_selector_cvc.h"
 #include "cv2x/ssss_calculator_vcm.h"
 #include "cv2x/ssss_tagger_cc.h"
+#include "cv2x/decimator_cc.h"
 %}
 
 
@@ -49,3 +50,5 @@ GR_SWIG_BLOCK_MAGIC2(cv2x, ssss_symbol_selector_cvc);
 GR_SWIG_BLOCK_MAGIC2(cv2x, ssss_calculator_vcm);
 %include "cv2x/ssss_tagger_cc.h"
 GR_SWIG_BLOCK_MAGIC2(cv2x, ssss_tagger_cc);
+%include "cv2x/decimator_cc.h"
+GR_SWIG_BLOCK_MAGIC2(cv2x, decimator_cc);

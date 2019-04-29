@@ -29,7 +29,7 @@
       <sink>
        <name>in</name>
        <type>complex</type>
-       <vlen>72</vlen>
+       <vlen>64</vlen>
      </sink>
 
      <source>

@@ -10,6 +10,12 @@
 gnuradio/attributes.h
 -
 
+../include/cv2x/decimator_cc.h
+cv2x/api.h
+-
+gnuradio/sync_decimator.h
+-
+
 ../include/cv2x/extract_subcarriers_vcvc.h
 cv2x/api.h
 -
@@ -108,6 +114,18 @@ cv2x/api.h
 gnuradio/gr_complex.h
 -
 fftw3.h
+-
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/decimator_cc_impl.cc
+config.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/config.h
+gnuradio/io_signature.h
+-
+decimator_cc_impl.h
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/decimator_cc_impl.h
+
+/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/decimator_cc_impl.h
+cv2x/decimator_cc.h
 -
 
 /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/lib/extract_subcarriers_vcvc_impl.cc

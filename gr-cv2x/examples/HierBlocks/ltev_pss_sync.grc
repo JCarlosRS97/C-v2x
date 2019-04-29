@@ -82,7 +82,11 @@
     </param>
   </block>
   <block>
-    <key>cv2x_extract_subcarriers_vcvc</key>
+    <key>blocks_file_sink</key>
+    <param>
+      <key>append</key>
+      <value>False</value>
+    </param>
     <param>
       <key>alias</key>
       <value></value>
@@ -97,15 +101,15 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
-      <key>fftl</key>
-      <value>fft_len</value>
+      <key>file</key>
+      <value>/home/carlos/Escritorio/memuero.dat</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(376, 500)</value>
+      <value>(624, 692)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -113,7 +117,50 @@
     </param>
     <param>
       <key>id</key>
-      <value>cv2x_extract_subcarriers_vcvc_0</value>
+      <value>blocks_file_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>unbuffered</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>64</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_head</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(456, 676)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_head_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -124,8 +171,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>N_rb</key>
-      <value>6</value>
+      <key>num_items</key>
+      <value>250</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>64</value>
     </param>
   </block>
   <block>
@@ -199,7 +254,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 288)</value>
+      <value>(384, 288)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -332,7 +387,7 @@
     </param>
     <param>
       <key>fft_size</key>
-      <value>fft_len</value>
+      <value>64</value>
     </param>
     <param>
       <key>forward</key>
@@ -340,7 +395,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(432, 288)</value>
+      <value>(648, 288)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -430,7 +485,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 236)</value>
+      <value>(24, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -505,8 +560,8 @@
     </param>
   </block>
   <connection>
-    <source_block_id>cv2x_extract_subcarriers_vcvc_0</source_block_id>
-    <sink_block_id>cv2x_pss_calculator_vcm_0</sink_block_id>
+    <source_block_id>blocks_head_0</source_block_id>
+    <sink_block_id>blocks_file_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -554,7 +609,13 @@
   </connection>
   <connection>
     <source_block_id>fft_vxx_1</source_block_id>
-    <sink_block_id>cv2x_extract_subcarriers_vcvc_0</sink_block_id>
+    <sink_block_id>blocks_head_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fft_vxx_1</source_block_id>
+    <sink_block_id>cv2x_pss_calculator_vcm_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

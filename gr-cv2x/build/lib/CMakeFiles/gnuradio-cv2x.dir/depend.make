@@ -5,6 +5,11 @@ lib/CMakeFiles/gnuradio-cv2x.dir/correlator.cc.o: ../include/cv2x/api.h
 lib/CMakeFiles/gnuradio-cv2x.dir/correlator.cc.o: ../lib/correlator.cc
 lib/CMakeFiles/gnuradio-cv2x.dir/correlator.cc.o: ../lib/correlator.h
 
+lib/CMakeFiles/gnuradio-cv2x.dir/decimator_cc_impl.cc.o: ../include/cv2x/api.h
+lib/CMakeFiles/gnuradio-cv2x.dir/decimator_cc_impl.cc.o: ../include/cv2x/decimator_cc.h
+lib/CMakeFiles/gnuradio-cv2x.dir/decimator_cc_impl.cc.o: ../lib/decimator_cc_impl.cc
+lib/CMakeFiles/gnuradio-cv2x.dir/decimator_cc_impl.cc.o: ../lib/decimator_cc_impl.h
+
 lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o: ../include/cv2x/api.h
 lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o: ../include/cv2x/extract_subcarriers_vcvc.h
 lib/CMakeFiles/gnuradio-cv2x.dir/extract_subcarriers_vcvc_impl.cc.o: ../lib/extract_subcarriers_vcvc_impl.cc
