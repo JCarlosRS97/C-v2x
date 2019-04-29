@@ -14,7 +14,7 @@
     </param>
     <param>
       <key>category</key>
-      <value>[cv2x]</value>
+      <value></value>
     </param>
     <param>
       <key>comment</key>
@@ -38,7 +38,7 @@
     </param>
     <param>
       <key>generate_options</key>
-      <value>hb</value>
+      <value>qt_gui</value>
     </param>
     <param>
       <key>hier_block_src_path</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>lte_ssss_sync</value>
+      <value>un_error</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>LTE-V SSSS Sync</value>
+      <value>Error</value>
     </param>
   </block>
   <block>

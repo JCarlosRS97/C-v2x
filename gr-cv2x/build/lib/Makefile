@@ -222,6 +222,33 @@ correlator.cc.s:
 	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/correlator.cc.s
 .PHONY : correlator.cc.s
 
+decimator_cc_impl.o: decimator_cc_impl.cc.o
+
+.PHONY : decimator_cc_impl.o
+
+# target to build an object file
+decimator_cc_impl.cc.o:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/decimator_cc_impl.cc.o
+.PHONY : decimator_cc_impl.cc.o
+
+decimator_cc_impl.i: decimator_cc_impl.cc.i
+
+.PHONY : decimator_cc_impl.i
+
+# target to preprocess a source file
+decimator_cc_impl.cc.i:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/decimator_cc_impl.cc.i
+.PHONY : decimator_cc_impl.cc.i
+
+decimator_cc_impl.s: decimator_cc_impl.cc.s
+
+.PHONY : decimator_cc_impl.s
+
+# target to generate assembly for a file
+decimator_cc_impl.cc.s:
+	cd /home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/build && $(MAKE) -f lib/CMakeFiles/gnuradio-cv2x.dir/build.make lib/CMakeFiles/gnuradio-cv2x.dir/decimator_cc_impl.cc.s
+.PHONY : decimator_cc_impl.cc.s
+
 extract_subcarriers_vcvc_impl.o: extract_subcarriers_vcvc_impl.cc.o
 
 .PHONY : extract_subcarriers_vcvc_impl.o
@@ -618,6 +645,9 @@ help:
 	@echo "... correlator.o"
 	@echo "... correlator.i"
 	@echo "... correlator.s"
+	@echo "... decimator_cc_impl.o"
+	@echo "... decimator_cc_impl.i"
+	@echo "... decimator_cc_impl.s"
 	@echo "... extract_subcarriers_vcvc_impl.o"
 	@echo "... extract_subcarriers_vcvc_impl.i"
 	@echo "... extract_subcarriers_vcvc_impl.s"

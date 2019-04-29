@@ -49,6 +49,6 @@
        <source>
          <name>out</name>
          <type>complex</type>
-         <vlen>$fft</vlen>
+         <vlen>64</vlen>
        </source>
 </block>

@@ -40,7 +40,7 @@ namespace gr {
     */
     pss_calculator_vcm_impl::pss_calculator_vcm_impl(int fftl, int syncPeriod)
     : gr::sync_decimator("pss_calculator_vcm",
-        gr::io_signature::make(1, 1, sizeof(gr_complex) * 72),
+        gr::io_signature::make(1, 1, sizeof(gr_complex) * 64),
         gr::io_signature::make(0, 0, 0),2),
     //~ d_tag(tag),
     //~ d_sel(sel),
@@ -106,11 +106,14 @@ namespace gr {
           //extract PSS from its carriers.
           gr_complex chuX[124] = {0};
           extract_pss(chuX, in);
-          in += 72*2; //move pointer on input buffer by two input vector
+          in += 64*2; //move pointer on input buffer by two input vector
 
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(chuX); }
           else{ changed = find_pss_symbol(chuX); }
+
+          int sync_frame_start = calculate_sync_frame_start(nir+2*i);
+          // printf("Posible sync_frame_start %i\n",sync_frame_start );
           //Do things if new max is found!
           if(changed){
             d_lock_count = 0; // reset lock count!
@@ -119,6 +122,9 @@ namespace gr {
               if(!d_is_locked){
                 printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
+                // for(int contador = 0; contador<124; contador++){
+                //   printf("pos %i\t value= %f \n", contador, chuX[contador].real());
+                // }
                 message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                 d_sync_frame_start = sync_frame_start;
               }
@@ -196,6 +202,7 @@ namespace gr {
         int N_id_2 = (max1 > max0)? 1: 0;
         float maxc = (max1 > max0)? max1: max0;
 
+        // printf("max = %f\n", maxc);
         //Calculate return value
         bool has_changed = false;
         if(d_corr_val < maxc){
@@ -254,9 +261,10 @@ namespace gr {
       void
       pss_calculator_vcm_impl::extract_pss(gr_complex *chu, const gr_complex *in)
       {
-        memcpy(chu   , in+5   , sizeof(gr_complex)*62 );
-        memcpy(chu +62 , in+5 +72  , sizeof(gr_complex)*62 );
-
+        memcpy(chu, in+ 33, sizeof(gr_complex)*31);
+        memcpy(chu + 31, in, sizeof(gr_complex)*31);
+        memcpy(chu + 62, in + 64 + 33, sizeof(gr_complex)*31);
+        memcpy(chu + 31 + 62, in + 64, sizeof(gr_complex)*31);
       }
 
     } /* namespace cv2x */

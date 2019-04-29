@@ -12,6 +12,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/gnuradio-cv2x.dir/ssss_symbol_selector_cvc_impl.cc.o"
   "CMakeFiles/gnuradio-cv2x.dir/ssss_calculator_vcm_impl.cc.o"
   "CMakeFiles/gnuradio-cv2x.dir/ssss_tagger_cc_impl.cc.o"
+  "CMakeFiles/gnuradio-cv2x.dir/decimator_cc_impl.cc.o"
   "libgnuradio-cv2x-1.0.0git.pdb"
   "libgnuradio-cv2x-1.0.0git.so"
   "libgnuradio-cv2x-1.0.0git.so.0.0.0"

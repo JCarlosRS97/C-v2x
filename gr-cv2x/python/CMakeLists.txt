@@ -52,3 +52,4 @@ GR_ADD_TEST(qa_sync_frequency_c ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}
 GR_ADD_TEST(qa_ssss_symbol_selector_cvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ssss_symbol_selector_cvc.py)
 GR_ADD_TEST(qa_ssss_calculator_vcm ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ssss_calculator_vcm.py)
 GR_ADD_TEST(qa_ssss_tagger_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ssss_tagger_cc.py)
+GR_ADD_TEST(qa_decimator_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_decimator_cc.py)

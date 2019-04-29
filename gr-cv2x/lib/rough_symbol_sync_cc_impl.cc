@@ -170,6 +170,8 @@ namespace gr {
       // actually the next block doesn't care about the exact tag position. Only the value and key are important.
       memcpy(out, in, sizeof(gr_complex)*nout*d_vlen );
       add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
+      // printf("Input buffer %f\n", pc_input_buffers_full(0));
+      // printf("Output buffer %f\n", pc_output_buffers_full(0));
       d_work_call++;
       // Tell runtime system how many output items we produced.
       return nout;
