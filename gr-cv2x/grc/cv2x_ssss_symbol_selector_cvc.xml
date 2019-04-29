@@ -40,6 +40,6 @@
   <source>
     <name>out</name>
     <type>complex</type>
-    <vlen>$fftl</vlen>
+    <vlen>64</vlen>
   </source>
 </block>

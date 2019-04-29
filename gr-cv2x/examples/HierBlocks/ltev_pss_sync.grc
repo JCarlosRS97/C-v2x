@@ -207,7 +207,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 480)</value>
+      <value>(640, 520)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -254,7 +254,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 288)</value>
+      <value>(248, 312)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -395,7 +395,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(648, 288)</value>
+      <value>(544, 312)</value>
     </param>
     <param>
       <key>_rotation</key>

@@ -14,7 +14,7 @@
     </param>
     <param>
       <key>category</key>
-      <value></value>
+      <value>[cv2x]</value>
     </param>
     <param>
       <key>comment</key>
@@ -38,7 +38,7 @@
     </param>
     <param>
       <key>generate_options</key>
-      <value>qt_gui</value>
+      <value>hb</value>
     </param>
     <param>
       <key>hier_block_src_path</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>un_error</value>
+      <value>lte_ssss_sync</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,81 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>Error</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(8, 160)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>32000</value>
-    </param>
-  </block>
-  <block>
-    <key>cv2x_extract_subcarriers_vcvc</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>fftl</key>
-      <value>fft_len</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(560, 428)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>cv2x_extract_subcarriers_vcvc_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>N_rb</key>
-      <value>6</value>
+      <value>LTE SSSS Sync</value>
     </param>
   </block>
   <block>
@@ -367,7 +293,7 @@
     </param>
     <param>
       <key>fft_size</key>
-      <value>fft_len</value>
+      <value>64</value>
     </param>
     <param>
       <key>forward</key>
@@ -375,7 +301,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 408)</value>
+      <value>(472, 408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -583,12 +509,6 @@
     </param>
   </block>
   <connection>
-    <source_block_id>cv2x_extract_subcarriers_vcvc_0</source_block_id>
-    <sink_block_id>cv2x_ssss_calculator_vcm_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>cv2x_ssss_calculator_vcm_0</source_block_id>
     <sink_block_id>pad_sink_1</sink_block_id>
     <source_key>cell_id</source_key>
@@ -614,7 +534,7 @@
   </connection>
   <connection>
     <source_block_id>fft_vxx_0</source_block_id>
-    <sink_block_id>cv2x_extract_subcarriers_vcvc_0</sink_block_id>
+    <sink_block_id>cv2x_ssss_calculator_vcm_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

@@ -40,7 +40,7 @@ namespace gr {
     */
     ssss_calculator_vcm_impl::ssss_calculator_vcm_impl(int fftl, std::string key_id, std::string key_offset, int syncPeriod)
     : gr::sync_decimator("ssss_calculator_vcm",
-          gr::io_signature::make( 1, 1, sizeof(gr_complex) * 72),
+          gr::io_signature::make( 1, 1, sizeof(gr_complex) * 64),
           gr::io_signature::make(0, 0, 0), 2),//Dos simbolos
       d_fftl(fftl),
       syncPeriod(syncPeriod),
@@ -132,6 +132,9 @@ namespace gr {
           return noutput_items;
         }
 
+        gr_complex ssss_symbols[124];
+        extract_ssss(ssss_symbols, in);
+
         std::vector <gr::tag_t> v_id;
         get_tags_in_range(v_id, 0, nitems_read(0), nitems_read(0)+1, d_key_id);
         if (v_id.size() > 0){
@@ -142,8 +145,8 @@ namespace gr {
         gr_complex even[31]={0};
         gr_complex odd [31]={0};
         for(int i = 0; i < 31 ; i++){
-          even[i] = in[5 + 2 * i + 0];
-          odd[i]  = in[5 + 2 * i + 1];
+          even[i] = ssss_symbols[2 * i + 0];
+          odd[i]  = ssss_symbols[2 * i + 1];
         }
 
         ssss_info info = get_ssss_info(even, odd, d_N_id_2);
@@ -313,6 +316,15 @@ namespace gr {
         printf("%s\t\tpublish_frame_start %ld\n", name().c_str(), frame_start );
         pmt::pmt_t msg = pmt::from_long(frame_start) ;
         message_port_pub( d_port_frame_start, msg );
+      }
+
+      void
+      ssss_calculator_vcm_impl::extract_ssss(gr_complex *ssss_symbols, const gr_complex *in)
+      {
+        memcpy(ssss_symbols, in+ 33, sizeof(gr_complex)*31);
+        memcpy(ssss_symbols + 31, in, sizeof(gr_complex)*31);
+        memcpy(ssss_symbols + 62, in + 64 + 33, sizeof(gr_complex)*31);
+        memcpy(ssss_symbols + 31 + 62, in + 64, sizeof(gr_complex)*31);
       }
 
     } /* namespace lte */

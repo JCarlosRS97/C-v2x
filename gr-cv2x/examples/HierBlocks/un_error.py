@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Error
 # Author: Juan Carlos Ruiz Sicilia
-# Generated: Fri Apr 26 13:55:58 2019
+# Generated: Mon Apr 29 16:21:58 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -68,21 +68,19 @@ class un_error(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.fft_vxx_0 = fft.fft_vcc(fft_len, True, (), False, 1)
+        self.fft_vxx_0 = fft.fft_vcc(64, True, (), False, 1)
         self.cv2x_ssss_tagger_cc_0 = cv2x.ssss_tagger_cc(fft_len, syncPeriod)
         self.cv2x_ssss_symbol_selector_cvc_0 = cv2x.ssss_symbol_selector_cvc(fft_len, syncPeriod)
         self.cv2x_ssss_calculator_vcm_0 = cv2x.ssss_calculator_vcm(fft_len, "N_id_2", "offset_marker", syncPeriod)
-        self.cv2x_extract_subcarriers_vcvc_0 = cv2x.extract_subcarriers_vcvc(6, fft_len)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.cv2x_ssss_calculator_vcm_0, 'frame_start'), (self.cv2x_ssss_tagger_cc_0, 'frame_start'))    
         self.msg_connect((self.cv2x_ssss_calculator_vcm_0, 'cell_id'), (self, 'SLSSID'))    
-        self.connect((self.cv2x_extract_subcarriers_vcvc_0, 0), (self.cv2x_ssss_calculator_vcm_0, 0))    
         self.connect((self.cv2x_ssss_symbol_selector_cvc_0, 0), (self.fft_vxx_0, 0))    
         self.connect((self.cv2x_ssss_tagger_cc_0, 0), (self, 0))    
-        self.connect((self.fft_vxx_0, 0), (self.cv2x_extract_subcarriers_vcvc_0, 0))    
+        self.connect((self.fft_vxx_0, 0), (self.cv2x_ssss_calculator_vcm_0, 0))    
         self.connect((self, 0), (self.cv2x_ssss_symbol_selector_cvc_0, 0))    
         self.connect((self, 0), (self.cv2x_ssss_tagger_cc_0, 0))    
 
