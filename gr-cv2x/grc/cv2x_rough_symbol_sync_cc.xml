@@ -4,7 +4,7 @@
   <key>cv2x_rough_symbol_sync_cc</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.rough_symbol_sync_cc($fftl, $vlen)</make>
+  <make>cv2x.rough_symbol_sync_cc($fftl, $vlen, $SCBW, self.$(sig()))</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -20,6 +20,18 @@
          <name>Vec length</name>
          <key>vlen</key>
          <type>int</type>
+       </param>
+
+       <param>
+         <name>Signal Source</name>
+         <key>sig</key>
+         <type>raw</type>
+       </param>
+
+       <param>
+         <name>Subcarrier Bandwith</name>
+         <key>SCBW</key>
+         <type>float</type>
        </param>
 
 
