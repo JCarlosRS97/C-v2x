@@ -52,7 +52,7 @@ namespace gr {
     d_offset(0),
     d_N_id_2(-1)
     {
-      set_relative_rate(1.0/double(d_fftl+d_cpl0));
+      set_relative_rate(1.0/double(syncPeriod*d_slotl));
       set_output_multiple(2);
       //printf("rel_rate = %f\n",relative_rate());
       set_tag_propagation_policy(TPP_DONT);
@@ -93,7 +93,7 @@ namespace gr {
           d_N_id_2 = int(pmt::to_long(v_id[0].value));
           d_offset = v_id[0].offset;
           d_abs_pos = v_id[0].offset+11*d_fftl+10*d_cpl+2*d_cpl0; // points at the exact beginning of a SSSS symbol.
-          // printf("%s found N_id_2 = %i\t id_off = %ld\n",name().c_str(), d_N_id_2, d_offset);
+          // printf("%s found N_id_2 = %i\t id_off = %ld\n",name().c_str(), d_abs_pos, d_offset);
         }
 
 
@@ -102,7 +102,7 @@ namespace gr {
 
 
           if(d_abs_pos+2*d_fftl + d_cpl < nitems_read(0)+ninput_items[0]){//Si va a pasar en esta iteracion
-            //printf("\nPRODUCE real output!\tdiff = %ld\tpos = %ld\n\n",d_abs_pos-nitems_read(0), d_abs_pos);
+            printf("\nPRODUCE real output!\tdiff = %ld\tpos = %ld\tninput = %i\n\n",d_abs_pos-nitems_read(0), d_abs_pos, ninput_items[0]);
 
             // memcpy(out,in+(d_abs_pos-nitems_read(0) ),sizeof(gr_complex)*d_fftl);
             // memcpy(out + d_fftl,in+(d_abs_pos-nitems_read(0) + d_fftl + d_cpl),sizeof(gr_complex)*d_fftl);
@@ -110,6 +110,7 @@ namespace gr {
             int nfft = 64;
             for(int i = 0; i < nfft; i++){
               out[i] = in[i*(d_fftl/nfft) + (d_abs_pos-nitems_read(0))];
+              printf("pos %i value: %f\n", i, out[i]);
               out[i + nfft] = in[i*(d_fftl/nfft) + (d_abs_pos-nitems_read(0)) + d_fftl + d_cpl];
             }
 
@@ -136,13 +137,6 @@ namespace gr {
           consume_each(ninput_items[0]);
           return 0;
         }
-
-        // Tell runtime system how many input items we consumed on
-        // each input stream.
-        //consume_each (noutput_items);
-
-        // Tell runtime system how many output items we produced.
-        //return noutput_items;
       }
 
     } /* namespace lte */

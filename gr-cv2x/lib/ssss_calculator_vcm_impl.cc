@@ -151,12 +151,6 @@ namespace gr {
 
         ssss_info info = get_ssss_info(even, odd, d_N_id_2);
         if(info.N_id_1 < 0){return 1;}
-        //Segundo simbolo
-        // in += 72;
-        // for(int i = 0; i < 31 ; i++){
-        //   even[i] = in[5 + 2 * i + 0];
-        //   odd[i]  = in[5 + 2 * i + 1];
-        // }
 
         if(d_max_val_new > d_max_val_old*0.8){
           long offset = 0;
@@ -172,6 +166,8 @@ namespace gr {
           d_frame_start = offset%(syncPeriod*2*d_slotl);
 
           d_cell_id = info.N_id_1 + 168*d_N_id_2;
+
+          printf("actual = %i\n", d_cell_id);
 
           d_unchanged_id++;
           if(d_unchanged_id > 2){
@@ -268,7 +264,7 @@ namespace gr {
           }
         }
 
-        mX = abs(pos-31-31);
+        mX = abs(pos-N);
 
         d_max_val_new = (d_max_val_new + max)/2;//Esto puede traer problemas
 

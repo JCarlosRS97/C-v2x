@@ -113,20 +113,20 @@ namespace gr {
         int offset = d_sync_frame_start%(d_slotl);
 
         for (int i = 0 ; i < noutput_items; i++){
+          long abs_pos = nin + i;
+          if( (abs_pos)%d_slotl == offset){ // removed abs
 
-          if( (nin+i)%d_slotl == offset){ // removed abs
-
-            if((nin+i)%sync_framel == d_sync_frame_start){ // removed abs
+            if((abs_pos)%sync_framel == d_sync_frame_start){ // removed abs
               //printf("found sync_frame_start\t num = %li\t0 < %li\n", nitems_read(0)+i,(nitems_read(0)+i-d_sync_frame_start) );
               if(d_is_locked){
                 //printf("%s\tsync_frame_start = %i\tabs_pos = %ld\n", name().c_str(), d_sync_frame_start, nitems_read(0)+i );
-                add_item_tag(0,nin+i,d_id_key, pmt::from_long(d_N_id_2),d_tag_id);
+                add_item_tag(0,abs_pos,d_id_key, pmt::from_long(d_N_id_2),d_tag_id);
                 d_slot_num=0;
               }
             }
 
             //printf("%s\tslot_num = %i\tabs_pos = %ld\n",name().c_str(),d_slot_num,nitems_read(0)+i );
-            add_item_tag(0,nin+i,d_key, pmt::from_long(d_slot_num),d_tag_id);
+            add_item_tag(0,abs_pos,d_key, pmt::from_long(d_slot_num),d_tag_id);
             d_slot_num = (d_slot_num+1)%10;
 
             if(i+d_slotl < noutput_items){

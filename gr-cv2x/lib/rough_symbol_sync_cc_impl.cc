@@ -105,12 +105,12 @@ namespace gr {
 
       //printf("%s.work\tnoutput_items = %i\tnitems_read = %ld\n", name().c_str(), noutput_items, nitems_read(0) );
 
-      // if(nitems_read(0) > 100000){
-      //     add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-      //     d_work_call++;
-      //     memcpy(out,in,sizeof(gr_complex)*noutput_items*d_vlen );
-      //     return noutput_items;
-      // }
+      if(nitems_read(0) > 100000){
+          add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
+          d_work_call++;
+          memcpy(out,in,sizeof(gr_complex)*noutput_items*d_vlen );
+          return noutput_items;
+      }
 
       int stp = d_cpl0/4;
       int nout = 0;
@@ -119,8 +119,6 @@ namespace gr {
       gr_complex it_val = 0;
 
       for(int i = 0; i < d_cpl*15-stp; i+=stp){
-    //for(int i = 0; i < d_fftl+d_cpl*16 - (d_fftl+d_cpl+stp); i+=stp){
-
           memcpy(d_cp0,in+i*d_vlen          ,sizeof(gr_complex)*d_cpl*d_vlen);
           memcpy(d_cp1,in+(i+d_fftl)*d_vlen ,sizeof(gr_complex)*d_cpl*d_vlen);
           gr_complex val = corr(d_res,d_cp0,d_cp1,d_cpl*d_vlen);
@@ -166,7 +164,7 @@ namespace gr {
                   d_f_av=d_f_av*coef - ((1-coef) * f_off);
                   (*d_sig).set_frequency((-1)*double(d_f_av) );
 
-                  printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
+                  // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
               }
           }
       }
