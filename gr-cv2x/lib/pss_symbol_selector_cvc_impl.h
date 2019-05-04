@@ -68,7 +68,9 @@ namespace gr {
            gr_vector_const_void_star &input_items,
            gr_vector_void_star &output_items);
      void set_sync_frame_start(long start){d_ass_sync_frame_start = start;}
-     void lock(){d_is_locked = true;}
+     void lock(){d_is_locked = true;
+       printf("Selector duracion: %f\n", pc_work_time_avg 	() 	);
+}
      void unlock(){d_is_locked = false;}
     };
 

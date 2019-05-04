@@ -65,7 +65,8 @@ namespace gr {
       d_cp0 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
       d_cp1 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
       d_res = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
-
+      i_vector = (float*)fftwf_malloc(sizeof(float)*d_cpl*vlen);
+      q_vector = (float*)fftwf_malloc(sizeof(float)*d_cpl*vlen);
     }
 
     /*
@@ -76,6 +77,8 @@ namespace gr {
       fftwf_free(d_cp0);
       fftwf_free(d_cp1);
       fftwf_free(d_res);
+      fftwf_free(i_vector);
+      fftwf_free(q_vector);
     }
 
     void rough_symbol_sync_cc_impl::forecast(int noutput_items,
@@ -106,9 +109,10 @@ namespace gr {
       //printf("%s.work\tnoutput_items = %i\tnitems_read = %ld\n", name().c_str(), noutput_items, nitems_read(0) );
 
       if(nitems_read(0) > 100000){
+        // printf("rough duracion: %f\n", pc_work_time_avg 	() 	);
+
+        memcpy(out,in,sizeof(gr_complex)*noutput_items*d_vlen );
           add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-          d_work_call++;
-          memcpy(out,in,sizeof(gr_complex)*noutput_items*d_vlen );
           return noutput_items;
       }
 
@@ -180,7 +184,6 @@ namespace gr {
       add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
       // printf("Input buffer %f\n", pc_input_buffers_full(0));
       // printf("Output buffer %f\n", pc_output_buffers_full(0));
-      d_work_call++;
       // Tell runtime system how many output items we produced.
       return nout;
   }
@@ -191,8 +194,7 @@ namespace gr {
       volk_32fc_conjugate_32fc_a(y, y, len);
       volk_32fc_x2_multiply_32fc_a(res, x, y, len);
 
-      float* i_vector = (float*)fftwf_malloc(sizeof(float)*len);
-      float* q_vector = (float*)fftwf_malloc(sizeof(float)*len);
+
       volk_32fc_deinterleave_32f_x2_a(i_vector, q_vector, res, len);
       float i_result = 0.0f;
       float q_result = 0.0f;

@@ -81,6 +81,8 @@ namespace gr {
          }
          //Update counters
          if(symbolCounter == (NSLsymb*2-1)){
+           printf("rough duracion: %f\n", pc_work_time_avg 	() 	);
+
            subframeCounter++;
            symbolCounter = 0;
          }else{

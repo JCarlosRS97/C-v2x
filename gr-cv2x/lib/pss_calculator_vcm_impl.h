@@ -44,6 +44,8 @@ namespace gr {
       int syncPeriod;
       gr_complex d_chu0[124];
       gr_complex d_chu1[124];
+      float* i_vector;
+      float* q_vector;
 
       pmt::pmt_t d_port_lock;
       pmt::pmt_t d_port_sync_frame_start;
@@ -55,6 +57,8 @@ namespace gr {
       bool find_pss_symbol(gr_complex *chuX); // prepares the calculation stuff etc.
       bool tracking(gr_complex *chu);
       void max_pos(float &max, int &pos, gr_complex *x,gr_complex *y, int len); //finds maximum of one correlation
+      void mi_max_pos(float &max, int &pos, gr_complex *x,gr_complex *y, int len); //finds maximum of one correlation
+
 
       inline void set_sync_frame_start();
       inline int calculate_sync_frame_start(long pos);
@@ -64,6 +68,8 @@ namespace gr {
       gr_complex *d_corr_in1;
       gr_complex *d_corr_in2;
       gr_complex *d_corr_out;
+      gr_complex *d_chu0_corr;
+      gr_complex *d_chu1_corr;
 
      public:
       pss_calculator_vcm_impl(int fftl, int syncPeriod);

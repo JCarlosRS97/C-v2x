@@ -192,6 +192,8 @@ namespace gr {
 
         // pss_calc needs the exact position of first sample in stream
         add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);
+        add_item_tag(0,nitems_written(0)+nout+1,d_key, pmt::from_long( abs_pos),d_tag_id);
+
         out += 2*nfft; //move pointer to output buffer by the size of one vector
         nout += 2; // 2 output vector produced
     }

@@ -43,6 +43,8 @@ namespace gr {
        gr_complex* d_cp0;
        gr_complex* d_cp1;
        gr_complex* d_res;
+       float* i_vector;
+       float* q_vector;
 
        pmt::pmt_t d_key;
        pmt::pmt_t d_tag_id;

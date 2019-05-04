@@ -24,6 +24,8 @@
 
 #include <gnuradio/io_signature.h>
 #include "pss_calculator_vcm_impl.h"
+#include <volk/volk.h>
+
 
 namespace gr {
   namespace cv2x {
@@ -62,12 +64,20 @@ namespace gr {
       d_port_N_id_2 = pmt::string_to_symbol("N_id_2");
       message_port_register_out(d_port_N_id_2);
 
+      d_chu0_corr   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*124 );
+      d_chu1_corr   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*124 );
+
       zc(d_chu0,0);
       zc(d_chu1,1);
+      memcpy(d_chu0_corr, d_chu0, sizeof(gr_complex)*124);
+      memcpy(d_chu1_corr, d_chu1, sizeof(gr_complex)*124);
 
       d_corr_in1   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*124 );
       d_corr_in2   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*124 );
       d_corr_out   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*124 );
+
+      i_vector = (float*) fftwf_malloc(sizeof(float)*124 );
+      q_vector = (float*) fftwf_malloc(sizeof(float)*124 );
       d_correlator = new correlator(d_corr_in1, d_corr_in2, d_corr_out, 124);
     }
 
@@ -78,7 +88,15 @@ namespace gr {
     {
       fftwf_free(d_corr_in1);
       fftwf_free(d_corr_in2);
+      fftwf_free(d_chu0_corr);
+      fftwf_free(d_chu1_corr);
+
       fftwf_free(d_corr_out);
+
+
+
+      fftwf_free(i_vector);
+      fftwf_free(q_vector);
       delete d_correlator;
     }
 
@@ -113,7 +131,7 @@ namespace gr {
           else{ changed = find_pss_symbol(chuX); }
 
           int sync_frame_start = calculate_sync_frame_start(nir+2*i);
-          // printf("Posible sync_frame_start %i\n",sync_frame_start );
+          // printf("abs_pos: %i\n", sync_frame_start);
           //Do things if new max is found!
           if(changed){
             d_lock_count = 0; // reset lock count!
@@ -145,11 +163,13 @@ namespace gr {
         //periodo y se le añade un poco de holgura.
         if( !d_is_locked && d_lock_count > (14.5*syncPeriod) && d_N_id_2 >=0 ){
           printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
+          printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
           d_is_locked = true;
           //~ (*d_tag).lock();
           message_port_pub( d_port_lock, pmt::PMT_T );
           //~ (*d_sel).lock();
         }
+
 
 
         // Tell runtime system how many output items we produced.
@@ -169,9 +189,9 @@ namespace gr {
         // generate zadoff-chu sequences according to original algorithm
         for(int i = 0; i < 31; i++){
           float phase = -M_PI*u*i*(i+1.0)/63.0;
-          zc[i] = std::polar(1.0f, phase);
+          zc[i] = std::polar(1.0f, -phase);//Se genera conjugado para realizar la correlacion
           phase = -M_PI*u*(i + 32.0)*(i + 33.0)/63.0;
-          zc[i + 31] = std::polar(1.0f, phase);
+          zc[i + 31] = std::polar(1.0f, -phase);// Se genera conjugado para realizar la correlacion
         }
         memcpy(zc + 62, zc, sizeof(gr_complex)*62); //Se forma el segundo simbolo
       }
@@ -186,19 +206,33 @@ namespace gr {
         d_correlator->get_maximum(pos, max);
       }
 
+      void
+      pss_calculator_vcm_impl::mi_max_pos(float &max, int &pos, gr_complex *x,gr_complex *muestra, int len)
+      {
+        memcpy(d_corr_in1, muestra, sizeof(gr_complex)*len );
+        volk_32fc_x2_multiply_32fc_a(d_corr_out, x, d_corr_in1, len);
+
+        volk_32fc_deinterleave_32f_x2_a(i_vector, q_vector, d_corr_out, len);
+        float i_result = 0.0f;
+        float q_result = 0.0f;
+        volk_32f_accumulator_s32f_a(&i_result, i_vector, len);
+        volk_32f_accumulator_s32f_a(&q_result, q_vector, len);
+
+        max = i_result*i_result+ q_result* q_result;
+      }
+
 
       bool
       pss_calculator_vcm_impl::find_pss_symbol(gr_complex *chuX)
       {
         int len = 124;
-
         float max0 = 0.0;
         int pos0 = 0;
-        max_pos(max0, pos0, d_chu0, chuX, len);
+        mi_max_pos(max0, pos0, d_chu0_corr, chuX, len);
 
         float max1 = 0.0;
         int pos1 = 0;
-        max_pos(max1, pos1, d_chu1, chuX, len);
+        mi_max_pos(max1, pos1, d_chu1_corr, chuX, len);
 
         int N_id_2 = (max1 > max0)? 1: 0;
         float maxc = (max1 > max0)? max1: max0;
@@ -221,8 +255,8 @@ namespace gr {
         int pos = 0;
         float max = 0.0;
         switch(d_N_id_2){
-          case 0: max_pos(max, pos, d_chu0, chu, len); break;
-          case 1: max_pos(max, pos, d_chu1, chu, len); break;
+          case 0: mi_max_pos(max, pos, d_chu0_corr, chu, len); break;
+          case 1: mi_max_pos(max, pos, d_chu1_corr, chu, len); break;
         }
         if(d_corr_val < max){
           d_corr_val = max;
@@ -252,13 +286,12 @@ namespace gr {
       pss_calculator_vcm_impl::calculate_sync_frame_start(long pos)
       {
         std::vector <gr::tag_t> v_off;
-        get_tags_in_range(v_off, 0, pos, pos+1);
+        get_tags_in_range(v_off, 0, pos, pos+2);
         long offset = pmt::to_long(v_off[0].value) - (d_fftl+d_cpl0);
         return int( offset%(syncPeriod*2*d_slotl) );
       }
 
       //convenience method for better readability
-      //copy PSS to array of length 63!
       void
       pss_calculator_vcm_impl::extract_pss(gr_complex *chu, const gr_complex *in)
       {
