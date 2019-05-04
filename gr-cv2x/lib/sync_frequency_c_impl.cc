@@ -157,7 +157,7 @@ namespace gr {
 
         // The next line does the fancy stuff -> calculate the frequency offset.
         float f_off = arg(corr_val[pos]) * float(float(d_samp_rate)/(2*M_PI*float(d_fftl) ) );
-        d_f_av=d_f_av - (0.01 * f_off);
+        d_f_av=d_f_av*0.99 - (0.01 * f_off);
 
         //f_vec.push_back(d_f_av);
 

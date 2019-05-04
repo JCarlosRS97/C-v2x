@@ -59,6 +59,7 @@ namespace gr {
        ssss_info get_ssss_info(gr_complex* even, gr_complex* odd, int N_id_2);
        gr_complex corr(gr_complex *x,gr_complex *y, int len);
        void xcorr(std::vector<gr_complex> &v, gr_complex *x,gr_complex *y, int len);
+       void extract_ssss(gr_complex *ssss_symbols, const gr_complex *in);
 
        pmt::pmt_t d_port_cell_id;
        pmt::pmt_t d_port_frame_start;

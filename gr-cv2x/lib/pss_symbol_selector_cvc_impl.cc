@@ -55,7 +55,8 @@ namespace gr {
             d_work_call(0),
             d_is_locked(false),
             syncPeriod(syncPeriod),
-            syncOffsetIndicator(syncOffsetIndicator)
+            syncOffsetIndicator(syncOffsetIndicator),
+            nfft(64)
     {
       set_output_multiple(2);
       set_tag_propagation_policy(TPP_DONT);
@@ -68,6 +69,11 @@ namespace gr {
 
       message_port_register_in(pmt::mp("sync_frame"));
       set_msg_handler(pmt::mp("sync_frame"), boost::bind(&pss_symbol_selector_cvc_impl::handle_msg_sync_frame_start, this, _1));
+
+      for(int i = 0; i < nfft; i++){
+        pss1_index[i] = i*(d_fftl/nfft) + d_cpl;
+        pss2_index[i] = i*(d_fftl/nfft) + d_cpl*2 + d_fftl;
+      }
     }
 
     void
@@ -101,7 +107,6 @@ namespace gr {
       unsigned ninputs = ninput_items_required.size ();
       for (unsigned i = 0; i < ninputs; i++){
           ninput_items_required[i] =  d_syml0*2 + d_syml * (noutput_items - 2) / 2 + history() - 1;
-          //printf("Para %i se requieren %i\n",noutput_items, ninput_items_required[i] );
       }
     }
 
@@ -114,7 +119,6 @@ namespace gr {
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
 
-      d_work_call++;
       int nin = ninput_items[0];
       long nir = nitems_read(0);
       bool is_locked = d_is_locked;
@@ -139,18 +143,17 @@ namespace gr {
       int consumed_items = 0;
       int nout = 0;
       //d_ass_sync_frame_start para nosotros será donde comienza la subtrama de referencia
-      long pss_pos1 = (d_ass_sync_frame_start+(d_fftl+d_cpl0)-6 )%(syncPeriod*2*d_slotl);
-      //long pss_pos2 = (d_ass_sync_frame_start+(2*d_fftl+d_cpl+d_cpl0)-4 )%(10*d_slotl);
-      long abs_pos = nir;
-      int mod_pss = abs( (int(abs_pos - pss_pos1))%(syncPeriod*2*d_slotl) );
+      long pss_pos = (d_ass_sync_frame_start+(d_fftl+d_cpl0)-6 )%(syncPeriod*2*d_slotl);
+      long abs_pos;
+      int mod_pss;
       int i;
       for(i = 0 ; (i+2*d_syml0) < nin ; i++){
           abs_pos = nir+long(i); // calculate new absolute sample position
-          mod_pss = abs( (int(abs_pos-(pss_pos1) ))%(syncPeriod*2*d_slotl) );
+          mod_pss = abs( (int(abs_pos-(pss_pos) ))%(syncPeriod*2*d_slotl) );
           if(d_ass_sync_frame_start < syncPeriod*2* d_slotl && mod_pss < 12 ){ // Si ya ha sincronizado alguna vez
               produce_output(out, in+i, abs_pos, nout);
               //consumed_items = i+1;
-              //printf("%s--> generate output sync_frame_start\tmod_pss = %i\tabs_pos = %ld\tpss_pos = %ld\tframe = %ld\t offset %i\n", name().c_str(), mod_pss, abs_pos,pss_pos1,d_ass_sync_frame_start, offset );
+              //printf("%s--> generate output sync_frame_start\tmod_pss = %i\tabs_pos = %ld\tpss_pos = %ld\tframe = %ld\t offset %i\n", name().c_str(), mod_pss, abs_pos,pss_pos,d_ass_sync_frame_start, offset );
           }
           else if(is_locked){//For now step over all samples
               //consumed_items = i+1;
@@ -180,25 +183,17 @@ namespace gr {
     void
     pss_symbol_selector_cvc_impl::produce_output(gr_complex *&out, const gr_complex *in, long abs_pos, int &nout)
     {
-      int nfft = 64;
         //memcpy(out,in+d_cpl,sizeof(gr_complex)*nfft); //copy samples to output buffer!
         //printf("abs_pos: %ld\t primero: %f\n",abs_pos, in[0].real() );
         for(int i = 0; i < nfft; i++){
-          out[i] = in[i*(d_fftl/nfft) + d_cpl];
+          out[i] = in[pss1_index[i]];
+          out[i + nfft] = in[pss2_index[i]];
         }
 
         // pss_calc needs the exact position of first sample in stream
         add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);
-        nout++; // 1 output vector produced
-        out+=nfft; //move pointer to output buffer by the size of one vector
-        //segundo simbolo
-        //memcpy(out,in+d_cpl*2 + d_fftl,sizeof(gr_complex)*nfft); //copy samples to output buffer!
-        for(int i = 0; i < nfft; i++){
-          out[i] = in[i*(d_fftl/nfft) + d_cpl*2 + d_fftl];
-        }
-        add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);//TODO
-        nout++; // 1 output vector produced
-        out+=nfft; //move pointer to output buffer by the size of one vector
+        out += 2*nfft; //move pointer to output buffer by the size of one vector
+        nout += 2; // 2 output vector produced
     }
   } /* namespace cv2x */
 } /* namespace gr */

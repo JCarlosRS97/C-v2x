@@ -1,17 +1,17 @@
 /* -*- c++ -*- */
-/* 
+/*
  * Copyright 2019 <+YOU OR YOUR COMPANY+>.
- * 
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -24,6 +24,7 @@
 
 #include <cv2x/api.h>
 #include <gnuradio/sync_block.h>
+#include <gnuradio/analog/sig_source_c.h>
 
 namespace gr {
   namespace cv2x {
@@ -46,11 +47,10 @@ namespace gr {
        * class. cv2x::rough_symbol_sync_cc::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int fftl, int vlen);
+      static sptr make(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig);
     };
 
   } // namespace cv2x
 } // namespace gr
 
 #endif /* INCLUDED_CV2X_ROUGH_SYMBOL_SYNC_CC_H */
-

@@ -47,6 +47,10 @@ namespace gr {
        bool d_is_locked;
        int syncPeriod;
        int syncOffsetIndicator;
+       int pss1_index[64];
+       int pss2_index[64];
+       int nfft;
+
 
        void produce_output(gr_complex *&out, const gr_complex *in, long abs_pos, int &nout);
        void handle_msg_lock(pmt::pmt_t msg);

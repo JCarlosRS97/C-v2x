@@ -40,8 +40,8 @@ namespace gr {
     */
     pss_tagger_cc_impl::pss_tagger_cc_impl(int fftl, int syncPeriod)
     : gr::sync_block("pss_tagger_cc",
-        gr::io_signature::make( 1, 1, sizeof(gr_complex)),
-        gr::io_signature::make( 1, 1, sizeof(gr_complex))),
+    gr::io_signature::make( 1, 1, sizeof(gr_complex)),
+    gr::io_signature::make( 1, 1, sizeof(gr_complex))),
     syncPeriod(syncPeriod),
     d_fftl(fftl),
     d_cpl(144*fftl/2048),
@@ -50,6 +50,7 @@ namespace gr {
     d_sync_frame_start(0),
     d_N_id_2(-1),
     d_slot_num(0),
+    sync_framel(syncPeriod*d_slotl*2),
     d_is_locked(false)
     {
       set_tag_propagation_policy(TPP_DONT);
@@ -108,33 +109,13 @@ namespace gr {
 
         memcpy(out,in,sizeof(gr_complex)*noutput_items);
 
-        long nin = nitems_read(0);
-        int sync_framel = syncPeriod*d_slotl*2;
-        int offset = d_sync_frame_start%(d_slotl);
-
-        for (int i = 0 ; i < noutput_items; i++){
-
-          if( (nin+i)%d_slotl == offset){ // removed abs
-
-            if((nin+i)%sync_framel == d_sync_frame_start){ // removed abs
-              //printf("found sync_frame_start\t num = %li\t0 < %li\n", nitems_read(0)+i,(nitems_read(0)+i-d_sync_frame_start) );
-              if(d_is_locked){
-                //printf("%s\tsync_frame_start = %i\tabs_pos = %ld\n", name().c_str(), d_sync_frame_start, nitems_read(0)+i );
-                add_item_tag(0,nin+i,d_id_key, pmt::from_long(d_N_id_2),d_tag_id);
-                d_slot_num=0;
-              }
-            }
-
-            //printf("%s\tslot_num = %i\tabs_pos = %ld\n",name().c_str(),d_slot_num,nitems_read(0)+i );
-            add_item_tag(0,nin+i,d_key, pmt::from_long(d_slot_num),d_tag_id);
-            d_slot_num = (d_slot_num+1)%10;
-
-            if(i+d_slotl < noutput_items){
-              i += (d_slotl-1);
-            }
-            else{
-              i+=(noutput_items-i-1);
-            }
+        if(d_is_locked){
+          int cont = 1;
+          long next = (nitems_read(0)/sync_framel + cont)*sync_framel + d_sync_frame_start;
+          while(nitems_read(0) + noutput_items > next){
+            add_item_tag(0,next,d_id_key, pmt::from_long(d_N_id_2),d_tag_id);
+            cont++;
+            next = (nitems_read(0)/sync_framel + cont)*sync_framel + d_sync_frame_start;
           }
         }
 

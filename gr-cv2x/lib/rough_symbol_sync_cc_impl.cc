@@ -34,26 +34,29 @@ namespace gr {
   namespace cv2x {
 
     rough_symbol_sync_cc::sptr
-    rough_symbol_sync_cc::make(int fftl, int vlen)
+    rough_symbol_sync_cc::make(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig)
     {
       return gnuradio::get_initial_sptr
-        (new rough_symbol_sync_cc_impl(fftl, vlen));
+        (new rough_symbol_sync_cc_impl(fftl, vlen, subcarrierBW, sig));
     }
 
     /*
      * The private constructor
      */
-    rough_symbol_sync_cc_impl::rough_symbol_sync_cc_impl(int fftl, int vlen)
+    rough_symbol_sync_cc_impl::rough_symbol_sync_cc_impl(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig)
       : gr::sync_block("rough_symbol_sync_cc",
               gr::io_signature::make( 1, 1, sizeof(gr_complex)*vlen),
               gr::io_signature::make( 1, 1, sizeof(gr_complex)*vlen)),
           d_fftl(fftl),
+          d_sig(sig),
           d_cpl(144*fftl/2048),
           d_cpl0(160*fftl/2048),
           d_slotl(7*fftl+6*d_cpl+d_cpl0),
           d_sym_pos(0),
           d_corr_val(0.0),
           d_work_call(0),
+          d_f_av(0.0),
+          subcarrierBW(subcarrierBW),
           d_vlen(vlen)
     {
       d_key=pmt::string_to_symbol("symbol");
@@ -116,8 +119,6 @@ namespace gr {
       gr_complex it_val = 0;
 
       for(int i = 0; i < d_cpl*15-stp; i+=stp){
-    //for(int i = 0; i < d_fftl+d_cpl*16 - (d_fftl+d_cpl+stp); i+=stp){
-
           memcpy(d_cp0,in+i*d_vlen          ,sizeof(gr_complex)*d_cpl*d_vlen);
           memcpy(d_cp1,in+(i+d_fftl)*d_vlen ,sizeof(gr_complex)*d_cpl*d_vlen);
           gr_complex val = corr(d_res,d_cp0,d_cp1,d_cpl*d_vlen);
@@ -132,9 +133,9 @@ namespace gr {
               }
               it_val = val;
           }
-          if(nitems_read(0) < 10000){
-              //printf("%s\tcorr_val = %f\tnitems_read = %ld\n", name().c_str(), abs(val), nitems_read(0) );
-         }
+        //   if(nitems_read(0) < 10000){
+        //       //printf("%s\tcorr_val = %f\tnitems_read = %ld\n", name().c_str(), abs(val), nitems_read(0) );
+        //  }
           nout = i;
       }
 
@@ -157,6 +158,13 @@ namespace gr {
                       //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                       //printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
                   }
+                  // The next line does the fancy stuff -> calculate the frequency offset.
+                  float coef = nitems_read(0)<2000? 0.5 : 0.99;
+                  float f_off = arg(val)/(2*M_PI)*15000.0;
+                  d_f_av=d_f_av*coef - ((1-coef) * f_off);
+                  (*d_sig).set_frequency((-1)*double(d_f_av) );
+
+                  // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
               }
           }
       }

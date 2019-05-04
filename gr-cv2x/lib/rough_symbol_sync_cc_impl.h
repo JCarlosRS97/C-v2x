@@ -37,6 +37,9 @@ namespace gr {
        float d_corr_val;
        int d_work_call;
        int d_vlen;
+       float d_f_av;
+       float subcarrierBW;
+       boost::shared_ptr<gr::analog::sig_source_c> d_sig;
        gr_complex* d_cp0;
        gr_complex* d_cp1;
        gr_complex* d_res;
@@ -48,12 +51,12 @@ namespace gr {
        gr_complex corr(gr_complex *res, gr_complex *x, gr_complex *y, int len);
 
      public:
-      rough_symbol_sync_cc_impl(int fftl, int vlen);
+      rough_symbol_sync_cc_impl(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig);
       ~rough_symbol_sync_cc_impl();
 
       void forecast(int noutput_items,
 	       gr_vector_int &ninput_items_required);
-         
+
       // Where all the action really happens
       int work(int noutput_items,
          gr_vector_const_void_star &input_items,

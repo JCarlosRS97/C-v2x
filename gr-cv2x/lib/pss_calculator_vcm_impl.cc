@@ -106,7 +106,7 @@ namespace gr {
           //extract PSS from its carriers.
           gr_complex chuX[124] = {0};
           extract_pss(chuX, in);
-          in += 64*2; //move pointer on input buffer by two input vector
+          in +=128; //move pointer on input buffer by two input vector
 
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(chuX); }
@@ -150,6 +150,7 @@ namespace gr {
           message_port_pub( d_port_lock, pmt::PMT_T );
           //~ (*d_sel).lock();
         }
+
 
         // Tell runtime system how many output items we produced.
         return noutput_items;
