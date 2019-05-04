@@ -41,6 +41,7 @@ namespace gr {
       pmt::pmt_t d_key;
       pmt::pmt_t d_id_key;
       pmt::pmt_t d_tag_id;
+      int sync_framel;
 
       void handle_msg_lock(pmt::pmt_t msg);
       void handle_msg_sync_frame_start(pmt::pmt_t msg);

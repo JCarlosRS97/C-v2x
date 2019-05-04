@@ -102,7 +102,7 @@ namespace gr {
 
 
           if(d_abs_pos+2*d_fftl + d_cpl < nitems_read(0)+ninput_items[0]){//Si va a pasar en esta iteracion
-            printf("\nPRODUCE real output!\tdiff = %ld\tpos = %ld\tninput = %i\n\n",d_abs_pos-nitems_read(0), d_abs_pos, ninput_items[0]);
+            // printf("\nPRODUCE real output!\tdiff = %ld\tpos = %ld\tninput = %i\n\n",d_abs_pos-nitems_read(0), d_abs_pos, ninput_items[0]);
 
             // memcpy(out,in+(d_abs_pos-nitems_read(0) ),sizeof(gr_complex)*d_fftl);
             // memcpy(out + d_fftl,in+(d_abs_pos-nitems_read(0) + d_fftl + d_cpl),sizeof(gr_complex)*d_fftl);
@@ -110,7 +110,7 @@ namespace gr {
             int nfft = 64;
             for(int i = 0; i < nfft; i++){
               out[i] = in[i*(d_fftl/nfft) + (d_abs_pos-nitems_read(0))];
-              printf("pos %i value: %f\n", i, out[i]);
+              //printf("pos %i value: %f\n", i, out[i]);
               out[i + nfft] = in[i*(d_fftl/nfft) + (d_abs_pos-nitems_read(0)) + d_fftl + d_cpl];
             }
 
