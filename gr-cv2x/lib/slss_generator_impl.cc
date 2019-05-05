@@ -71,18 +71,16 @@ namespace gr {
         gr_vector_void_star &output_items)
     {
       gr_complex *out = (gr_complex *) output_items[0];
+      memset(out, 0, sizeof(gr_complex)*NFFT);
+
       // Do <+signal processing+>
       for(int i = 0; i < noutput_items; i++) {
          if((subframeCounter % syncPeriod) == syncOffsetIndicator1 ){
             //It's a reference subframe
             memcpy(out + ((NFFT-Subcarriers)/2), subframe[symbolCounter], sizeof(gr_complex)*Subcarriers);
-         }else{
-           memset(out, 0, sizeof(gr_complex)*NFFT);
          }
          //Update counters
          if(symbolCounter == (NSLsymb*2-1)){
-           printf("rough duracion: %f\n", pc_work_time_avg 	() 	);
-
            subframeCounter++;
            symbolCounter = 0;
          }else{
