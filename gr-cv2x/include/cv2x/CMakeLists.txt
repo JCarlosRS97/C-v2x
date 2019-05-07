@@ -34,5 +34,6 @@ install(FILES
     ssss_symbol_selector_cvc.h
     ssss_calculator_vcm.h
     ssss_tagger_cc.h
-    decimator_cc.h DESTINATION include/cv2x
+    decimator_cc.h
+    psss_time_sync.h DESTINATION include/cv2x
 )

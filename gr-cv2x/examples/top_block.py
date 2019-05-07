@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Sun May  5 12:20:51 2019
+# Generated: Tue May  7 17:56:28 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -16,6 +16,10 @@ if __name__ == '__main__':
         except:
             print "Warning: failed to XInitThreads()"
 
+import os
+import sys
+sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
+
 from PyQt4 import Qt
 from gnuradio import analog
 from gnuradio import blocks
@@ -26,8 +30,8 @@ from gnuradio.eng_option import eng_option
 from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
+from pss_time_sync import pss_time_sync  # grc-generated hier_block
 import cv2x
-import sys
 
 
 class top_block(gr.top_block, Qt.QWidget):
@@ -67,6 +71,10 @@ class top_block(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self.sig = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
+        self.pss_time_sync_0 = pss_time_sync(
+            fft_len=fft_len,
+            syncPeriod=syncPeriod,
+        )
         self.fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
         self.cv2x_slss_generator_0 = cv2x.slss_generator(120, 0, 0, syncPeriod, fft_len)
         self.cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, 1, SubcarrierBW, self.sig)
@@ -75,10 +83,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_vector_sink_x_0 = blocks.vector_sink_c(1)
         self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, 10,True)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
-        self.blocks_head_0_0 = blocks.head(gr.sizeof_gr_complex*1, 3840*100)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/carlos/Escritorio/random.dat', True)
-        self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/carlos/Escritorio/salida.dat', False)
-        self.blocks_file_sink_0_0.set_unbuffered(False)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
@@ -88,18 +93,17 @@ class top_block(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.analog_const_source_x_0, 0), (self.blocks_add_xx_0, 0))    
-        self.connect((self.blocks_add_xx_0, 0), (self.blocks_head_0_0, 0))    
         self.connect((self.blocks_add_xx_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))    
         self.connect((self.blocks_add_xx_1, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))    
         self.connect((self.blocks_file_source_0, 0), (self.blocks_add_xx_1, 1))    
-        self.connect((self.blocks_head_0_0, 0), (self.blocks_file_sink_0_0, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))    
         self.connect((self.blocks_throttle_1, 0), (self.blocks_vector_sink_x_0, 0))    
         self.connect((self.cv2x_ofdm_cyclic_prefixer_0, 0), (self.blocks_delay_0, 0))    
-        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.blocks_vector_sink_x_1, 0))    
+        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.pss_time_sync_0, 0))    
         self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))    
         self.connect((self.fft_vxx_0, 0), (self.cv2x_ofdm_cyclic_prefixer_0, 0))    
+        self.connect((self.pss_time_sync_0, 0), (self.blocks_vector_sink_x_1, 0))    
         self.connect((self.sig, 0), (self.blocks_throttle_1, 0))    
 
     def closeEvent(self, event):
@@ -113,6 +117,7 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_fft_len(self, fft_len):
         self.fft_len = fft_len
         self.set_samp_rate(self.SubcarrierBW*self.fft_len)
+        self.pss_time_sync_0.set_fft_len(self.fft_len)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
 
     def get_SubcarrierBW(self):
@@ -127,6 +132,7 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_syncPeriod(self, syncPeriod):
         self.syncPeriod = syncPeriod
+        self.pss_time_sync_0.set_syncPeriod(self.syncPeriod)
 
     def get_samp_rate(self):
         return self.samp_rate

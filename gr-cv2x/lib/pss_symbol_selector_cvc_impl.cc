@@ -41,7 +41,7 @@ namespace gr {
     pss_symbol_selector_cvc_impl::pss_symbol_selector_cvc_impl(int fft, int syncPeriod, int syncOffsetIndicator)
       : gr::block("pss_symbol_selector_cvc",
           gr::io_signature::make( 1, 1, sizeof(gr_complex)),
-          gr::io_signature::make( 1, 1, sizeof(gr_complex) * 64)),
+          gr::io_signature::make( 1, 1, sizeof(gr_complex) * fft)),
             d_fftl(fft),
             d_cpl(144*fft/2048),
             d_cpl0(160*fft/2048),
@@ -183,19 +183,17 @@ namespace gr {
     void
     pss_symbol_selector_cvc_impl::produce_output(gr_complex *&out, const gr_complex *in, long abs_pos, int &nout)
     {
-        //memcpy(out,in+d_cpl,sizeof(gr_complex)*nfft); //copy samples to output buffer!
-        //printf("abs_pos: %ld\t primero: %f\n",abs_pos, in[0].real() );
-        for(int i = 0; i < nfft; i++){
-          out[i] = in[pss1_index[i]];
-          out[i + nfft] = in[pss2_index[i]];
-        }
+      memcpy(out,in+d_cpl,sizeof(gr_complex)*d_fftl); //copy samples to output buffer!
 
-        // pss_calc needs the exact position of first sample in stream
-        add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);
-        add_item_tag(0,nitems_written(0)+nout+1,d_key, pmt::from_long( abs_pos),d_tag_id);
+      // pss_calc needs the exact position of first sample in stream
+      add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);
+      nout++; // 1 output vector produced
+      out+=d_fftl; //move pointer to output buffer by the size of one vector
+      //segundo simbolo
+      memcpy(out,in+d_cpl*2 + d_fftl,sizeof(gr_complex)*d_fftl); //copy samples to output buffer!
 
-        out += 2*nfft; //move pointer to output buffer by the size of one vector
-        nout += 2; // 2 output vector produced
+      nout++; // 1 output vector produced
+      out+=d_fftl; //move pointer to output buffer by the size of one vector
     }
   } /* namespace cv2x */
 } /* namespace gr */

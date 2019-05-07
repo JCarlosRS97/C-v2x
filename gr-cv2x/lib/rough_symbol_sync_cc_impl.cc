@@ -64,9 +64,6 @@ namespace gr {
 
       d_cp0 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
       d_cp1 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
-      d_res = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
-      i_vector = (float*)fftwf_malloc(sizeof(float)*d_cpl*vlen);
-      q_vector = (float*)fftwf_malloc(sizeof(float)*d_cpl*vlen);
     }
 
     /*
@@ -76,9 +73,6 @@ namespace gr {
     {
       fftwf_free(d_cp0);
       fftwf_free(d_cp1);
-      fftwf_free(d_res);
-      fftwf_free(i_vector);
-      fftwf_free(q_vector);
     }
 
     void rough_symbol_sync_cc_impl::forecast(int noutput_items,
@@ -125,7 +119,7 @@ namespace gr {
       for(int i = 0; i < d_cpl*15-stp; i+=stp){
           memcpy(d_cp0,in+i*d_vlen          ,sizeof(gr_complex)*d_cpl*d_vlen);
           memcpy(d_cp1,in+(i+d_fftl)*d_vlen ,sizeof(gr_complex)*d_cpl*d_vlen);
-          gr_complex val = corr(d_res,d_cp0,d_cp1,d_cpl*d_vlen);
+          gr_complex val = corr(d_cp0,d_cp1,d_cpl*d_vlen);
 
           if(abs(it_val) < abs(val) ){
               coarse_pos = i;
@@ -133,7 +127,7 @@ namespace gr {
                   d_corr_val = abs(val);
                   d_sym_pos = (nitems_read(0) + coarse_pos)%d_slotl;
                 //printf("%s %i\tNEW coarse max!\tval = %f\tcoarse_pos = %i\t\n",name().c_str(), d_work_call, abs(val), coarse_pos );
-                //printf("corr_val = %f\tsym_pos = %ld\n", d_corr_val, d_sym_pos);
+                // printf("corr_val = %f\tsym_pos = %ld\n", d_corr_val, d_sym_pos);
               }
               it_val = val;
           }
@@ -151,7 +145,7 @@ namespace gr {
           for(int i = coarse_pos-stp ; i < coarse_pos+stp; i++){
               memcpy(d_cp0,in+i*d_vlen         ,sizeof(gr_complex)*d_cpl*d_vlen);
               memcpy(d_cp1,in+(i+d_fftl)*d_vlen,sizeof(gr_complex)*d_cpl*d_vlen);
-              gr_complex val = corr(d_res,d_cp0,d_cp1,d_cpl*d_vlen);
+              gr_complex val = corr(d_cp0,d_cp1,d_cpl*d_vlen);
 
               if(abs(it_val) < abs(val) ){
                   fine_pos = i;
@@ -160,7 +154,9 @@ namespace gr {
                       long abs_pos = nitems_read(0) + fine_pos;
                       d_sym_pos = (nitems_read(0) + fine_pos)%d_slotl;
                       //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
-                      //printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
+                      // printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
+                      // printf("rOUGH duracion: %f\n", pc_work_time_avg 	() 	);
+
                   }
                   // The next line does the fancy stuff -> calculate the frequency offset.
                   float coef = nitems_read(0)<2000? 0.5 : 0.99;
@@ -189,20 +185,15 @@ namespace gr {
   }
 
   gr_complex
-  rough_symbol_sync_cc_impl::corr(gr_complex *res, gr_complex *x, gr_complex *y, int len)
+  rough_symbol_sync_cc_impl::corr(gr_complex *x, gr_complex *y, int len)
   {
-      volk_32fc_conjugate_32fc_a(y, y, len);
-      volk_32fc_x2_multiply_32fc_a(res, x, y, len);
-
-
-      volk_32fc_deinterleave_32f_x2_a(i_vector, q_vector, res, len);
-      float i_result = 0.0f;
-      float q_result = 0.0f;
-      volk_32f_accumulator_s32f_a(&i_result, i_vector, len);
-      volk_32f_accumulator_s32f_a(&q_result, q_vector, len);
-
-      return gr_complex(i_result, q_result);
+    gr_complex resultado;
+    volk_32fc_conjugate_32fc_a(y, y, len);
+    volk_32fc_x2_dot_prod_32fc(&resultado, x, y, len);
+    return resultado;
     }
+
+
 
   } /* namespace cv2x */
 } /* namespace gr */

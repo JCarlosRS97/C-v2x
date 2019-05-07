@@ -71,10 +71,10 @@ namespace gr {
         gr_vector_void_star &output_items)
     {
       gr_complex *out = (gr_complex *) output_items[0];
-      memset(out, 0, sizeof(gr_complex)*NFFT);
 
       // Do <+signal processing+>
       for(int i = 0; i < noutput_items; i++) {
+        memset(out, 0, sizeof(gr_complex)*NFFT);
          if((subframeCounter % syncPeriod) == syncOffsetIndicator1 ){
             //It's a reference subframe
             memcpy(out + ((NFFT-Subcarriers)/2), subframe[symbolCounter], sizeof(gr_complex)*Subcarriers);
@@ -176,13 +176,12 @@ namespace gr {
 
    void slss_generator_impl::CreateSubframe(){
       //map PSSS
-      int frecPosNegative = Subcarriers/2 - 31;
       //PSSS
-      memcpy(subframe[1] + frecPosNegative, psss_symbols, sizeof(gr_complex)*Subcarriers);
-      memcpy(subframe[2] + frecPosNegative, psss_symbols, sizeof(gr_complex)*Subcarriers);
+      memcpy(subframe[1], psss_symbols, sizeof(gr_complex)*Subcarriers);
+      memcpy(subframe[2], psss_symbols, sizeof(gr_complex)*Subcarriers);
       //SSSS
-      memcpy(subframe[11] + frecPosNegative, ssss_symbols, sizeof(gr_complex)*Subcarriers);
-      memcpy(subframe[12] + frecPosNegative, ssss_symbols, sizeof(gr_complex)*Subcarriers);
+      memcpy(subframe[11], ssss_symbols, sizeof(gr_complex)*Subcarriers);
+      memcpy(subframe[12], ssss_symbols, sizeof(gr_complex)*Subcarriers);
 
    }
 

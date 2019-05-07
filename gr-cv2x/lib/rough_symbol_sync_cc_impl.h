@@ -42,15 +42,11 @@ namespace gr {
        boost::shared_ptr<gr::analog::sig_source_c> d_sig;
        gr_complex* d_cp0;
        gr_complex* d_cp1;
-       gr_complex* d_res;
-       float* i_vector;
-       float* q_vector;
 
        pmt::pmt_t d_key;
        pmt::pmt_t d_tag_id;
 
-       gr_complex corr(gr_complex *x,gr_complex *y, int len);
-       gr_complex corr(gr_complex *res, gr_complex *x, gr_complex *y, int len);
+       gr_complex corr(gr_complex *x, gr_complex *y, int len);
 
      public:
       rough_symbol_sync_cc_impl(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig);
