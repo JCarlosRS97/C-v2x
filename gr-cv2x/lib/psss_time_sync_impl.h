@@ -40,6 +40,7 @@ namespace gr {
       int d_lock_count;
       bool d_is_locked;
       int syncPeriod;
+      int nfft;
 
       pmt::pmt_t d_port_lock;
       pmt::pmt_t d_port_sync_frame_start;

@@ -43,9 +43,9 @@ namespace gr {
     * The private constructor
     */
     psss_time_sync_impl::psss_time_sync_impl(int fftl, int syncPeriod)
-    : gr::sync_decimator("psss_time_sync",
-    gr::io_signature::make(1, 1, sizeof(gr_complex)*fftl),
-    gr::io_signature::make(0, 0, 0),2),
+    : gr::sync_block("psss_time_sync",
+    gr::io_signature::make(1, 1, sizeof(gr_complex)*128),
+    gr::io_signature::make(0, 0, 0)),
     syncPeriod(syncPeriod),
     d_fftl(fftl),
     d_cpl(144*fftl/2048),
@@ -55,6 +55,7 @@ namespace gr {
     d_sync_frame_start(0),
     d_corr_val(0.0),
     d_lock_count(0),
+    nfft(64),
     d_is_locked(false)
     {
       d_port_lock = pmt::string_to_symbol("lock");
@@ -64,13 +65,13 @@ namespace gr {
       d_port_N_id_2 = pmt::string_to_symbol("N_id_2");
       message_port_register_out(d_port_N_id_2);
 
-      gr_complex *d_chu_f   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*fftl);
-      gr_complex *d_chu_t    =  (gr_complex*) fftwf_malloc(sizeof(gr_complex)*fftl);
-      d_chu0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*fftl*2, volk_get_alignment());
-      d_chu1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*fftl*2, volk_get_alignment());
-      d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*fftl*2, volk_get_alignment());
+      gr_complex *d_chu_f   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*nfft);
+      gr_complex *d_chu_t    =  (gr_complex*) fftwf_malloc(sizeof(gr_complex)*nfft);
+      d_chu0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
+      d_chu1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
+      d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
 
-      fftwf_plan d_plan_r = fftwf_plan_dft_1d(fftl, reinterpret_cast<fftwf_complex*>(d_chu_f), reinterpret_cast<fftwf_complex*>(d_chu_t), FFTW_BACKWARD, FFTW_ESTIMATE);
+      fftwf_plan d_plan_r = fftwf_plan_dft_1d(nfft, reinterpret_cast<fftwf_complex*>(d_chu_f), reinterpret_cast<fftwf_complex*>(d_chu_t), FFTW_BACKWARD, FFTW_ESTIMATE);
 
       //zc generation
       gr_complex d_chu0[62];
@@ -78,34 +79,36 @@ namespace gr {
       zc(d_chu0,0);
       zc(d_chu1,1);
       //Primero el 1
-      memset(d_chu_f, 0, sizeof(gr_complex)*fftl);
+      memset(d_chu_f, 0, sizeof(gr_complex)*nfft);
       memcpy(d_chu_f, d_chu0 + 31, sizeof(gr_complex)*31);
-      memcpy(d_chu_f + fftl-31, d_chu0, sizeof(gr_complex)*31);
+      memcpy(d_chu_f + 33, d_chu0, sizeof(gr_complex)*31);
+
+
       fftwf_execute(d_plan_r);
-      memcpy(d_chu0_t, d_chu_t, sizeof(gr_complex)*fftl);
-      memcpy(d_chu0_t + fftl, d_chu_t, sizeof(gr_complex)*fftl);
+      memcpy(d_chu0_t, d_chu_t, sizeof(gr_complex)*nfft);
+      memcpy(d_chu0_t + nfft, d_chu_t, sizeof(gr_complex)*nfft);
 
 
       //ahora el segundo
-      memset(d_chu_f, 0, sizeof(gr_complex)*fftl);
+      memset(d_chu_f, 0, sizeof(gr_complex)*nfft);
       memcpy(d_chu_f, d_chu1 + 31, sizeof(gr_complex)*31);
-      memcpy(d_chu_f + fftl-31, d_chu1, sizeof(gr_complex)*31);
+      memcpy(d_chu_f + 33, d_chu1, sizeof(gr_complex)*31);
 
       fftwf_execute(d_plan_r);
-      memcpy(d_chu1_t, d_chu_t, sizeof(gr_complex)*fftl);
-      memcpy(d_chu1_t + fftl, d_chu_t, sizeof(gr_complex)*fftl);
+      memcpy(d_chu1_t, d_chu_t, sizeof(gr_complex)*nfft);
+      memcpy(d_chu1_t + nfft, d_chu_t, sizeof(gr_complex)*nfft);
 
       //ahora se conjugan ambas secuencias
-      volk_32fc_conjugate_32fc_a(d_chu1_t, d_chu1_t, 2*fftl);
-      volk_32fc_conjugate_32fc_a(d_chu0_t, d_chu0_t, 2*fftl);
+      volk_32fc_conjugate_32fc_a(d_chu1_t, d_chu1_t, 2*nfft);
+      volk_32fc_conjugate_32fc_a(d_chu0_t, d_chu0_t, 2*nfft);
 
       // printf("Chu0\n");
-      // for(int j = 0; j < d_fftl; j++){
+      // for(int j = 0; j < nfft; j++){
       //   printf("pos %i value %f + %fi\n", j, d_chu0_t[j].real(), d_chu0_t[j].imag());
       // }
       //
       // printf("Chu1\n");
-      // for(int j = 0; j < d_fftl; j++){
+      // for(int j = 0; j < nfft; j++){
       //   printf("pos %i value %f + %fi\n", j, d_chu1_t[j].real(), d_chu1_t[j].imag());
       // }
 
@@ -149,21 +152,25 @@ namespace gr {
         bool changed = false;
         for(int i = 0 ; i < noutput_items ; i++){
           //extract PSS from its carriers.
-          memcpy(d_corr_in, in + 2*i, sizeof(gr_complex)*2*d_fftl);
+          memcpy(d_corr_in, in, sizeof(gr_complex)*2*nfft);
+          in += 2*nfft;
+          // int sync_frame_start = calculate_sync_frame_start(nir+i);
+          // if(sync_frame_start == 23){
+          //   printf("sync_frame_start %i\n", sync_frame_start);
           // for(int j = 0; j < d_fftl; j++){
           //   printf("pos %i value %f + %fi\n", j, d_corr_in[j].real(), d_corr_in[j].imag());
           // }
-
+          //}
+          printf("pos: %ld\n", nir + i);
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(); }
           else{ changed = find_pss_symbol(); }
 
-          int sync_frame_start = calculate_sync_frame_start(nir+2*i);
-          printf("abs_pos: %i\n", sync_frame_start);
+          // printf("abs_pos: %i\n", sync_frame_start);
           //Do things if new max is found!
           if(changed){
             d_lock_count = 0; // reset lock count!
-            int sync_frame_start = calculate_sync_frame_start(nir+2*i);
+            int sync_frame_start = calculate_sync_frame_start(nir + i);
             if(d_sync_frame_start != sync_frame_start ){
               if(!d_is_locked){
                 printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
@@ -237,7 +244,7 @@ namespace gr {
       bool
       psss_time_sync_impl::find_pss_symbol()
       {
-        int len = 2*d_fftl;
+        int len = 2*nfft;
         float max0 = 0.0;
         mi_max_pos(max0, d_chu0_t, len);
 
@@ -247,7 +254,7 @@ namespace gr {
         int N_id_2 = (max1 > max0)? 1: 0;
         float maxc = (max1 > max0)? max1: max0;
         printf("Chu0: max = %f\n", max0);
-        printf("Chu1: max = %f\n", max1);
+        // printf("Chu1: max = %f\n", max1);
         //Calculate return value
         bool has_changed = false;
         if(d_corr_val < maxc){
@@ -261,7 +268,7 @@ namespace gr {
       bool
       psss_time_sync_impl::tracking()
       {
-        int len = 2*d_fftl;
+        int len = 2*nfft;
         float max = 0.0;
         switch(d_N_id_2){
           case 0: mi_max_pos(max, d_chu0_t, len); break;

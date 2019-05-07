@@ -129,7 +129,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>fft_len</value>
+      <value>128</value>
     </param>
   </block>
   <block>
@@ -172,7 +172,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>400</value>
+      <value>500</value>
     </param>
     <param>
       <key>type</key>
@@ -180,7 +180,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>fft_len</value>
+      <value>128</value>
     </param>
   </block>
   <block>

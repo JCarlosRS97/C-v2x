@@ -24,7 +24,7 @@
        <sink>
         <name>in</name>
         <type>complex</type>
-        <vlen>$fftl</vlen>
+        <vlen>128</vlen>
       </sink>
 
       <source>

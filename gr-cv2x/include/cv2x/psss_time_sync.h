@@ -23,7 +23,7 @@
 #define INCLUDED_CV2X_PSSS_TIME_SYNC_H
 
 #include <cv2x/api.h>
-#include <gnuradio/sync_decimator.h>
+#include <gnuradio/sync_block.h>
 
 namespace gr {
   namespace cv2x {
@@ -33,7 +33,7 @@ namespace gr {
      * \ingroup cv2x
      *
      */
-    class CV2X_API psss_time_sync : virtual public gr::sync_decimator
+    class CV2X_API psss_time_sync : virtual public gr::sync_block
     {
      public:
       typedef boost::shared_ptr<psss_time_sync> sptr;
