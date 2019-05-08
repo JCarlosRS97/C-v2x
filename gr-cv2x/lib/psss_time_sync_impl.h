@@ -28,7 +28,6 @@ namespace gr {
 
     class psss_time_sync_impl : public psss_time_sync
     {
-      static const gr_complex d_C_I;
       static const float d_PI;
       int d_fftl;
       int d_cpl;
@@ -36,8 +35,8 @@ namespace gr {
       int d_slotl;
       int d_N_id_2;
       long d_sync_frame_start;
-      float d_corr_val;
-      int d_lock_count;
+      float d_corr_val;  // Actual maximun correlator value
+      int d_lock_count;  // Count the number of inputs in which d_corr_val don't change
       bool d_is_locked;
       int syncPeriod;
       int nfft;
@@ -46,13 +45,11 @@ namespace gr {
       pmt::pmt_t d_port_sync_frame_start;
       pmt::pmt_t d_port_N_id_2;
 
-      std::vector<float> d_corr_vec;
 
       void zc(gr_complex *zc, int cell_id); // used to generate Zadoff-Chu sequences
       bool find_pss_symbol(); // prepares the calculation stuff etc.
       bool tracking();
       void max_pos(float &max, gr_complex *x, int len); //finds maximum of one correlation
-      void mi_max_pos(float &max, gr_complex *x, int len); //finds maximum of one correlation
 
 
       inline void set_sync_frame_start();

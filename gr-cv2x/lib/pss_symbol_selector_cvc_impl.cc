@@ -49,10 +49,7 @@ namespace gr {
             d_syml(fft+d_cpl),
             d_syml0(fft+d_cpl0),
             d_offset(0),
-            d_sym_pos(0),
             d_ass_sync_frame_start(3*syncPeriod*d_slotl),
-            d_off_sym_count(0),
-            d_work_call(0),
             d_is_locked(false),
             syncPeriod(syncPeriod),
             syncOffsetIndicator(syncOffsetIndicator),
@@ -151,7 +148,8 @@ namespace gr {
       for(i = 0 ; (i+2*d_syml0) < nin ; i++){
           abs_pos = nir+long(i); // calculate new absolute sample position
           mod_pss = abs( (int(abs_pos-(pss_pos) ))%(syncPeriod*2*d_slotl) );
-          if(d_ass_sync_frame_start < syncPeriod*2* d_slotl && mod_pss < 12 ){ // Si ya ha sincronizado alguna vez
+          if(d_ass_sync_frame_start < syncPeriod*2* d_slotl && mod_pss < 12 ){
+              // If it is near to the maximun correlation value(tracking)
               produce_output(out, in+i, abs_pos, nout);
               //consumed_items = i+1;
               //printf("%s--> generate output sync_frame_start\tmod_pss = %i\tabs_pos = %ld\tpss_pos = %ld\tframe = %ld\t offset %i\n", name().c_str(), mod_pss, abs_pos,pss_pos,d_ass_sync_frame_start, offset );
@@ -159,14 +157,16 @@ namespace gr {
           else if(is_locked){//For now step over all samples
               //consumed_items = i+1;
           }
-          else if(  (((abs(abs_pos-offset))%d_slotl)-d_syml0)%d_syml == 0){
-              // si se esta al principio de cualquier simbolo distinto del primero
+          else if(((abs(abs_pos-offset)%d_slotl)-d_syml0)%d_syml == 0){
+              // At the first sample of a symbol when it isn't at tracking mode
+              // yet
               produce_output(out, in+i, abs_pos, nout);
-              i += (d_syml-10);
+              i += (d_syml-10); // Reduce iterations
               //consumed_items = i+1; // +1 because i is initialized with 0
           }
 
-          if(nout == noutput_items){break;}// very important! break if maximum number of output vectors are produced!
+          // break if maximum number of output vectors are produced!
+          if(nout == noutput_items){break;}
       }
       consumed_items = i+1;
       // Tell runtime system how many input items we consumed on each input stream
@@ -183,22 +183,7 @@ namespace gr {
     void
     pss_symbol_selector_cvc_impl::produce_output(gr_complex *&out, const gr_complex *in, long abs_pos, int &nout)
     {
-      // memcpy(out,in+d_cpl,sizeof(gr_complex)*d_fftl); //copy samples to output buffer!
-      //
-      // // pss_calc needs the exact position of first sample in stream
-      // add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);
-      // nout++; // 1 output vector produced
-      // out+=d_fftl; //move pointer to output buffer by the size of one vector
-      // //segundo simbolo
-      // memcpy(out,in+d_cpl*2 + d_fftl,sizeof(gr_complex)*d_fftl); //copy samples to output buffer!
-      //
-      // nout++; // 1 output vector produced
-      // out+=d_fftl; //move pointer to output buffer by the size of one vector
-
-        //memcpy(out,in+d_cpl,sizeof(gr_complex)*nfft); //copy samples to output buffer!
-        //printf("abs_pos: %ld\t primero: %f\n",abs_pos, in[0].real() );
-
-
+        //extract psss symbols decimated
         for(int i = 0; i < nfft; i++){
           out[i] = in[pss1_index[i]];
           out[i + nfft] = in[pss2_index[i]];

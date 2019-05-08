@@ -130,10 +130,6 @@ namespace gr {
       volk_free(d_chu1_t);
     }
 
-    // Define imaginary constant
-    const gr_complex
-    psss_time_sync_impl::d_C_I = gr_complex(0,1);
-
     // Define PI for use in this block
     const float
     psss_time_sync_impl::d_PI = float(M_PI);
@@ -154,14 +150,6 @@ namespace gr {
           //extract PSS from its carriers.
           memcpy(d_corr_in, in, sizeof(gr_complex)*2*nfft);
           in += 2*nfft;
-          // int sync_frame_start = calculate_sync_frame_start(nir+i);
-          // if(sync_frame_start == 23){
-          //   printf("sync_frame_start %i\n", sync_frame_start);
-          // for(int j = 0; j < d_fftl; j++){
-          //   printf("pos %i value %f + %fi\n", j, d_corr_in[j].real(), d_corr_in[j].imag());
-          // }
-          //}
-          // printf("pos: %ld\n", nir + i);
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(); }
           else{ changed = find_pss_symbol(); }
@@ -175,9 +163,6 @@ namespace gr {
               if(!d_is_locked){
                 printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
-                // for(int contador = 0; contador<124; contador++){
-                //   printf("pos %i\t value= %f \n", contador, chuX[contador].real());
-                // }
                 message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                 d_sync_frame_start = sync_frame_start;
               }
@@ -232,7 +217,7 @@ namespace gr {
 
 
       void
-      psss_time_sync_impl::mi_max_pos(float &max, gr_complex *x, int len)
+      psss_time_sync_impl::max_pos(float &max, gr_complex *x, int len)
       {
         gr_complex res;
 
@@ -246,10 +231,10 @@ namespace gr {
       {
         int len = 2*nfft;
         float max0 = 0.0;
-        mi_max_pos(max0, d_chu0_t, len);
+        max_pos(max0, d_chu0_t, len);
 
         float max1 = 0.0;
-        mi_max_pos(max1, d_chu1_t, len);
+        max_pos(max1, d_chu1_t, len);
 
         int N_id_2 = (max1 > max0)? 1: 0;
         float maxc = (max1 > max0)? max1: max0;
@@ -271,8 +256,8 @@ namespace gr {
         int len = 2*nfft;
         float max = 0.0;
         switch(d_N_id_2){
-          case 0: mi_max_pos(max, d_chu0_t, len); break;
-          case 1: mi_max_pos(max, d_chu1_t, len); break;
+          case 0: max_pos(max, d_chu0_t, len); break;
+          case 1: max_pos(max, d_chu1_t, len); break;
         }
         if(d_corr_val < max){
           d_corr_val = max;

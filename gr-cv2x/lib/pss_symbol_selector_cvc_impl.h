@@ -29,27 +29,25 @@ namespace gr {
     class pss_symbol_selector_cvc_impl : public pss_symbol_selector_cvc
     {
      private:
-       int d_fftl;
-       int d_cpl;
-       int d_cpl0;
-       int d_slotl;
-       int d_syml;
-       int d_syml0;
+       int d_fftl;              // fft length
+       int d_cpl;               // cp length
+       int d_cpl0;              // first cp length
+       int d_slotl;             // slot length
+       int d_syml;              // symbol length
+       int d_syml0;             // first symbol length
 
-       long d_offset;
-       long d_sym_pos;
-       long d_ass_sync_frame_start;
-       int d_off_sym_count;
-       int d_work_call;
-       pmt::pmt_t d_key;
-       pmt::pmt_t d_sym_key;
-       pmt::pmt_t d_tag_id;
-       bool d_is_locked;
-       int syncPeriod;
-       int syncOffsetIndicator;
-       int pss1_index[64];
-       int pss2_index[64];
-       int nfft;
+       long d_offset;           // symbol offset calculated before
+       long d_ass_sync_frame_start; //start pos of sync subframe
+       pmt::pmt_t d_key;        // key tag to send abs_pos of output
+       pmt::pmt_t d_sym_key;    // key tag to receive d_offset
+       pmt::pmt_t d_tag_id;     // id of block needed to send tags
+       bool d_is_locked;        // indicator of sync end
+       int syncPeriod;          // distance in subframes of two sync subframes
+                                // standart value = 160;
+       int syncOffsetIndicator; // offset in subframes respect SFN
+       int pss1_index[64];      // index of the first decimated psss
+       int pss2_index[64];      // index of the second decimated psss
+       int nfft;                // length of decimated psss. Constant.
 
 
        void produce_output(gr_complex *&out, const gr_complex *in, long abs_pos, int &nout);
