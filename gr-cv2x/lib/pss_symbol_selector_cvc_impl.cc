@@ -59,6 +59,7 @@ namespace gr {
             nfft(64)
     {
       //set_output_multiple(2);
+      set_relative_rate(1/d_syml);
       set_tag_propagation_policy(TPP_DONT);
       d_key = pmt::string_to_symbol("offset_marker");
       d_sym_key = pmt::string_to_symbol("symbol");
@@ -106,7 +107,7 @@ namespace gr {
     {
       unsigned ninputs = ninput_items_required.size ();
       for (unsigned i = 0; i < ninputs; i++){
-          ninput_items_required[i] =  d_syml0*2 + d_syml * (noutput_items - 2) / 2 + history() - 1;
+          ninput_items_required[i] =  d_syml0*2 + d_syml * (noutput_items - 1) + history() - 1;
       }
     }
 
@@ -161,18 +162,17 @@ namespace gr {
           else if(  (((abs(abs_pos-offset))%d_slotl)-d_syml0)%d_syml == 0){
               // si se esta al principio de cualquier simbolo distinto del primero
               produce_output(out, in+i, abs_pos, nout);
-              i += (d_syml-10); //optimizable en el futuro
+              i += (d_syml-10);
               //consumed_items = i+1; // +1 because i is initialized with 0
           }
 
-          if((nout == noutput_items) || (nout == (noutput_items-1))){break;}// very important! break if maximum number of output vectors are produced!
+          if(nout == noutput_items){break;}// very important! break if maximum number of output vectors are produced!
       }
       consumed_items = i+1;
       // Tell runtime system how many input items we consumed on each input stream
-      // printf("noutput_items %i\n", noutput_items);
+      // printf("noutput_items %i\t nout = %i\n", noutput_items, nout);
       // printf("consumed items: %i\n", consumed_items);
-      // printf("Input buffer %f\n", pc_input_buffers_full(0));
-      // printf("Output buffer %f\n", pc_output_buffers_full(0));
+      // printf("Input buffer %f\tOutput buffer %f\n", pc_input_buffers_full(0), pc_output_buffers_full(0));
       // printf("nin: %i\n", nin);
       consume_each (consumed_items);
       // Tell runtime system how many output items we produced.

@@ -102,7 +102,7 @@ namespace gr {
 
       //printf("%s.work\tnoutput_items = %i\tnitems_read = %ld\n", name().c_str(), noutput_items, nitems_read(0) );
 
-      if(nitems_read(0) > 100000){
+      if(nitems_read(0) > 10000){
         // printf("rough duracion: %f\n", pc_work_time_avg 	() 	);
 
         memcpy(out,in,sizeof(gr_complex)*noutput_items*d_vlen );
@@ -178,8 +178,9 @@ namespace gr {
       // actually the next block doesn't care about the exact tag position. Only the value and key are important.
       memcpy(out, in, sizeof(gr_complex)*nout*d_vlen );
       add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-      // printf("Input buffer %f\n", pc_input_buffers_full(0));
-      // printf("Output buffer %f\n", pc_output_buffers_full(0));
+      // printf("noutput_items %i\t nout = %i\n", noutput_items, nout);
+      // printf("consumed items: %i\n", nout);
+      // printf("Input buffer %f\tOutput buffer %f\n", pc_input_buffers_full(0), pc_output_buffers_full(0));
       // Tell runtime system how many output items we produced.
       return nout;
   }

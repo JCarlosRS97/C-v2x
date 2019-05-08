@@ -161,7 +161,7 @@ namespace gr {
           //   printf("pos %i value %f + %fi\n", j, d_corr_in[j].real(), d_corr_in[j].imag());
           // }
           //}
-          printf("pos: %ld\n", nir + i);
+          // printf("pos: %ld\n", nir + i);
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(); }
           else{ changed = find_pss_symbol(); }
@@ -253,7 +253,7 @@ namespace gr {
 
         int N_id_2 = (max1 > max0)? 1: 0;
         float maxc = (max1 > max0)? max1: max0;
-        printf("Chu0: max = %f\n", max0);
+        // printf("Chu0: max = %f\n", max0);
         // printf("Chu1: max = %f\n", max1);
         //Calculate return value
         bool has_changed = false;
