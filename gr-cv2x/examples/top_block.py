@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Fri May  3 20:14:14 2019
+# Generated: Tue May  7 23:11:42 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -31,8 +31,8 @@ from gnuradio.eng_option import eng_option
 from gnuradio.fft import window
 from gnuradio.filter import firdes
 from lte_ssss_sync import lte_ssss_sync  # grc-generated hier_block
-from ltev_psss_sync import ltev_psss_sync  # grc-generated hier_block
 from optparse import OptionParser
+from pss_time_sync import pss_time_sync  # grc-generated hier_block
 import cv2x
 import sip
 
@@ -93,7 +93,7 @@ class top_block(gr.top_block, Qt.QWidget):
         
         
           
-        self.ltev_psss_sync_0 = ltev_psss_sync(
+        self.pss_time_sync_0 = pss_time_sync(
             fft_len=fft_len,
             syncPeriod=syncPeriod,
         )
@@ -106,17 +106,10 @@ class top_block(gr.top_block, Qt.QWidget):
         self.cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, 1, SubcarrierBW, self.sig)
         self.cv2x_ofdm_cyclic_prefixer_0 = cv2x.ofdm_cyclic_prefixer(fft_len, (int(160.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len)), 0, '')
         self.blocks_vector_sink_x_0 = blocks.vector_sink_c(1)
-        self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, 100,True)
+        self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, 10,True)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
-        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, fft_len)
         self.blocks_message_debug_0 = blocks.message_debug()
-        self.blocks_head_0_0_0 = blocks.head(gr.sizeof_gr_complex*1, 3840*100)
-        self.blocks_head_0_0 = blocks.head(gr.sizeof_gr_complex*1, 3840*100)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/home/carlos/Escritorio/random.dat', True)
-        self.blocks_file_sink_0_0_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/carlos/Escritorio/salida2.dat', False)
-        self.blocks_file_sink_0_0_0.set_unbuffered(False)
-        self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/carlos/Escritorio/salida.dat', False)
-        self.blocks_file_sink_0_0.set_unbuffered(False)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/carlos/Escritorio/random.dat', True)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
@@ -130,20 +123,15 @@ class top_block(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_add_xx_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))    
         self.connect((self.blocks_add_xx_1, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))    
-        self.connect((self.blocks_file_source_0, 0), (self.blocks_stream_to_vector_0, 0))    
-        self.connect((self.blocks_head_0_0, 0), (self.blocks_file_sink_0_0, 0))    
-        self.connect((self.blocks_head_0_0_0, 0), (self.blocks_file_sink_0_0_0, 0))    
-        self.connect((self.blocks_stream_to_vector_0, 0), (self.blocks_add_xx_1, 1))    
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_add_xx_1, 1))    
         self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))    
         self.connect((self.blocks_throttle_1, 0), (self.blocks_vector_sink_x_0, 0))    
         self.connect((self.cv2x_ofdm_cyclic_prefixer_0, 0), (self.blocks_delay_0, 0))    
-        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.blocks_head_0_0_0, 0))    
-        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.ltev_psss_sync_0, 0))    
+        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.pss_time_sync_0, 0))    
         self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))    
         self.connect((self.fft_vxx_0, 0), (self.cv2x_ofdm_cyclic_prefixer_0, 0))    
         self.connect((self.lte_ssss_sync_0, 0), (self.qtgui_sink_x_0, 0))    
-        self.connect((self.ltev_psss_sync_0, 0), (self.blocks_head_0_0, 0))    
-        self.connect((self.ltev_psss_sync_0, 0), (self.lte_ssss_sync_0, 0))    
+        self.connect((self.pss_time_sync_0, 0), (self.lte_ssss_sync_0, 0))    
         self.connect((self.sig, 0), (self.blocks_throttle_1, 0))    
 
     def closeEvent(self, event):
@@ -157,7 +145,7 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_fft_len(self, fft_len):
         self.fft_len = fft_len
         self.set_samp_rate(self.SubcarrierBW*self.fft_len)
-        self.ltev_psss_sync_0.set_fft_len(self.fft_len)
+        self.pss_time_sync_0.set_fft_len(self.fft_len)
         self.lte_ssss_sync_0.set_fft_len(self.fft_len)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
 
@@ -173,7 +161,7 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_syncPeriod(self, syncPeriod):
         self.syncPeriod = syncPeriod
-        self.ltev_psss_sync_0.set_syncPeriod(self.syncPeriod)
+        self.pss_time_sync_0.set_syncPeriod(self.syncPeriod)
         self.lte_ssss_sync_0.set_syncPeriod(self.syncPeriod)
 
     def get_samp_rate(self):

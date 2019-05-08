@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <?grc format='1' created='3.7.10'?>
 <flow_graph>
-  <timestamp>Thu Apr  4 19:13:21 2019</timestamp>
+  <timestamp>Sun May  5 19:34:38 2019</timestamp>
   <block>
     <key>options</key>
     <param>
       <key>author</key>
-      <value>Juan Carlos Ruiz Sicilia</value>
+      <value></value>
     </param>
     <param>
       <key>window_size</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>ltev_psss_sync</value>
+      <value>pss_time_sync</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>LTE-V PSSS Sync</value>
+      <value>PSSS Time Sync </value>
     </param>
   </block>
   <block>
@@ -109,7 +109,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 704)</value>
+      <value>(1056, 488)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -129,7 +129,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>64</value>
+      <value>128</value>
     </param>
   </block>
   <block>
@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(872, 716)</value>
+      <value>(1000, 620)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -172,7 +172,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>400</value>
+      <value>500</value>
     </param>
     <param>
       <key>type</key>
@@ -180,54 +180,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>64</value>
-    </param>
-  </block>
-  <block>
-    <key>cv2x_pss_calculator_vcm</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>fftl</key>
-      <value>fft_len</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(640, 520)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>cv2x_pss_calculator_vcm_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>syncPeriod</key>
-      <value>syncPeriod</value>
+      <value>128</value>
     </param>
   </block>
   <block>
@@ -254,7 +207,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(248, 312)</value>
+      <value>(392, 216)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -301,7 +254,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 240)</value>
+      <value>(976, 96)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -310,6 +263,53 @@
     <param>
       <key>id</key>
       <value>cv2x_pss_tagger_cc_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>syncPeriod</key>
+      <value>syncPeriod</value>
+    </param>
+  </block>
+  <block>
+    <key>cv2x_psss_time_sync</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>fftl</key>
+      <value>fft_len</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(808, 360)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>cv2x_psss_time_sync_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -340,7 +340,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 12)</value>
+      <value>(232, 8)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -368,69 +368,6 @@
     </param>
   </block>
   <block>
-    <key>fft_vxx</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>fft_size</key>
-      <value>64</value>
-    </param>
-    <param>
-      <key>forward</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(544, 312)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fft_vxx_1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>nthreads</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>shift</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>window</key>
-      <value></value>
-    </param>
-  </block>
-  <block>
     <key>pad_sink</key>
     <param>
       <key>comment</key>
@@ -442,7 +379,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1128, 284)</value>
+      <value>(1152, 116)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -485,7 +422,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(24, 220)</value>
+      <value>(168, 124)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -532,7 +469,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(312, 12)</value>
+      <value>(368, 16)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -566,38 +503,14 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>cv2x_pss_calculator_vcm_0</source_block_id>
-    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
-    <source_key>N_id_2</source_key>
-    <sink_key>N_id_2</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cv2x_pss_calculator_vcm_0</source_block_id>
-    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
-    <source_key>lock</source_key>
-    <sink_key>lock</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cv2x_pss_calculator_vcm_0</source_block_id>
-    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
-    <source_key>lock</source_key>
-    <sink_key>lock</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cv2x_pss_calculator_vcm_0</source_block_id>
-    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
-    <source_key>sync_frame</source_key>
-    <sink_key>sync_frame</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cv2x_pss_calculator_vcm_0</source_block_id>
-    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
-    <source_key>sync_frame</source_key>
-    <sink_key>sync_frame</sink_key>
+    <source_block_id>cv2x_pss_symbol_selector_cvc_0</source_block_id>
+    <sink_block_id>blocks_head_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>cv2x_pss_symbol_selector_cvc_0</source_block_id>
-    <sink_block_id>fft_vxx_1</sink_block_id>
+    <sink_block_id>cv2x_psss_time_sync_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -608,16 +521,34 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>fft_vxx_1</source_block_id>
-    <sink_block_id>blocks_head_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
+    <source_block_id>cv2x_psss_time_sync_0</source_block_id>
+    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
+    <source_key>N_id_2</source_key>
+    <sink_key>N_id_2</sink_key>
   </connection>
   <connection>
-    <source_block_id>fft_vxx_1</source_block_id>
-    <sink_block_id>cv2x_pss_calculator_vcm_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
+    <source_block_id>cv2x_psss_time_sync_0</source_block_id>
+    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
+    <source_key>lock</source_key>
+    <sink_key>lock</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_psss_time_sync_0</source_block_id>
+    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
+    <source_key>lock</source_key>
+    <sink_key>lock</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_psss_time_sync_0</source_block_id>
+    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
+    <source_key>sync_frame</source_key>
+    <sink_key>sync_frame</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_psss_time_sync_0</source_block_id>
+    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
+    <source_key>sync_frame</source_key>
+    <sink_key>sync_frame</sink_key>
   </connection>
   <connection>
     <source_block_id>pad_source_0</source_block_id>

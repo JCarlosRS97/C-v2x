@@ -29,5 +29,6 @@ install(FILES
     cv2x_ssss_symbol_selector_cvc.xml
     cv2x_ssss_calculator_vcm.xml
     cv2x_ssss_tagger_cc.xml
-    cv2x_decimator_cc.xml DESTINATION share/gnuradio/grc/blocks
+    cv2x_decimator_cc.xml
+    cv2x_psss_time_sync.xml DESTINATION share/gnuradio/grc/blocks
 )

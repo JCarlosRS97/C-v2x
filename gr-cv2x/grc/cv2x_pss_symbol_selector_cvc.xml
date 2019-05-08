@@ -49,6 +49,6 @@
        <source>
          <name>out</name>
          <type>complex</type>
-         <vlen>64</vlen>
+         <vlen>128</vlen>
        </source>
 </block>

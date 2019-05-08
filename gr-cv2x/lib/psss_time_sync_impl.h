@@ -18,19 +18,16 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_CV2X_PSS_CALCULATOR_VCM_IMPL_H
-#define INCLUDED_CV2X_PSS_CALCULATOR_VCM_IMPL_H
+#ifndef INCLUDED_CV2X_PSSS_TIME_SYNC_IMPL_H
+#define INCLUDED_CV2X_PSSS_TIME_SYNC_IMPL_H
 
-#include <cv2x/pss_calculator_vcm.h>
-#include "correlator.h"
+#include <cv2x/psss_time_sync.h>
 
 namespace gr {
   namespace cv2x {
 
-    class pss_calculator_vcm_impl : public pss_calculator_vcm
+    class psss_time_sync_impl : public psss_time_sync
     {
-    private:
-      static const gr_complex d_C_I;
       static const float d_PI;
       int d_fftl;
       int d_cpl;
@@ -38,42 +35,33 @@ namespace gr {
       int d_slotl;
       int d_N_id_2;
       long d_sync_frame_start;
-      float d_corr_val;
-      int d_lock_count;
+      float d_corr_val;  // Actual maximun correlator value
+      int d_lock_count;  // Count the number of inputs in which d_corr_val don't change
       bool d_is_locked;
       int syncPeriod;
-      gr_complex d_chu0[124];
-      gr_complex d_chu1[124];
-      float* i_vector;
-      float* q_vector;
+      int nfft;
 
       pmt::pmt_t d_port_lock;
       pmt::pmt_t d_port_sync_frame_start;
       pmt::pmt_t d_port_N_id_2;
 
-      std::vector<float> d_corr_vec;
 
       void zc(gr_complex *zc, int cell_id); // used to generate Zadoff-Chu sequences
-      bool find_pss_symbol(gr_complex *chuX); // prepares the calculation stuff etc.
-      bool tracking(gr_complex *chu);
-      void max_pos(float &max, int &pos, gr_complex *x,gr_complex *y, int len); //finds maximum of one correlation
-      void mi_max_pos(float &max, int &pos, gr_complex *x,gr_complex *y, int len); //finds maximum of one correlation
+      bool find_pss_symbol(); // prepares the calculation stuff etc.
+      bool tracking();
+      void max_pos(float &max, gr_complex *x, int len); //finds maximum of one correlation
 
 
       inline void set_sync_frame_start();
       inline int calculate_sync_frame_start(long pos);
-      inline void extract_pss(gr_complex *chu, const gr_complex *in);
       // attributes for correlation
-      correlator *d_correlator;
-      gr_complex *d_corr_in1;
-      gr_complex *d_corr_in2;
-      gr_complex *d_corr_out;
-      gr_complex *d_chu0_corr;
-      gr_complex *d_chu1_corr;
+      gr_complex *d_corr_in;
+      gr_complex *d_chu0_t;
+      gr_complex *d_chu1_t;
 
      public:
-      pss_calculator_vcm_impl(int fftl, int syncPeriod);
-      ~pss_calculator_vcm_impl();
+      psss_time_sync_impl(int fftl, int syncPeriod);
+      ~psss_time_sync_impl();
 
       // Where all the action really happens
       int work(int noutput_items,
@@ -84,4 +72,4 @@ namespace gr {
   } // namespace cv2x
 } // namespace gr
 
-#endif /* INCLUDED_CV2X_PSS_CALCULATOR_VCM_IMPL_H */
+#endif /* INCLUDED_CV2X_PSSS_TIME_SYNC_IMPL_H */

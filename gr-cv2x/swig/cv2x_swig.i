@@ -21,6 +21,7 @@
 #include "cv2x/ssss_calculator_vcm.h"
 #include "cv2x/ssss_tagger_cc.h"
 #include "cv2x/decimator_cc.h"
+#include "cv2x/psss_time_sync.h"
 %}
 
 
@@ -52,3 +53,5 @@ GR_SWIG_BLOCK_MAGIC2(cv2x, ssss_calculator_vcm);
 GR_SWIG_BLOCK_MAGIC2(cv2x, ssss_tagger_cc);
 %include "cv2x/decimator_cc.h"
 GR_SWIG_BLOCK_MAGIC2(cv2x, decimator_cc);
+%include "cv2x/psss_time_sync.h"
+GR_SWIG_BLOCK_MAGIC2(cv2x, psss_time_sync);
