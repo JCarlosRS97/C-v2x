@@ -185,12 +185,8 @@ namespace gr {
           printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
           printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
           d_is_locked = true;
-          //~ (*d_tag).lock();
           message_port_pub( d_port_lock, pmt::PMT_T );
-          //~ (*d_sel).lock();
         }
-
-
 
         // Tell runtime system how many output items we produced.
         return noutput_items;

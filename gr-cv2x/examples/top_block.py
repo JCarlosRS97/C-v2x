@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Tue May  7 23:11:42 2019
+# Generated: Thu May  9 19:30:17 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -105,6 +105,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.cv2x_slss_generator_0 = cv2x.slss_generator(120, 0, 0, syncPeriod, fft_len)
         self.cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, 1, SubcarrierBW, self.sig)
         self.cv2x_ofdm_cyclic_prefixer_0 = cv2x.ofdm_cyclic_prefixer(fft_len, (int(160.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len)), 0, '')
+        self.blocks_vector_sink_x_1 = blocks.vector_sink_c(1)
         self.blocks_vector_sink_x_0 = blocks.vector_sink_c(1)
         self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, 10,True)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
@@ -131,6 +132,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))    
         self.connect((self.fft_vxx_0, 0), (self.cv2x_ofdm_cyclic_prefixer_0, 0))    
         self.connect((self.lte_ssss_sync_0, 0), (self.qtgui_sink_x_0, 0))    
+        self.connect((self.pss_time_sync_0, 0), (self.blocks_vector_sink_x_1, 0))    
         self.connect((self.pss_time_sync_0, 0), (self.lte_ssss_sync_0, 0))    
         self.connect((self.sig, 0), (self.blocks_throttle_1, 0))    
 

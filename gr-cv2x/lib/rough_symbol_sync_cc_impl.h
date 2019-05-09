@@ -32,6 +32,8 @@ namespace gr {
        int d_fftl;
        int d_cpl;
        int d_cpl0;
+       int d_syml;
+       int d_syml0;
        int d_slotl;
        long d_sym_pos;
        float d_corr_val;
@@ -39,14 +41,17 @@ namespace gr {
        int d_vlen;
        float d_f_av;
        float subcarrierBW;
+       bool d_is_locked;
+       int stp;
        boost::shared_ptr<gr::analog::sig_source_c> d_sig;
        gr_complex* d_cp0;
        gr_complex* d_cp1;
+       gr_complex* d_conj;
 
        pmt::pmt_t d_key;
        pmt::pmt_t d_tag_id;
 
-       gr_complex corr(gr_complex *x, gr_complex *y, int len);
+       gr_complex corr(float &max, gr_complex *x, gr_complex *y, int len);
 
      public:
       rough_symbol_sync_cc_impl(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig);
