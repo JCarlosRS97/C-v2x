@@ -156,7 +156,7 @@ namespace gr {
                   memcpy(d_cp0,in+j*d_vlen         ,sizeof(gr_complex)*d_cpl*d_vlen);
                   memcpy(d_cp1,in+(j+d_fftl)*d_vlen,sizeof(gr_complex)*d_cpl*d_vlen);
                   gr_complex val = corr(peso, d_cp0,d_cp1,d_cpl*d_vlen);
-                  if(peso > 0.8){
+                  if(peso > 0.75){
                     d_corr_val = peso;
                     d_sym_pos = (nir + j)%d_slotl;
                     d_is_locked = true;
@@ -172,14 +172,19 @@ namespace gr {
           }
 
           d_corr_val *= 0.99;
+          // If d_corr_val loss the peak, we change to find mode
+          if(d_corr_val<0.75){
+            d_is_locked = false;
+          }
           nout = i;
 
-          if(d_is_locked){
-            //Once the best point of the interval have being got, cfo is calculated
-            float coef = nitems_read(0)<2000? 0.5 : 0.99;
+          if(d_is_locked && it_peso >= d_corr_val){ // Only is corrected cfo if
+            // Only if correlation value is modified, cfo estimation is corrected
+            float coef = nitems_read(0)<2000? 0.5 : 0.8;
             float f_off = arg(it_val)/(2*M_PI)*15000.0;
             d_f_av=d_f_av*coef - ((1-coef) * f_off);
             (*d_sig).set_frequency((-1)*double(d_f_av) );
+            printf("offset: %f\n", d_f_av);
             // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
           }
 
