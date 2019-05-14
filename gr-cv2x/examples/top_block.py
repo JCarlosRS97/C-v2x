@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Mon May 13 19:27:19 2019
+# Generated: Tue May 14 19:37:37 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -21,14 +21,12 @@ from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import fft
 from gnuradio import gr
-from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import cv2x
 import sys
-import time
 
 
 class top_block(gr.top_block, Qt.QWidget):
@@ -67,21 +65,18 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.uhd_usrp_sink_0 = uhd.usrp_sink(
-        	",".join(("", "")),
-        	uhd.stream_args(
-        		cpu_format="fc32",
-        		channels=range(1),
-        	),
-        )
-        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
-        self.uhd_usrp_sink_0.set_center_freq(5.9e9, 0)
-        self.uhd_usrp_sink_0.set_normalized_gain(0.5, 0)
         self.fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
         self.cv2x_slss_generator_0 = cv2x.slss_generator(120, 0, 0, syncPeriod, fft_len)
-        self.cv2x_ofdm_cyclic_prefixer_0 = cv2x.ofdm_cyclic_prefixer(fft_len, (int(160.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len), int(144.0/2048*fft_len)), 0, '')
+        self.cv2x_ofdm_cyclic_prefixer_0 = cv2x.ofdm_cyclic_prefixer(fft_len, (20,18,18,18,18,18,18), 0, '')
+        self.cv2x_lte_cyclic_prefixer_vcc_0 = cv2x.lte_cyclic_prefixer_vcc(fft_len)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
+        self.blocks_head_0_0_0 = blocks.head(gr.sizeof_gr_complex*1, 100*3840)
+        self.blocks_head_0_0 = blocks.head(gr.sizeof_gr_complex*1, 100*3840)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/carlos/Escritorio/matlab/data/random.dat', True)
+        self.blocks_file_sink_0_0_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/carlos/Escritorio/matlab/data/salidasin.dat', False)
+        self.blocks_file_sink_0_0_0.set_unbuffered(False)
+        self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/carlos/Escritorio/matlab/data/salidacon.dat', False)
+        self.blocks_file_sink_0_0.set_unbuffered(False)
         self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
 
         ##################################################
@@ -89,9 +84,13 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.blocks_add_xx_1, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.blocks_file_source_0, 0), (self.blocks_add_xx_1, 1))    
+        self.connect((self.blocks_head_0_0, 0), (self.blocks_file_sink_0_0, 0))    
+        self.connect((self.blocks_head_0_0_0, 0), (self.blocks_file_sink_0_0_0, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))    
-        self.connect((self.cv2x_ofdm_cyclic_prefixer_0, 0), (self.uhd_usrp_sink_0, 0))    
+        self.connect((self.cv2x_lte_cyclic_prefixer_vcc_0, 0), (self.blocks_head_0_0_0, 0))    
+        self.connect((self.cv2x_ofdm_cyclic_prefixer_0, 0), (self.blocks_head_0_0, 0))    
         self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))    
+        self.connect((self.fft_vxx_0, 0), (self.cv2x_lte_cyclic_prefixer_vcc_0, 0))    
         self.connect((self.fft_vxx_0, 0), (self.cv2x_ofdm_cyclic_prefixer_0, 0))    
 
     def closeEvent(self, event):
@@ -125,7 +124,6 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
 
 

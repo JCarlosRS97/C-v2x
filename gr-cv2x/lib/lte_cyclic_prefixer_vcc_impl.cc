@@ -45,10 +45,10 @@ namespace gr {
         d_fftl(fftl),
         d_cpl(144*fftl/2048),
         d_cpl0(160*fftl/2048),
+        d_pos(0)
     {
-      set_output_multiple(d_fft_len + d_cp_max);
-      set_relative_rate(d_cp_max + d_fft_len);
-
+      set_output_multiple(d_fftl + d_cpl0);
+      set_relative_rate(d_cpl0 + d_fftl);
     }
 
     /*
@@ -61,7 +61,7 @@ namespace gr {
     void
     lte_cyclic_prefixer_vcc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
+      ninput_items_required[0] = int(noutput_items/(d_fftl + d_cpl0));
     }
 
     int
@@ -70,16 +70,41 @@ namespace gr {
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
-      const <+ITYPE+> *in = (const <+ITYPE+> *) input_items[0];
-      <+OTYPE+> *out = (<+OTYPE+> *) output_items[0];
+      const gr_complex *in = (const gr_complex *) input_items[0];
+      gr_complex *out = (gr_complex *) output_items[0];
+      //The minimum between these values is the number of nin to consume
+      int nin = ninput_items[0];
+      int max_input = int(noutput_items/(d_fftl + d_cpl0));
+      int consumed_items = nin > max_input? max_input : nin;
+      int nout = 0;
+
+      for(int i = 0; i < consumed_items; i++){
+        if(d_pos == 0){
+          //If it is the fist symbol of slot
+          memcpy(out + d_cpl0, in, d_fftl * sizeof(gr_complex));
+          memcpy(out, in + d_fftl - d_cpl0, d_cpl0 * sizeof(gr_complex));
+          in += d_fftl;
+          out += d_fftl + d_cpl0;
+          nout += d_fftl + d_cpl0;
+        }else{
+          // The rest of the symbol
+          memcpy(out + d_cpl, in, d_fftl * sizeof(gr_complex));
+          memcpy(out, in + d_fftl - d_cpl, d_cpl * sizeof(gr_complex));
+          in += d_fftl;
+          out += d_fftl + d_cpl;
+          nout += d_fftl + d_cpl;
+        }
+        // Update counter of symbols
+        d_pos = d_pos == 6? 0 : d_pos + 1;
+      }
 
       // Do <+signal processing+>
       // Tell runtime system how many input items we consumed on
       // each input stream.
-      consume_each (noutput_items);
+      consume_each (consumed_items);
 
       // Tell runtime system how many output items we produced.
-      return noutput_items;
+      return nout;
     }
 
   } /* namespace cv2x */
