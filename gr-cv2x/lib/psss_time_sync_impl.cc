@@ -153,8 +153,7 @@ namespace gr {
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(); }
           else{ changed = find_pss_symbol(); }
-
-          // printf("abs_pos: %i\n", sync_frame_start);
+          // int sync_frame_start = calculate_sync_frame_start(nir + i);
           //Do things if new max is found!
           if(changed){
             d_lock_count = 0; // reset lock count!
@@ -285,6 +284,7 @@ namespace gr {
         std::vector <gr::tag_t> v_off;
         get_tags_in_range(v_off, 0, pos, pos+1);
         long offset = pmt::to_long(v_off[0].value) - (d_fftl+d_cpl0);
+        // printf("abs_pos: %ld\n", pmt::to_long(v_off[0].value));
         return int( offset%(syncPeriod*2*d_slotl) );
       }
 

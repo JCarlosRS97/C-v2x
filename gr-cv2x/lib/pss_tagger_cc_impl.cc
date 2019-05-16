@@ -49,9 +49,10 @@ namespace gr {
     d_slotl(7*fftl+6*d_cpl+d_cpl0),
     d_sync_frame_start(0),
     d_N_id_2(-1),
-    d_slot_num(0),
     sync_framel(syncPeriod*d_slotl*2),
-    d_is_locked(false)
+    d_is_locked(false),
+    cont(0),
+    next_sync(0)
     {
       set_tag_propagation_policy(TPP_DONT);
       d_key=pmt::string_to_symbol("slot");
@@ -106,16 +107,22 @@ namespace gr {
       {
         const gr_complex *in = (const gr_complex *) input_items[0];
         gr_complex *out = (gr_complex *) output_items[0];
+        long nir = nitems_read(0);
 
         memcpy(out,in,sizeof(gr_complex)*noutput_items);
 
         if(d_is_locked){
-          int cont = 1;
-          long next = (nitems_read(0)/sync_framel + cont)*sync_framel + d_sync_frame_start;
-          while(nitems_read(0) + noutput_items > next){
-            add_item_tag(0,next,d_id_key, pmt::from_long(d_N_id_2),d_tag_id);
+          if(cont == 0){ // first iteration after locked
+            while((cont*sync_framel + d_sync_frame_start) < nir){
+              cont++;
+            }
+            next_sync = cont*sync_framel + d_sync_frame_start;
+          }
+          // printf("proximo ssss= %ld\t pos=%ld\n", next_sync, nitems_read(0) + noutput_items);
+          while(nitems_read(0) + noutput_items > next_sync){
+            add_item_tag(0,next_sync,d_id_key, pmt::from_long(d_N_id_2),d_tag_id);
             cont++;
-            next = (nitems_read(0)/sync_framel + cont)*sync_framel + d_sync_frame_start;
+            next_sync = cont*sync_framel + d_sync_frame_start;
           }
         }
 

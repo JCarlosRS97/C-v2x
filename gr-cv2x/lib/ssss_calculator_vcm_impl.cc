@@ -25,6 +25,8 @@
 #include <gnuradio/io_signature.h>
 #include "ssss_calculator_vcm_impl.h"
 
+#include <volk/volk.h>
+
 namespace gr {
   namespace cv2x {
 
@@ -40,19 +42,18 @@ namespace gr {
     */
     ssss_calculator_vcm_impl::ssss_calculator_vcm_impl(int fftl, std::string key_id, std::string key_offset, int syncPeriod)
     : gr::sync_decimator("ssss_calculator_vcm",
-          gr::io_signature::make( 1, 1, sizeof(gr_complex) * 64),
-          gr::io_signature::make(0, 0, 0), 2),//Dos simbolos
-      d_fftl(fftl),
-      syncPeriod(syncPeriod),
-      d_slotl(7*fftl+6*(144*fftl/2048)+(160*fftl/2048) ),
-      d_cell_id(-1),
-      d_max_val_new(0.0),
-      d_max_val_old(0.0),
-      d_N_id_2(-1),
-      d_ssss_pos(0),
-      d_frame_start(0),
-      d_is_locked(false),
-      d_unchanged_id(0)
+    gr::io_signature::make( 1, 1, sizeof(gr_complex) * 64),
+    gr::io_signature::make(0, 0, 0), 2),//Dos simbolos
+    d_fftl(fftl),
+    syncPeriod(syncPeriod),
+    d_slotl(7*fftl+6*(144*fftl/2048)+(160*fftl/2048) ),
+    d_cell_id(-1),
+    d_max_val_new(0.0),
+    d_max_val_old(0.0),
+    d_N_id_2(-1),
+    d_frame_start(0),
+    d_is_locked(false),
+    d_unchanged_id(0)
     {
       d_key_id = pmt::string_to_symbol(key_id);
       d_key_offset = pmt::string_to_symbol(key_offset);
@@ -85,10 +86,19 @@ namespace gr {
         sX[i] = 1-2*sX_x[i];
       }
       int m0 = 0;
+      gr_complex d_sref[62];
       for(int i = 0 ; i < 31 ; i++){
         d_sref[i   ]=sX[ (i+m0)%31 ];
         d_sref[i+31]=sX[ (i+m0)%31 ];
       }
+
+      seq = (gr_complex*) volk_malloc(sizeof(gr_complex)*62, volk_get_alignment());
+      d_s0ref = (gr_complex*) volk_malloc(sizeof(gr_complex)*62, volk_get_alignment());
+      memcpy(d_s0ref, d_sref, sizeof(gr_complex)*62);
+      // For correlation. Only real values
+      // volk_32fc_conjugate_32fc_a(d_s0ref, d_s0ref, 62);
+
+
 
       //initialize d_zX
       char zX_x[31] = {0};
@@ -142,55 +152,54 @@ namespace gr {
         }
         if(d_N_id_2 < 0){return 1;}
         // extract the 2 half ssss symbols which are interleaved differently by their position within a frame.
-        gr_complex even[31]={0};
-        gr_complex odd [31]={0};
+        gr_complex even1[31]={0};
+        gr_complex odd1 [31]={0};
+        gr_complex even2[31]={0};
+        gr_complex odd2 [31]={0};
         for(int i = 0; i < 31 ; i++){
-          even[i] = ssss_symbols[2 * i + 0];
-          odd[i]  = ssss_symbols[2 * i + 1];
+          even1[i] = ssss_symbols[2 * i + 0];
+          odd1[i]  = ssss_symbols[2 * i + 1];
+          even2[i] = ssss_symbols[2 * i + 0 + 62];
+          odd2[i]  = ssss_symbols[2 * i + 1 + 62];
         }
 
-        ssss_info info = get_ssss_info(even, odd, d_N_id_2);
-        if(info.N_id_1 < 0){return 1;}
+        int N_id_1 = get_ssss_info(even1, odd1, d_N_id_2);
 
-        if(d_max_val_new > d_max_val_old*0.8){
-          long offset = 0;
-          std::vector <gr::tag_t> v_off;
-          get_tags_in_range(v_off,0,nitems_read(0),nitems_read(0)+1,d_key_offset);
-          if (v_off.size() > 0){
-            offset = pmt::to_long(v_off[0].value);
+        if(N_id_1 >= 0){
+          if(d_max_val_new > d_max_val_old*0.8){
+            long offset = 0;
+            std::vector <gr::tag_t> v_off;
+            get_tags_in_range(v_off,0,nitems_read(0),nitems_read(0)+1,d_key_offset);
+            if (v_off.size() > 0){
+              offset = pmt::to_long(v_off[0].value);
+            }
+
+            //if(d_ssss_pos == 5){offset += (syncPeriod*2*d_slotl);}
+            d_frame_start = offset%(syncPeriod*2*d_slotl);
+
+            d_cell_id = N_id_1 + 168*d_N_id_2;
+
+            printf("actual = %i\n", d_cell_id);
+
+            d_unchanged_id++;
+            if(d_unchanged_id > 2){
+              printf("\n%s locked to frame_start = %ld\tabs_pos = %ld\tcell_id = %i\n\n", name().c_str(), d_frame_start, offset, d_cell_id );
+              publish_frame_start(d_frame_start);
+              publish_cell_id(d_cell_id);
+              d_is_locked = true;
+            }
           }
 
-          d_ssss_pos = info.pos;
-
-          //if(d_ssss_pos == 5){offset += (syncPeriod*2*d_slotl);}
-          d_frame_start = offset%(syncPeriod*2*d_slotl);
-
-          d_cell_id = info.N_id_1 + 168*d_N_id_2;
-
-          printf("actual = %i\n", d_cell_id);
-
-          d_unchanged_id++;
-          if(d_unchanged_id > 2){
-            printf("\n%s locked to frame_start = %ld\tabs_pos = %ld\tcell_id = %i\n\n", name().c_str(), d_frame_start, offset, d_cell_id );
-            publish_frame_start(d_frame_start);
-            publish_cell_id(d_cell_id);
-            d_is_locked = true;
-          }
+          d_max_val_old = d_max_val_new;
+          d_max_val_new = 0;
         }
-        else{
-          if(d_ssss_pos == 0){d_ssss_pos = 5;}
-          else{d_ssss_pos = 0;}
-        }
-
-        d_max_val_old = d_max_val_new;
         // Tell runtime system how many output items we produced.
         return 1;
       }
 
-      ssss_info
+      int
       ssss_calculator_vcm_impl::get_ssss_info(gr_complex* even, gr_complex* odd, int N_id_2)
       {
-        ssss_info info;
         // next 2 sequences depend on N_id_2
         gr_complex c0[31] = {0};
         gr_complex c1[31] = {0};
@@ -216,14 +225,9 @@ namespace gr {
 
         int m0 = calc_m(s0m0);
         //printf("m1 = %i\n",m1);
-
-        info.pos = 0;
-        if (m0 > m1){
-          std::swap(m0, m1);
-          info.pos = 5;
-        }
-        info.N_id_1 = get_N_id_1(m0, m1);
-        return info;
+        printf("m0 = %i, m1= %i\n", m0, m1);
+        printf("N_id_1: %i, d_max_val_new= %f\n", get_N_id_1(m0, m1), d_max_val_new);
+        return get_N_id_1(m0, m1);
       }
 
       int
@@ -245,46 +249,42 @@ namespace gr {
         int mX = -1;
         int N = 62;
 
-        gr_complex s0[62] = {0};
-        memcpy(s0, s0m0, sizeof(gr_complex) * 31);
+        memset(seq, 0, sizeof(gr_complex) * 62);
+        memcpy(seq, s0m0, sizeof(gr_complex) * 31);
 
-        gr_complex sr[62] = {0};
-        memcpy(sr, d_sref, sizeof(gr_complex) * 62);
-
-        std::vector<gr_complex> x_vec;
-        xcorr(x_vec, s0, sr, N);
+        std::vector<float> x_vec;
+        xcorr(x_vec, seq, d_s0ref, N);
 
         float max = 0;
         int pos = -1;
         for (int i = 0 ; i < 2*N-1 ; i++){
-          float mag = abs(x_vec[i]);
+          float mag = x_vec[i];
           if (max < mag){
             max = mag;
             pos = i;
           }
         }
+        printf("winner pos%i\n", pos);
 
         mX = abs(pos-N);
 
         d_max_val_new = (d_max_val_new + max)/2;//Esto puede traer problemas
-
         return mX;
       }
 
       // simple correlation between 2 arrays. returns complex value.
-      gr_complex
+      float
       ssss_calculator_vcm_impl::corr(gr_complex *x,gr_complex *y, int len)
       {
-        gr_complex val = 0;
-        for(int i = 0 ; i < len ; i++){
-          val += (x[i]*conj(y[i]) );
-        }
-        return val;
+        gr_complex res;
+
+        volk_32fc_x2_dot_prod_32fc(&res, x, y, len);
+        return abs(res);
       }
 
       // be careful! input arrays must have the same size!
       void
-      ssss_calculator_vcm_impl::xcorr(std::vector<gr_complex> &v, gr_complex *x,gr_complex *y, int len)
+      ssss_calculator_vcm_impl::xcorr(std::vector<float> &v, gr_complex *x,gr_complex *y, int len)
       {
         int N = len;
 
@@ -295,6 +295,7 @@ namespace gr {
           else{
             v.push_back( corr(x,y+(i-N),2*N-1-i) );
           }
+          // printf("pos = %i\t value= %f\n", i, v[i]);
         }
       }
 

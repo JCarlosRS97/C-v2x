@@ -26,11 +26,6 @@
 namespace gr {
   namespace cv2x {
 
-    struct ssss_info{
-        int pos;
-        int N_id_1;
-    };
-
     class ssss_calculator_vcm_impl : public ssss_calculator_vcm
     {
     private:
@@ -40,13 +35,12 @@ namespace gr {
        int d_slotl;
        int syncPeriod;
        char d_cX[31];
-       gr_complex d_sref[62];
+       gr_complex *d_s0ref, *seq;
        char d_zX[31];
        int d_v_m0[168];
        int d_v_m1[168];
        float d_max_val_new;
        float d_max_val_old;
-       int d_ssss_pos;
        long d_frame_start;
        bool d_is_locked;
        int d_unchanged_id;
@@ -56,9 +50,9 @@ namespace gr {
        // calculation functions!
        int calc_m(gr_complex *s0m0);
        int get_N_id_1(int m0, int m1);
-       ssss_info get_ssss_info(gr_complex* even, gr_complex* odd, int N_id_2);
-       gr_complex corr(gr_complex *x,gr_complex *y, int len);
-       void xcorr(std::vector<gr_complex> &v, gr_complex *x,gr_complex *y, int len);
+       int get_ssss_info(gr_complex* even, gr_complex* odd, int N_id_2);
+       float corr(gr_complex *x,gr_complex *y, int len);
+       void xcorr(std::vector<float> &v, gr_complex *x,gr_complex *y, int len);
        void extract_ssss(gr_complex *ssss_symbols, const gr_complex *in);
 
        pmt::pmt_t d_port_cell_id;

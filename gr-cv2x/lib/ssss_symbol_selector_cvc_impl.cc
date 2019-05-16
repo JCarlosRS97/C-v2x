@@ -72,7 +72,7 @@ namespace gr {
     ssss_symbol_selector_cvc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
       for(int i = 0 ; i < ninput_items_required.size() ; i++){
-        ninput_items_required[i] = noutput_items;
+        ninput_items_required[i] = noutput_items*(d_fftl + d_cpl/2);
       }
       /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
     }
@@ -93,12 +93,12 @@ namespace gr {
           d_N_id_2 = int(pmt::to_long(v_id[0].value));
           d_offset = v_id[0].offset;
           d_abs_pos = v_id[0].offset+11*d_fftl+10*d_cpl+2*d_cpl0; // points at the exact beginning of a SSSS symbol.
-          // printf("%s found N_id_2 = %i\t id_off = %ld\n",name().c_str(), d_abs_pos, d_offset);
+          // printf("%s found N_id_2 = %i\t id_off = %ld\n",name().c_str(), d_N_id_2, d_offset);
         }
 
 
         if(d_abs_pos >= nitems_read(0) && d_N_id_2 >= 0 ){//Si esta por pasar
-          //printf("found:  d_abs_pos = %ld >= %ld = nitems_read\n", d_abs_pos, nitems_read(0) );
+          // printf("found:  d_abs_pos = %ld >= %ld = nitems_read\tnoutputs= %i\n", d_abs_pos, nitems_read(0), ninput_items[0]  );
 
 
           if(d_abs_pos+2*d_fftl + d_cpl < nitems_read(0)+ninput_items[0]){//Si va a pasar en esta iteracion

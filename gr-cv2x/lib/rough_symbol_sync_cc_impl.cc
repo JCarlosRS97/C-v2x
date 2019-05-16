@@ -114,13 +114,13 @@ namespace gr {
           float it_peso = 0;
 
           //d_ass_sync_frame_start para nosotros será donde comienza la subtrama de referencia
-          long abs_pos;
+          long abs_pos, max_pos;
           long nir = nitems_read(0);
           int i;
           for(i = 0 ; (i + d_fftl + d_cpl) < noutput_items; i++){
             abs_pos = nir+long(i); // calculate new absolute sample position
             mod = abs((abs(abs_pos-d_sym_pos+int((d_cpl0-d_cpl)/2))%d_slotl)-d_syml0)%d_syml;
-            if(d_is_locked && mod < stp){
+            if(d_is_locked && mod < stp){ // tracking mode
               memcpy(d_cp0,in+i*d_vlen         ,sizeof(gr_complex)*d_cpl*d_vlen);
               memcpy(d_cp1,in+(i+d_fftl)*d_vlen,sizeof(gr_complex)*d_cpl*d_vlen);
               gr_complex val = corr(peso, d_cp0,d_cp1,d_cpl*d_vlen);
@@ -128,24 +128,28 @@ namespace gr {
               if(it_peso <= peso ){
                 it_val = val;
                 it_peso = peso;
+                max_pos = abs_pos;
                 if(d_corr_val < peso ){
                   d_corr_val = peso;
                   d_sym_pos = abs_pos%d_slotl;
-                  //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                   // printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
                 }
               }
               //si es la ultima iteracion
               // printf("Pos %ld\tmod = %i\tsym_pos = %ld\td_corr_val = %f\n", abs_pos,mod, d_sym_pos, d_corr_val);
               if(mod + 1 == stp){
+                // printf("tracking abs_pos: %ld\tmax_pos = %i\tcorr= %f\n", max_pos, int(max_pos%d_slotl), it_peso);
                 i += d_fftl;
+                it_peso = 0;
+                max_pos = 0;
               }
 
-            } else if(!d_is_locked && abs_pos%stp==0){
+            } else if(!d_is_locked && abs_pos%stp==0){ //Find mode
               memcpy(d_cp0,in+i*d_vlen          ,sizeof(gr_complex)*d_cpl*d_vlen);
               memcpy(d_cp1,in+(i+d_fftl)*d_vlen ,sizeof(gr_complex)*d_cpl*d_vlen);
               gr_complex val = corr(peso, d_cp0,d_cp1,d_cpl*d_vlen);
 
+              int find_pos;
               if(d_corr_val < peso){
                 if(i < stp){
                   fine_pos = 0;
@@ -158,6 +162,7 @@ namespace gr {
                   gr_complex val = corr(peso, d_cp0,d_cp1,d_cpl*d_vlen);
                   if(peso > 0.75){
                     d_corr_val = peso;
+                    find_pos = j;
                     d_sym_pos = (nir + j)%d_slotl;
                     d_is_locked = true;
                     //if(d_corr_val)
@@ -165,8 +170,13 @@ namespace gr {
                   }
                 }
               }
-              i +=stp-1;
-              // printf("Pos %ld\tsym_pos = %ld\td_corr_val = %f\n", abs_pos, d_sym_pos, d_corr_val);
+              // Update counter in function of the mode
+              if(!d_is_locked){
+                i +=stp-1;
+              } else {
+                i = find_pos + d_fftl;
+              }
+              // printf("Find Pos %ld\tsym_pos = %ld\td_corr_val = %f\n", abs_pos, d_sym_pos, d_corr_val);
             }
 
           }
@@ -184,7 +194,7 @@ namespace gr {
             float f_off = arg(it_val)/(2*M_PI)*15000.0;
             d_f_av=d_f_av*coef - ((1-coef) * f_off);
             (*d_sig).set_frequency((-1)*double(d_f_av) );
-            printf("offset: %f\n", d_f_av);
+            // printf("offset: %f\n", d_f_av);
             // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
           }
 
@@ -206,7 +216,11 @@ namespace gr {
           volk_32fc_conjugate_32fc_a(d_conj, y, len);
           volk_32fc_x2_dot_prod_32fc(&resultado, x, d_conj, len);
           volk_32fc_x2_dot_prod_32fc(&energia, y, d_conj, len);
-          max = abs(resultado/energia);
+          if(abs(energia) < 0.0001){
+            max = -1;
+          }else{
+            max = abs(resultado/energia);
+          }
           return resultado;
         }
 

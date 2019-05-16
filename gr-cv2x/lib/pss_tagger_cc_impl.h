@@ -36,12 +36,13 @@ namespace gr {
       int d_slotl;
       int d_sync_frame_start;
       int d_N_id_2;
-      int d_slot_num;
       bool d_is_locked;
       pmt::pmt_t d_key;
       pmt::pmt_t d_id_key;
       pmt::pmt_t d_tag_id;
       int sync_framel;
+      int cont;
+      long next_sync;
 
       void handle_msg_lock(pmt::pmt_t msg);
       void handle_msg_sync_frame_start(pmt::pmt_t msg);
