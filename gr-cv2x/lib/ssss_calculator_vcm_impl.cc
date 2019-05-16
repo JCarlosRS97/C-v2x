@@ -92,7 +92,7 @@ namespace gr {
         d_sref[i+31]=sX[ (i+m0)%31 ];
       }
 
-      seq = (gr_complex*) volk_malloc(sizeof(gr_complex)*62, volk_get_alignment());
+      seq = (gr_complex*) volk_malloc(sizeof(gr_complex)*31, volk_get_alignment());
       d_s0ref = (gr_complex*) volk_malloc(sizeof(gr_complex)*62, volk_get_alignment());
       memcpy(d_s0ref, d_sref, sizeof(gr_complex)*62);
       // For correlation. Only real values
@@ -163,10 +163,10 @@ namespace gr {
           odd2[i]  = ssss_symbols[2 * i + 1 + 62];
         }
 
-        int N_id_1 = get_ssss_info(even1, odd1, d_N_id_2);
+        int N_id_1 = get_ssss_info(even2, odd2, d_N_id_2);
 
         if(N_id_1 >= 0){
-          if(d_max_val_new > d_max_val_old*0.8){
+          if(d_max_val_new > d_max_val_old*0.6){
             long offset = 0;
             std::vector <gr::tag_t> v_off;
             get_tags_in_range(v_off,0,nitems_read(0),nitems_read(0)+1,d_key_offset);
@@ -212,7 +212,7 @@ namespace gr {
         for (int i = 0 ; i < 31 ; i++){
           s1m1[i]=even[i]/gr_complex(c0[i]);
         }
-        int m1 = calc_m(s1m1);
+        int m1 = calc_m(s1m1, 31);
 
         char z1m1[31] = {0};
         for (int i = 0 ; i < 31 ; i++) {
@@ -221,9 +221,10 @@ namespace gr {
         gr_complex s0m0[31] = {0};
         for (int i = 0 ; i < 31 ; i++){
           s0m0[i] = odd[i] / (c1[i] * gr_complex(z1m1[i]) );
+          // printf("pos = %i\t value= %f\n", i, s0m0[i].real());
         }
 
-        int m0 = calc_m(s0m0);
+        int m0 = calc_m(s0m0, m1); //m0 is always under m1
         //printf("m1 = %i\n",m1);
         printf("m0 = %i, m1= %i\n", m0, m1);
         printf("N_id_1: %i, d_max_val_new= %f\n", get_N_id_1(m0, m1), d_max_val_new);
@@ -244,29 +245,26 @@ namespace gr {
       }
 
       int
-      ssss_calculator_vcm_impl::calc_m(gr_complex *s0m0)
+      ssss_calculator_vcm_impl::calc_m(gr_complex *s0m0, int max_m)
       {
         int mX = -1;
-        int N = 62;
 
-        memset(seq, 0, sizeof(gr_complex) * 62);
         memcpy(seq, s0m0, sizeof(gr_complex) * 31);
 
         std::vector<float> x_vec;
-        xcorr(x_vec, seq, d_s0ref, N);
+        xcorr(x_vec, seq, d_s0ref, max_m, 31);
 
         float max = 0;
         int pos = -1;
-        for (int i = 0 ; i < 2*N-1 ; i++){
+        for (int i = 0 ; i < max_m ; i++){
           float mag = x_vec[i];
           if (max < mag){
             max = mag;
             pos = i;
           }
         }
-        printf("winner pos%i\n", pos);
 
-        mX = abs(pos-N);
+        mX = pos;
 
         d_max_val_new = (d_max_val_new + max)/2;//Esto puede traer problemas
         return mX;
@@ -284,17 +282,11 @@ namespace gr {
 
       // be careful! input arrays must have the same size!
       void
-      ssss_calculator_vcm_impl::xcorr(std::vector<float> &v, gr_complex *x,gr_complex *y, int len)
+      ssss_calculator_vcm_impl::xcorr(std::vector<float> &v, gr_complex *x,gr_complex *y, int N, int len)
       {
-        int N = len;
 
-        for (int i = 0 ; i < 2 * N - 1 ; i++){
-          if(i < N){
-            v.push_back( corr(x+(N-1-i),y,i+1) );
-          }
-          else{
-            v.push_back( corr(x,y+(i-N),2*N-1-i) );
-          }
+        for (int i = 0 ; i < N ; i++){
+            v.push_back( corr(x,y + i,len) );
           // printf("pos = %i\t value= %f\n", i, v[i]);
         }
       }

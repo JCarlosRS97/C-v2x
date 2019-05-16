@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/carlos/Escritorio/ssss.dat</value>
+      <value>/home/carlos/Escritorio/matlab/data/ssss.dat</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(704, 700)</value>
+      <value>(576, 716)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -172,7 +172,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>4</value>
+      <value>8</value>
     </param>
     <param>
       <key>type</key>
@@ -630,12 +630,6 @@
   </connection>
   <connection>
     <source_block_id>cv2x_ssss_symbol_selector_cvc_0</source_block_id>
-    <sink_block_id>blocks_head_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cv2x_ssss_symbol_selector_cvc_0</source_block_id>
     <sink_block_id>fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -643,6 +637,12 @@
   <connection>
     <source_block_id>cv2x_ssss_tagger_cc_0</source_block_id>
     <sink_block_id>pad_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fft_vxx_0</source_block_id>
+    <sink_block_id>blocks_head_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

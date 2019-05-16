@@ -48,11 +48,11 @@ namespace gr {
        pmt::pmt_t d_key_offset;
 
        // calculation functions!
-       int calc_m(gr_complex *s0m0);
+       int calc_m(gr_complex *s0m0, int max_m);
        int get_N_id_1(int m0, int m1);
        int get_ssss_info(gr_complex* even, gr_complex* odd, int N_id_2);
        float corr(gr_complex *x,gr_complex *y, int len);
-       void xcorr(std::vector<float> &v, gr_complex *x,gr_complex *y, int len);
+       void xcorr(std::vector<float> &v, gr_complex *x,gr_complex *y, int n, int len);
        void extract_ssss(gr_complex *ssss_symbols, const gr_complex *in);
 
        pmt::pmt_t d_port_cell_id;
