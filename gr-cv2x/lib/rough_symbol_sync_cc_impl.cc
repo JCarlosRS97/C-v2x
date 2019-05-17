@@ -192,7 +192,7 @@ namespace gr {
           }
           nout = i;
 
-          if(d_is_locked && it_peso >= d_corr_val){ // Only is corrected cfo if
+          if(d_is_locked /*&& it_peso >= d_corr_val*/){ // Only is corrected cfo if
             // Only if correlation value is modified, cfo estimation is corrected
             float coef = nitems_read(0)<2000? 0.5 : 0.8;
             float f_off = arg(it_val)/(2*M_PI)*15000.0;

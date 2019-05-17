@@ -128,7 +128,7 @@ namespace gr {
           long offset = pmt::to_long(v_off[0].value);
           if(offset != d_offset){
               d_offset = offset;
-              printf("Offset %ld\n", d_offset);
+              // printf("Offset %ld\n", d_offset);
           }
       }
       int offset = d_offset;
