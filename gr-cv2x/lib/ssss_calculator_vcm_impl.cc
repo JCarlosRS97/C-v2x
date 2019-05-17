@@ -152,18 +152,14 @@ namespace gr {
         }
         if(d_N_id_2 < 0){return 1;}
         // extract the 2 half ssss symbols which are interleaved differently by their position within a frame.
-        gr_complex even1[31]={0};
-        gr_complex odd1 [31]={0};
-        gr_complex even2[31]={0};
-        gr_complex odd2 [31]={0};
+        gr_complex even[31]={0};
+        gr_complex odd [31]={0};
         for(int i = 0; i < 31 ; i++){
-          even1[i] = ssss_symbols[2 * i + 0];
-          odd1[i]  = ssss_symbols[2 * i + 1];
-          even2[i] = ssss_symbols[2 * i + 0 + 62];
-          odd2[i]  = ssss_symbols[2 * i + 1 + 62];
+          even[i] = ssss_symbols[2 * i + 0] + ssss_symbols[2 * i + 0 + 62];
+          odd[i]  = ssss_symbols[2 * i + 1] + ssss_symbols[2 * i + 1 + 62];
         }
 
-        int N_id_1 = get_ssss_info(even2, odd2, d_N_id_2);
+        int N_id_1 = get_ssss_info(even, odd, d_N_id_2);
 
         if(N_id_1 >= 0){
           if(d_max_val_new > d_max_val_old*0.6){

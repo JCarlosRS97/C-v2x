@@ -103,6 +103,10 @@ namespace gr {
         {
           const gr_complex *in = (const gr_complex *) input_items[0];
           gr_complex *out = (gr_complex *) output_items[0];
+        //   if(nitems_read(0) < 25000){
+        //   memcpy(out, in, sizeof(gr_complex)*noutput_items*d_vlen );
+        //   return noutput_items;
+        // }
 
           //printf("%s.work\tnoutput_items = %i\tnitems_read = %ld\n", name().c_str(), noutput_items, nitems_read(0) );
           int nout = 0;
@@ -216,7 +220,7 @@ namespace gr {
           volk_32fc_conjugate_32fc_a(d_conj, y, len);
           volk_32fc_x2_dot_prod_32fc(&resultado, x, d_conj, len);
           volk_32fc_x2_dot_prod_32fc(&energia, y, d_conj, len);
-          if(abs(energia) < 0.0001){
+          if(abs(energia) < 0.01){
             max = -1;
           }else{
             max = abs(resultado/energia);

@@ -4,7 +4,7 @@
   <key>cv2x_psss_time_sync</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.psss_time_sync($fftl, $syncPeriod)</make>
+  <make>cv2x.psss_time_sync($fftl, $syncPeriod, self.$(sig()))</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -19,6 +19,12 @@
          <name>Sync Period</name>
          <key>syncPeriod</key>
          <type>int</type>
+       </param>
+
+       <param>
+         <name>Signal Source</name>
+         <key>sig</key>
+         <type>raw</type>
        </param>
 
        <sink>

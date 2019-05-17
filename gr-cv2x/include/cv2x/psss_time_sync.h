@@ -24,6 +24,7 @@
 
 #include <cv2x/api.h>
 #include <gnuradio/sync_block.h>
+#include <gnuradio/analog/sig_source_c.h>
 
 namespace gr {
   namespace cv2x {
@@ -46,7 +47,7 @@ namespace gr {
        * class. cv2x::psss_time_sync::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int fftl, int syncPeriod);
+      static sptr make(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig);
     };
 
   } // namespace cv2x

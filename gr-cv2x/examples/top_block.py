@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu May 16 18:46:02 2019
+# Generated: Fri May 17 13:36:03 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -93,6 +93,7 @@ class top_block(gr.top_block, Qt.QWidget):
           
         self.pss_time_sync_0 = pss_time_sync(
             fft_len=fft_len,
+            samp_rate=samp_rate,
             syncPeriod=syncPeriod,
         )
         self.lte_ssss_sync_0 = lte_ssss_sync(
@@ -103,7 +104,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_throttle_2 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_message_debug_0 = blocks.message_debug()
-        self.blocks_file_source_0_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/home/carlos/Escritorio/matlab/data/cable.dat', False)
+        self.blocks_file_source_0_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/home/carlos/Escritorio/matlab/data/receptorauto.dat', False)
 
         ##################################################
         # Connections
@@ -153,6 +154,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.sig.set_sampling_freq(self.samp_rate)
         self.qtgui_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.pss_time_sync_0.set_samp_rate(self.samp_rate)
         self.blocks_throttle_2.set_sample_rate(self.samp_rate)
 
 
