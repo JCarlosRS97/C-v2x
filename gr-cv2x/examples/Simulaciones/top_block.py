@@ -198,10 +198,10 @@ def main(top_block_cls=top_block, options=None):
     dev = float(sys.argv[1])
 
     for i in range(10):
-        tb = top_block_cls(message_consumer0, dev)
+        tb = top_block_cls(message_consumer0, dev/2)
         tb.start()
         #tb.show()
-        timer.start(300)
+        timer.start(350)
 
 
         qapp.exec_()

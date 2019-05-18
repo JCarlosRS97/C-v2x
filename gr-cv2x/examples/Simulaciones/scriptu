@@ -1,0 +1,9 @@
+#!/bin/bash
+rm resultados.txt
+rm resultados$j.txt
+echo "0" >> resultados$j.txt
+for i in {1..10}
+do
+   ./top_block.py 14.5
+done
+

@@ -1,11 +1,11 @@
 #!/bin/bash
 rm resultados.txt
-for j in {10..20}
+for j in {19..30}
 do
 	rm resultados$j.txt
 	echo "0" >> resultados$j.txt
 
-	for i in {1..10000}
+	for i in {1..10}
 	do
 	   ./top_block.py $j
 	done
