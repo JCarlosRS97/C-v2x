@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <?grc format='1' created='3.7.10'?>
 <flow_graph>
-  <timestamp>Thu Dec 13 17:08:40 2018</timestamp>
+  <timestamp>Sat May 18 17:54:27 2019</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -272,7 +272,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 296)</value>
+      <value>(160, 288)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -327,7 +327,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 456)</value>
+      <value>(352, 448)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -378,7 +378,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 144)</value>
+      <value>(656, 136)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -696,7 +696,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(856, 896)</value>
+      <value>(856, 864)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -727,7 +727,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 776)</value>
+      <value>(488, 768)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -778,7 +778,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(480, 360)</value>
+      <value>(480, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -920,6 +920,45 @@
     </param>
   </block>
   <block>
+    <key>blocks_vector_sink_x</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(896, 704)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_vector_sink_x_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>cv2x_lte_cyclic_prefixer_vcc</key>
     <param>
       <key>alias</key>
@@ -1041,7 +1080,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 104)</value>
+      <value>(360, 96)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1104,7 +1143,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1032, 136)</value>
+      <value>(944, 128)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1163,7 +1202,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 776)</value>
+      <value>(888, 768)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1238,105 +1277,6 @@
     </param>
   </block>
   <block>
-    <key>qtgui_sink_x</key>
-    <param>
-      <key>bw</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>fc</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>freqchangevar</key>
-      <value>None</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>fftsize</key>
-      <value>1024</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1080, 752)</value>
-    </param>
-    <param>
-      <key>gui_hint</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>qtgui_sink_x_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>name</key>
-      <value>""</value>
-    </param>
-    <param>
-      <key>plotconst</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>plotfreq</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>plottime</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>plotwaterfall</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>showports</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>showrf</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>rate</key>
-      <value>10</value>
-    </param>
-    <param>
-      <key>wintype</key>
-      <value>firdes.WIN_BLACKMAN_hARRIS</value>
-    </param>
-  </block>
-  <block>
     <key>analog_sig_source_x</key>
     <param>
       <key>amp</key>
@@ -1364,7 +1304,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(288, 888)</value>
+      <value>(288, 864)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1611,7 +1551,7 @@
   </connection>
   <connection>
     <source_block_id>lte_ssss_sync_0</source_block_id>
-    <sink_block_id>qtgui_sink_x_0</sink_block_id>
+    <sink_block_id>blocks_vector_sink_x_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

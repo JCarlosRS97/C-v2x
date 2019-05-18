@@ -103,10 +103,10 @@ namespace gr {
         {
           const gr_complex *in = (const gr_complex *) input_items[0];
           gr_complex *out = (gr_complex *) output_items[0];
-        //   if(nitems_read(0) < 25000){
-        //   memcpy(out, in, sizeof(gr_complex)*noutput_items*d_vlen );
-        //   return noutput_items;
-        // }
+          if(nitems_read(0) < 150000){
+          memcpy(out, in, sizeof(gr_complex)*noutput_items*d_vlen );
+          return noutput_items;
+        }
 
           //printf("%s.work\tnoutput_items = %i\tnitems_read = %ld\n", name().c_str(), noutput_items, nitems_read(0) );
           int nout = 0;

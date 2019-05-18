@@ -158,7 +158,7 @@ namespace gr {
             (*d_sig).set_frequency((-1)*double(d_offset*15000.0) );
             if(d_sync_frame_start != sync_frame_start ){
               if(!d_is_locked){
-                printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                // printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
                 message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                 d_sync_frame_start = sync_frame_start;
@@ -179,8 +179,8 @@ namespace gr {
         //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
         //periodo y se le añade un poco de holgura.
         if( !d_is_locked && d_lock_count > (28*syncPeriod) && d_N_id_2 >=0 ){
-          printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
-          printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
+          // printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
+          // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
           d_is_locked = true;
           message_port_pub( d_port_lock, pmt::PMT_T );
         }
@@ -240,8 +240,12 @@ namespace gr {
         }
 
         int N_id_2 = pos%2;
-        // printf("Chu0: max = %f\n", max0);
-        // printf("Chu1: max = %f\n", max1);
+        // printf("Chu0_fm1: max = %f\n", max[0]);
+        // printf("Chu1_fm1: max = %f\n", max[1]);
+        // printf("Chu0_f0: max = %f\n", max[2]);
+        // printf("Chu1_f0: max = %f\n", max[3]);
+        // printf("Chu0_f1: max = %f\n", max[4]);
+        // printf("Chu1_f1: max = %f\n", max[5]);
         //Calculate return value
         bool has_changed = false;
         if(d_corr_val < maxc){
@@ -249,7 +253,7 @@ namespace gr {
           d_N_id_2 = N_id_2;
           d_corr_val = maxc;
           d_offset = pos/2 -1;
-          printf("IFO= %i\n", d_offset);
+          // printf("IFO= %i\n", d_offset);
         }
         return has_changed;
       }

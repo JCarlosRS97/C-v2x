@@ -175,7 +175,7 @@ namespace gr {
 
             d_cell_id = N_id_1 + 168*d_N_id_2;
 
-            printf("actual = %i\n", d_cell_id);
+            // printf("actual = %i\n", d_cell_id);
 
             d_unchanged_id++;
             if(d_unchanged_id > 2){
@@ -222,8 +222,8 @@ namespace gr {
 
         int m0 = calc_m(s0m0, m1); //m0 is always under m1
         //printf("m1 = %i\n",m1);
-        printf("m0 = %i, m1= %i\n", m0, m1);
-        printf("N_id_1: %i, d_max_val_new= %f\n", get_N_id_1(m0, m1), d_max_val_new);
+        // printf("m0 = %i, m1= %i\n", m0, m1);
+        // printf("N_id_1: %i, d_max_val_new= %f\n", get_N_id_1(m0, m1), d_max_val_new);
         return get_N_id_1(m0, m1);
       }
 
@@ -290,7 +290,7 @@ namespace gr {
       void
       ssss_calculator_vcm_impl::publish_cell_id(int cell_id)
       {
-        printf("%s\t\tpublish_cell_id %i\n", name().c_str(), cell_id );
+        // printf("%s\t\tpublish_cell_id %i\n", name().c_str(), cell_id );
         pmt::pmt_t msg = pmt::from_long((long)cell_id) ;
         message_port_pub( d_port_cell_id, msg );
       }
@@ -298,7 +298,7 @@ namespace gr {
       void
       ssss_calculator_vcm_impl::publish_frame_start(long frame_start)
       {
-        printf("%s\t\tpublish_frame_start %ld\n", name().c_str(), frame_start );
+        // printf("%s\t\tpublish_frame_start %ld\n", name().c_str(), frame_start );
         pmt::pmt_t msg = pmt::from_long(frame_start) ;
         message_port_pub( d_port_frame_start, msg );
       }
