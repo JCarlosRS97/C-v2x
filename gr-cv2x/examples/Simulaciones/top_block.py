@@ -58,7 +58,7 @@ class message_consumer(gr.sync_block):
 
 class top_block(gr.top_block, Qt.QWidget):
 
-    def __init__(self, message_consumer0):
+    def __init__(self, message_consumer0, dev):
         gr.top_block.__init__(self, "Top Block")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Top Block")
@@ -116,7 +116,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, -1000, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 10, 2500)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, dev, 2500)
 
 
         ##################################################
@@ -189,26 +189,32 @@ def main(top_block_cls=top_block, options=None):
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
     message_consumer0 = message_consumer()
-    tb = top_block_cls(message_consumer0)
     timer = QtCore.QTimer()
     QtCore.QTimer.connect(timer, QtCore.SIGNAL("timeout()"), qapp, Qt.SLOT('quit()'))
+    def quitting():
+        tb.stop()
+        tb.wait()
+    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
+    dev = float(sys.argv[1])
 
-    for i in range(1000):
-        tb = top_block_cls(message_consumer0)
+    for i in range(10):
+        tb = top_block_cls(message_consumer0, dev)
         tb.start()
         #tb.show()
         timer.start(300)
 
 
-        def quitting():
-            tb.stop()
-            tb.wait()
-        qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
         qapp.exec_()
 
 
     res = message_consumer0.get_cont()
-    print res
+    f=open("resultados"+ sys.argv[1] + ".txt", "r")
+    lista = f.read().split()
+    acumulado = int(lista[0]) + res
+    print acumulado
+    f.close()
+    f=open("resultados"+sys.argv[1]+".txt", "w")
+    f.write("%i\n" % acumulado)
 
 if __name__ == '__main__':
     main()
