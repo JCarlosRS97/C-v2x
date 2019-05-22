@@ -139,10 +139,19 @@ namespace gr {
                   // printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
                 }
               }
-              //si es la ultima iteracion
               // printf("Pos %ld\tmod = %i\tsym_pos = %ld\td_corr_val = %f\n", abs_pos,mod, d_sym_pos, d_corr_val);
+              //si es la ultima iteracion
               if(mod + 1 == stp){
                 // printf("tracking abs_pos: %ld\tmax_pos = %i\tcorr= %f\n", max_pos, int(max_pos%d_slotl), it_peso);
+                if(it_peso >= d_corr_val){ // Only is corrected cfo if
+                  // Only if correlation value is modified, cfo estimation is corrected
+                  float coef = nitems_read(0)<152000? 0.5 : 0.8;
+                  float f_off = arg(it_val)/(2*M_PI)*15000.0;
+                  d_f_av=d_f_av*coef - ((1-coef) * f_off);
+                  (*d_sig).set_frequency((-1)*double(d_f_av) );
+                  // printf("%s: offset: %f\n",name().c_str(), d_f_av);
+                  // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
+                }
                 i += d_fftl;
                 it_peso = 0;
                 max_pos = 0;
@@ -191,16 +200,6 @@ namespace gr {
             d_is_locked = false;
           }
           nout = i;
-
-          if(d_is_locked /*&& it_peso >= d_corr_val*/){ // Only is corrected cfo if
-            // Only if correlation value is modified, cfo estimation is corrected
-            float coef = nitems_read(0)<2000? 0.5 : 0.8;
-            float f_off = arg(it_val)/(2*M_PI)*15000.0;
-            d_f_av=d_f_av*coef - ((1-coef) * f_off);
-            (*d_sig).set_frequency((-1)*double(d_f_av) );
-            // printf("offset: %f\n", d_f_av);
-            // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
-          }
 
           // actually the next block doesn't care about the exact tag position. Only the value and key are important.
           memcpy(out, in, sizeof(gr_complex)*nout*d_vlen );

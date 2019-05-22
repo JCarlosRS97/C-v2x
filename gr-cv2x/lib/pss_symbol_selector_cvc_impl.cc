@@ -131,7 +131,7 @@ namespace gr {
               // printf("Offset %ld\n", d_offset);
           }
       }
-      int offset = d_offset;
+      int offset = d_offset%d_syml;
       if(offset == 0){ // if offset is "0" then there is no symbol sync yet --> return!
           consume_each(nin);
           return 0;
@@ -160,6 +160,7 @@ namespace gr {
           else if(((abs(abs_pos-offset)%d_slotl)-d_syml0)%d_syml == 0){
               // At the first sample of a symbol when it isn't at tracking mode
               // yet
+              printf("sacando de %ld con offset%i\n", abs_pos, offset);
               produce_output(out, in+i, abs_pos, nout);
               i += (d_syml-10); // Reduce iterations
               //consumed_items = i+1; // +1 because i is initialized with 0
