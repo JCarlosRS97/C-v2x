@@ -86,7 +86,7 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         self.fft_len = fft_len = 256
         self.SubcarrierBW = SubcarrierBW = 15000
-        self.syncPeriod = syncPeriod = 10
+        self.syncPeriod = syncPeriod = 2
         self.samp_rate = samp_rate = SubcarrierBW*fft_len
 
         ##################################################
@@ -110,13 +110,12 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        #self.blocks_message_debug_0 = blocks.message_debug()
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/carlos/Escritorio/matlab/data/random.dat', True)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, -1000, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, dev, 2500)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, dev)
 
 
         ##################################################
@@ -195,13 +194,13 @@ def main(top_block_cls=top_block, options=None):
         tb.stop()
         tb.wait()
     qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
-    dev = float(sys.argv[1])
+    dev = 10
 
-    for i in range(10):
+    for i in range(100):
         tb = top_block_cls(message_consumer0, dev/2)
         tb.start()
         #tb.show()
-        timer.start(350)
+        timer.start(120)
 
 
         qapp.exec_()

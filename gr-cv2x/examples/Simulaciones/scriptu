@@ -1,9 +1,7 @@
 #!/bin/bash
-rm resultados.txt
-rm resultados$j.txt
-echo "0" >> resultados$j.txt
-for i in {1..10}
+rm resultados25.txt
+echo "0" >> resultados25.txt
+for i in {1..100}
 do
-   ./top_block.py 14.5
+   ./top_block.py 25
 done
-

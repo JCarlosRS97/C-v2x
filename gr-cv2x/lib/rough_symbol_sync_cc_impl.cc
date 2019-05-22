@@ -142,7 +142,7 @@ namespace gr {
               // printf("Pos %ld\tmod = %i\tsym_pos = %ld\td_corr_val = %f\n", abs_pos,mod, d_sym_pos, d_corr_val);
               //si es la ultima iteracion
               if(mod + 1 == stp){
-                // printf("tracking abs_pos: %ld\tmax_pos = %i\tcorr= %f\n", max_pos, int(max_pos%d_slotl), it_peso);
+                // printf("tracking abs_pos: %ld\tmax_pos = %i\tcorr= %f\td_corr_val = %f\n", max_pos, int(max_pos%d_slotl), it_peso, d_corr_val);
                 if(it_peso >= d_corr_val){ // Only is corrected cfo if
                   // Only if correlation value is modified, cfo estimation is corrected
                   float coef = nitems_read(0)<152000? 0.5 : 0.8;
@@ -151,6 +151,12 @@ namespace gr {
                   (*d_sig).set_frequency((-1)*double(d_f_av) );
                   // printf("%s: offset: %f\n",name().c_str(), d_f_av);
                   // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
+                }
+
+                d_corr_val *= 0.99;
+                // If d_corr_val loss the peak, we change to find mode
+                if(d_corr_val<0.75){
+                  d_is_locked = false;
                 }
                 i += d_fftl;
                 it_peso = 0;
@@ -194,11 +200,6 @@ namespace gr {
 
           }
 
-          d_corr_val *= 0.99;
-          // If d_corr_val loss the peak, we change to find mode
-          if(d_corr_val<0.75){
-            d_is_locked = false;
-          }
           nout = i;
 
           // actually the next block doesn't care about the exact tag position. Only the value and key are important.

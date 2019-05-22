@@ -178,9 +178,9 @@ namespace gr {
         //is stopped and block has no further function.
         //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
         //periodo y se le añade un poco de holgura.
-        if( !d_is_locked && d_lock_count > (28*syncPeriod) && d_N_id_2 >=0 ){
-          printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
-          printf("IFO= %i\n", d_offset);
+        if( !d_is_locked && d_lock_count > (14.5*syncPeriod) && d_N_id_2 >=0 ){
+          // printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
+          // printf("IFO= %i\n", d_offset);
           // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
           d_is_locked = true;
           message_port_pub( d_port_lock, pmt::PMT_T );
