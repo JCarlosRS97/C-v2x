@@ -66,9 +66,9 @@ namespace gr {
       d_key=pmt::string_to_symbol("symbol");
       d_tag_id=pmt::string_to_symbol(this->name() );
 
-      d_cp0 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
-      d_cp1 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
-      d_conj = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_cpl0*d_vlen);
+      d_cp0 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*2*d_cpl0*d_vlen);
+      d_cp1 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*2*d_cpl0*d_vlen);
+      d_conj = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*2*d_cpl0*d_vlen);
     }
 
     /*
@@ -90,7 +90,7 @@ namespace gr {
 
         //~16*4 correlations in work function
         if(noutput_items< d_fftl+d_cpl*16){
-          ninput_items_required[0]=d_fftl+d_cpl*16;
+          ninput_items_required[0]=2*d_fftl+d_cpl*16;
         } else	{
           ninput_items_required[0]=noutput_items;
         }
@@ -104,9 +104,9 @@ namespace gr {
           const gr_complex *in = (const gr_complex *) input_items[0];
           gr_complex *out = (gr_complex *) output_items[0];
           if(nitems_read(0) < 150000){
-          memcpy(out, in, sizeof(gr_complex)*noutput_items*d_vlen );
-          return noutput_items;
-        }
+            memcpy(out, in, sizeof(gr_complex)*noutput_items*d_vlen );
+            return noutput_items;
+          }
 
           //printf("%s.work\tnoutput_items = %i\tnitems_read = %ld\n", name().c_str(), noutput_items, nitems_read(0) );
           int nout = 0;
@@ -121,13 +121,16 @@ namespace gr {
           long abs_pos, max_pos;
           long nir = nitems_read(0);
           int i;
-          for(i = 0 ; (i + d_fftl + d_cpl) < noutput_items; i++){
+          for(i = 0 ; (i + 2*d_fftl + 2*d_cpl) < noutput_items; i++){
             abs_pos = nir+long(i); // calculate new absolute sample position
             mod = abs((abs(abs_pos-d_sym_pos+int((d_cpl0-d_cpl)/2))%d_slotl)-d_syml0)%d_syml;
             if(d_is_locked && mod < stp){ // tracking mode
-              memcpy(d_cp0,in+i*d_vlen         ,sizeof(gr_complex)*d_cpl*d_vlen);
+              memcpy(d_cp0, in+i*d_vlen, sizeof(gr_complex)*d_cpl*d_vlen);
+              memcpy(d_cp0 + d_cpl, in+i*d_vlen +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl*d_vlen);
               memcpy(d_cp1,in+(i+d_fftl)*d_vlen,sizeof(gr_complex)*d_cpl*d_vlen);
-              gr_complex val = corr(peso, d_cp0,d_cp1,d_cpl*d_vlen);
+              memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)*d_vlen       ,sizeof(gr_complex)*d_cpl*d_vlen);
+
+              gr_complex val = corr(peso, d_cp0,d_cp1,2*d_cpl*d_vlen);
 
               if(it_peso <= peso ){
                 it_val = val;

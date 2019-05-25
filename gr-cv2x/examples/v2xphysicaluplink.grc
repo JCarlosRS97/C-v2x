@@ -193,7 +193,7 @@
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>0</value>
+      <value>10</value>
     </param>
     <param>
       <key>alias</key>
@@ -484,7 +484,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>file</key>
@@ -641,7 +641,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -665,7 +665,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>200000</value>
+      <value>3840*10</value>
     </param>
     <param>
       <key>type</key>
@@ -1596,12 +1596,6 @@
   </connection>
   <connection>
     <source_block_id>blocks_add_xx_0</source_block_id>
-    <sink_block_id>blocks_head_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_add_xx_0</source_block_id>
     <sink_block_id>blocks_multiply_xx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
@@ -1657,6 +1651,12 @@
   <connection>
     <source_block_id>blocks_throttle_0</source_block_id>
     <sink_block_id>fft_vxx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_lte_cyclic_prefixer_vcc_0</source_block_id>
+    <sink_block_id>blocks_head_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
