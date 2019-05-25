@@ -160,7 +160,7 @@ namespace gr {
           else if(((abs(abs_pos-offset)%d_slotl)-d_syml0)%d_syml == 0){
               // At the first sample of a symbol when it isn't at tracking mode
               // yet
-              printf("sacando de %ld con offset%i\n", abs_pos, offset);
+              // printf("sacando de %ld con offset%i\n", abs_pos, offset);
               produce_output(out, in+i, abs_pos, nout);
               i += (d_syml-10); // Reduce iterations
               //consumed_items = i+1; // +1 because i is initialized with 0
