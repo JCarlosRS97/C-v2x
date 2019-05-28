@@ -47,7 +47,7 @@ namespace gr {
        * class. cv2x::rough_symbol_sync_cc::make is the public interface for
        * creating new instances.
        */
-      static sptr make(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig);
+      static sptr make(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral);
     };
 
   } // namespace cv2x

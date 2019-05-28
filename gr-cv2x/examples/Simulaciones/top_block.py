@@ -194,10 +194,10 @@ def main(top_block_cls=top_block, options=None):
         tb.stop()
         tb.wait()
     qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
-    dev = float(sys.argv[1])/2
+    dev = float(sys.argv[1])/4
 
     for i in range(100):
-        tb = top_block_cls(message_consumer0, dev/2)
+        tb = top_block_cls(message_consumer0, dev)
         tb.start()
         #tb.show()
         timer.start(120)

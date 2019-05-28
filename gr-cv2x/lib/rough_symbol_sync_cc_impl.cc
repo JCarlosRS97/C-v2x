@@ -34,19 +34,19 @@ namespace gr {
   namespace cv2x {
 
     rough_symbol_sync_cc::sptr
-    rough_symbol_sync_cc::make(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig)
+    rough_symbol_sync_cc::make(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral)
     {
       return gnuradio::get_initial_sptr
-      (new rough_symbol_sync_cc_impl(fftl, vlen, subcarrierBW, sig));
+      (new rough_symbol_sync_cc_impl(fftl, subcarrierBW, sig, umbral));
     }
 
     /*
     * The private constructor
     */
-    rough_symbol_sync_cc_impl::rough_symbol_sync_cc_impl(int fftl, int vlen, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig)
+    rough_symbol_sync_cc_impl::rough_symbol_sync_cc_impl(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral)
     : gr::sync_block("rough_symbol_sync_cc",
-    gr::io_signature::make( 1, 1, sizeof(gr_complex)*vlen),
-    gr::io_signature::make( 1, 1, sizeof(gr_complex)*vlen)),
+    gr::io_signature::make( 1, 1, sizeof(gr_complex)),
+    gr::io_signature::make( 1, 1, sizeof(gr_complex))),
     d_fftl(fftl),
     d_sig(sig),
     d_cpl(144*fftl/2048),
@@ -61,14 +61,13 @@ namespace gr {
     stp(d_cpl0/4),
     d_f_av(0.0),
     subcarrierBW(subcarrierBW),
-    d_vlen(vlen)
+    umbral(umbral)
     {
       d_key=pmt::string_to_symbol("symbol");
       d_tag_id=pmt::string_to_symbol(this->name() );
 
-      d_cp0 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*2*d_cpl0*d_vlen);
-      d_cp1 = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*2*d_cpl0*d_vlen);
-      d_conj = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*2*d_cpl0*d_vlen);
+      d_cp0 = (gr_complex*)volk_malloc(sizeof(gr_complex)*2*d_cpl, volk_get_alignment());
+      d_cp1 = (gr_complex*)volk_malloc(sizeof(gr_complex)*2*d_cpl, volk_get_alignment());
     }
 
     /*
@@ -76,9 +75,8 @@ namespace gr {
     */
     rough_symbol_sync_cc_impl::~rough_symbol_sync_cc_impl()
     {
-      fftwf_free(d_cp0);
-      fftwf_free(d_cp1);
-      fftwf_free(d_conj);
+      volk_free(d_cp0);
+      volk_free(d_cp1);
     }
 
     void rough_symbol_sync_cc_impl::forecast(int noutput_items,
@@ -104,7 +102,7 @@ namespace gr {
           const gr_complex *in = (const gr_complex *) input_items[0];
           gr_complex *out = (gr_complex *) output_items[0];
           if(nitems_read(0) < 150000){
-            memcpy(out, in, sizeof(gr_complex)*noutput_items*d_vlen );
+            memcpy(out, in, sizeof(gr_complex)*noutput_items );
             return noutput_items;
           }
 
@@ -125,12 +123,12 @@ namespace gr {
             abs_pos = nir+long(i); // calculate new absolute sample position
             mod = abs((abs(abs_pos-d_sym_pos+int((d_cpl0-d_cpl)/2))%d_slotl)-d_syml0)%d_syml;
             if(d_is_locked && mod < stp){ // tracking mode
-              memcpy(d_cp0, in+i*d_vlen, sizeof(gr_complex)*d_cpl*d_vlen);
-              memcpy(d_cp0 + d_cpl, in+i*d_vlen +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl*d_vlen);
-              memcpy(d_cp1,in+(i+d_fftl)*d_vlen,sizeof(gr_complex)*d_cpl*d_vlen);
-              memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)*d_vlen       ,sizeof(gr_complex)*d_cpl*d_vlen);
+              memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
+              memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
+              memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
+              memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
 
-              gr_complex val = corr(peso, d_cp0,d_cp1,2*d_cpl*d_vlen);
+              gr_complex val = corr(peso, d_cp0,d_cp1,2*d_cpl);
 
               if(it_peso <= peso ){
                 it_val = val;
@@ -158,7 +156,7 @@ namespace gr {
 
                 d_corr_val *= 0.99;
                 // If d_corr_val loss the peak, we change to find mode
-                if(d_corr_val<0.75){
+                if(d_corr_val < umbral){
                   d_is_locked = false;
                 }
                 i += d_fftl;
@@ -167,9 +165,11 @@ namespace gr {
               }
 
             } else if(!d_is_locked && abs_pos%stp==0){ //Find mode
-              memcpy(d_cp0,in+i*d_vlen          ,sizeof(gr_complex)*d_cpl*d_vlen);
-              memcpy(d_cp1,in+(i+d_fftl)*d_vlen ,sizeof(gr_complex)*d_cpl*d_vlen);
-              gr_complex val = corr(peso, d_cp0,d_cp1,d_cpl*d_vlen);
+               memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
+               memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
+               memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
+               memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
+              corr(peso, d_cp0,d_cp1,2*d_cpl);
 
               int find_pos;
               if(d_corr_val < peso){
@@ -179,10 +179,10 @@ namespace gr {
                   fine_pos = i - stp;
                 }
                 for(int j = fine_pos ; j < i+stp; j++){
-                  memcpy(d_cp0,in+j*d_vlen         ,sizeof(gr_complex)*d_cpl*d_vlen);
-                  memcpy(d_cp1,in+(j+d_fftl)*d_vlen,sizeof(gr_complex)*d_cpl*d_vlen);
-                  gr_complex val = corr(peso, d_cp0,d_cp1,d_cpl*d_vlen);
-                  if(peso > 0.75){
+                  memcpy(d_cp0,in+j         ,sizeof(gr_complex)*d_cpl);
+                  memcpy(d_cp1,in+(j+d_fftl),sizeof(gr_complex)*d_cpl);
+                  corr(peso, d_cp0,d_cp1,d_cpl);
+                  if(peso > umbral){
                     d_corr_val = peso;
                     find_pos = j;
                     d_sym_pos = (nir + j)%d_slotl;
@@ -206,7 +206,7 @@ namespace gr {
           nout = i;
 
           // actually the next block doesn't care about the exact tag position. Only the value and key are important.
-          memcpy(out, in, sizeof(gr_complex)*nout*d_vlen );
+          memcpy(out, in, sizeof(gr_complex)*nout );
           add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
           // printf("noutput_items %i\t nout = %i\n", noutput_items, nout);
           // printf("consumed items: %i\n", nout);
@@ -220,9 +220,8 @@ namespace gr {
         {
           gr_complex resultado;
           gr_complex energia;
-          volk_32fc_conjugate_32fc_a(d_conj, y, len);
-          volk_32fc_x2_dot_prod_32fc(&resultado, x, d_conj, len);
-          volk_32fc_x2_dot_prod_32fc(&energia, y, d_conj, len);
+          volk_32fc_x2_conjugate_dot_prod_32fc(&resultado, x, y, len);
+          volk_32fc_x2_conjugate_dot_prod_32fc(&energia, y, y, len);
           if(abs(energia) < 0.01){
             max = -1;
           }else{

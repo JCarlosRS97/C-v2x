@@ -4,7 +4,7 @@
   <key>cv2x_rough_symbol_sync_cc</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.rough_symbol_sync_cc($fftl, $vlen, $SCBW, self.$(sig()))</make>
+  <make>cv2x.rough_symbol_sync_cc($fftl, $SCBW, self.$(sig()), $umbral)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -17,9 +17,9 @@
        </param>
 
        <param>
-         <name>Vec length</name>
-         <key>vlen</key>
-         <type>int</type>
+         <name>Umbral</name>
+         <key>umbral</key>
+         <type>float</type>
        </param>
 
        <param>
