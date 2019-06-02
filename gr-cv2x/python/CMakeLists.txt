@@ -55,3 +55,4 @@ GR_ADD_TEST(qa_ssss_tagger_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/q
 GR_ADD_TEST(qa_decimator_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_decimator_cc.py)
 GR_ADD_TEST(qa_psss_time_sync ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_psss_time_sync.py)
 GR_ADD_TEST(qa_lte_cyclic_prefixer_vcc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_lte_cyclic_prefixer_vcc.py)
+GR_ADD_TEST(qa_pss_time_sim ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_pss_time_sim.py)

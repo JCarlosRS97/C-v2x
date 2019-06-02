@@ -23,6 +23,7 @@
 #include "cv2x/decimator_cc.h"
 #include "cv2x/psss_time_sync.h"
 #include "cv2x/lte_cyclic_prefixer_vcc.h"
+#include "cv2x/pss_time_sim.h"
 %}
 
 
@@ -58,3 +59,5 @@ GR_SWIG_BLOCK_MAGIC2(cv2x, decimator_cc);
 GR_SWIG_BLOCK_MAGIC2(cv2x, psss_time_sync);
 %include "cv2x/lte_cyclic_prefixer_vcc.h"
 GR_SWIG_BLOCK_MAGIC2(cv2x, lte_cyclic_prefixer_vcc);
+%include "cv2x/pss_time_sim.h"
+GR_SWIG_BLOCK_MAGIC2(cv2x, pss_time_sim);

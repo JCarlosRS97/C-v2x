@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Sat May 25 21:50:52 2019
+# Generated: Sun Jun  2 15:45:16 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -110,11 +110,9 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_message_debug_0 = blocks.message_debug()
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/carlos/Escritorio/matlab/scripts/random.dat', True)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
-        self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 10, 0)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0, 0)
 
         ##################################################
         # Connections
@@ -122,14 +120,12 @@ class top_block(gr.top_block, Qt.QWidget):
         self.msg_connect((self.lte_ssss_sync_0, 'SLSSID'), (self.blocks_message_debug_0, 'print'))    
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))    
         self.connect((self.blocks_add_xx_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))    
-        self.connect((self.blocks_add_xx_1, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))    
-        self.connect((self.blocks_file_source_0, 0), (self.blocks_add_xx_1, 1))    
         self.connect((self.blocks_multiply_xx_0, 0), (self.pss_time_sync_0, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))    
         self.connect((self.cv2x_lte_cyclic_prefixer_vcc_0, 0), (self.blocks_delay_0, 0))    
         self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.blocks_multiply_xx_0, 0))    
-        self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))    
+        self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.fft_vxx_0, 0), (self.cv2x_lte_cyclic_prefixer_vcc_0, 0))    
         self.connect((self.lte_ssss_sync_0, 0), (self.qtgui_sink_x_0, 0))    
         self.connect((self.pss_time_sync_0, 0), (self.lte_ssss_sync_0, 0))    

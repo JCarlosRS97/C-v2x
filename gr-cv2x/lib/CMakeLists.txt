@@ -40,7 +40,8 @@ list(APPEND cv2x_sources
     ssss_tagger_cc_impl.cc
     decimator_cc_impl.cc
     psss_time_sync_impl.cc
-    lte_cyclic_prefixer_vcc_impl.cc )
+    lte_cyclic_prefixer_vcc_impl.cc
+    pss_time_sim_impl.cc )
 
 set(cv2x_sources "${cv2x_sources}" PARENT_SCOPE)
 if(NOT cv2x_sources)
