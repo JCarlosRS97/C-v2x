@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<block>
+  <name>pss_time_sim</name>
+  <key>cv2x_pss_time_sim</key>
+  <category>[cv2x]</category>
+  <import>import cv2x</import>
+  <make>cv2x.pss_time_sim($fftl, $syncPeriod,  self.$(sig()))</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+       <param>
+         <name>FFT length</name>
+         <key>fftl</key>
+         <type>int</type>
+       </param>
+       <param>
+         <name>Sync Period</name>
+         <key>syncPeriod</key>
+         <type>int</type>
+       </param>
+
+       <param>
+         <name>Signal Source</name>
+         <key>sig</key>
+         <type>raw</type>
+       </param>
+
+       <sink>
+        <name>in</name>
+        <type>complex</type>
+        <vlen>128</vlen>
+      </sink>
+
+      <source>
+        <name>lock</name>
+        <type>message</type>
+      </source>
+
+      <source>
+        <name>sync_frame</name>
+        <type>message</type>
+      </source>
+
+      <source>
+        <name>N_id_2</name>
+        <type>message</type>
+      </source>
+     </block>

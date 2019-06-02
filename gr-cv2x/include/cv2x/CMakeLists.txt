@@ -36,5 +36,6 @@ install(FILES
     ssss_tagger_cc.h
     decimator_cc.h
     psss_time_sync.h
-    lte_cyclic_prefixer_vcc.h DESTINATION include/cv2x
+    lte_cyclic_prefixer_vcc.h
+    pss_time_sim.h DESTINATION include/cv2x
 )

@@ -59,6 +59,8 @@ namespace gr {
       inline int calculate_sync_frame_start(long pos);
       // attributes for correlation
       gr_complex *d_corr_in;
+      gr_complex *d_corr_in1;
+      gr_complex *d_corr_in2;
       gr_complex *d_chu0_f0_t;
       gr_complex *d_chu1_f0_t;
       gr_complex *d_chu0_f1_t;

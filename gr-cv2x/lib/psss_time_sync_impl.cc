@@ -67,13 +67,15 @@ namespace gr {
 
       d_chu_f   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*nfft);
       d_chu_t    =  (gr_complex*) fftwf_malloc(sizeof(gr_complex)*nfft);
-      d_chu0_fm1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-      d_chu1_fm1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-      d_chu0_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-      d_chu1_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-      d_chu0_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-      d_chu1_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-      d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
+      d_chu0_fm1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+      d_chu1_fm1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+      d_chu0_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+      d_chu1_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+      d_chu0_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+      d_chu1_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+      d_corr_in1   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+      d_corr_in2   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+      d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
 
       d_plan_r = fftwf_plan_dft_1d(nfft, reinterpret_cast<fftwf_complex*>(d_chu_f), reinterpret_cast<fftwf_complex*>(d_chu_t), FFTW_BACKWARD, FFTW_ESTIMATE);
 
@@ -86,24 +88,26 @@ namespace gr {
       generate_time_psss(d_chu0_fm1_t, -1, 0);
       generate_time_psss(d_chu1_fm1_t, -1, 1);
 
-      //ahora se conjugan ambas secuencias
-      volk_32fc_conjugate_32fc_a(d_chu0_f0_t, d_chu0_f0_t, 2*nfft);
-      volk_32fc_conjugate_32fc_a(d_chu1_f0_t, d_chu1_f0_t, 2*nfft);
-      volk_32fc_conjugate_32fc_a(d_chu0_f1_t, d_chu0_f1_t, 2*nfft);
-      volk_32fc_conjugate_32fc_a(d_chu1_f1_t, d_chu1_f1_t, 2*nfft);
-      volk_32fc_conjugate_32fc_a(d_chu0_fm1_t, d_chu0_fm1_t, 2*nfft);
-      volk_32fc_conjugate_32fc_a(d_chu1_fm1_t, d_chu1_fm1_t, 2*nfft);
-
-
       // printf("Chu0\n");
       // for(int j = 0; j < nfft; j++){
-      //   printf("pos %i value %f + %fi\n", j, d_chu0_f1_t[j].real(), d_chu0_f1_t[j].imag());
+      //   printf("pos %i value %f + %fi\n", j, d_chu0_f0_t[j].real(), d_chu0_f0_t[j].imag());
       // }
       //
       // printf("Chu1\n");
       // for(int j = 0; j < nfft; j++){
       //   printf("pos %i value %f + %fi\n", j, d_chu1_f0_t[j].real(), d_chu1_f0_t[j].imag());
       // }
+
+
+      //ahora se conjugan ambas secuencias
+      volk_32fc_conjugate_32fc_a(d_chu0_f0_t, d_chu0_f0_t, nfft);
+      volk_32fc_conjugate_32fc_a(d_chu1_f0_t, d_chu1_f0_t, nfft);
+      volk_32fc_conjugate_32fc_a(d_chu0_f1_t, d_chu0_f1_t, nfft);
+      volk_32fc_conjugate_32fc_a(d_chu1_f1_t, d_chu1_f1_t, nfft);
+      volk_32fc_conjugate_32fc_a(d_chu0_fm1_t, d_chu0_fm1_t, nfft);
+      volk_32fc_conjugate_32fc_a(d_chu1_fm1_t, d_chu1_fm1_t, nfft);
+
+
 
 
       //se liberan los recursos
@@ -118,7 +122,9 @@ namespace gr {
     */
     psss_time_sync_impl::~psss_time_sync_impl()
     {
+      volk_free(d_corr_in1);
       volk_free(d_corr_in);
+      volk_free(d_corr_in2);
       volk_free(d_chu0_f0_t);
       volk_free(d_chu1_f0_t);
       volk_free(d_chu0_f1_t);
@@ -145,8 +151,13 @@ namespace gr {
         bool changed = false;
         for(int i = 0 ; i < noutput_items ; i++){
           //extract PSS from its carriers.
-          memcpy(d_corr_in, in, sizeof(gr_complex)*2*nfft);
+          //memcpy(d_corr_in1, in, sizeof(gr_complex)*nfft);
+          //memcpy(d_corr_in2, in + nfft, sizeof(gr_complex)*nfft);
           in += 2*nfft;
+          for(int j = 0; j< nfft; j++){
+            d_corr_in[j] = in[j] + in[j+nfft];
+          }
+          //volk_32fc_x2_add_32fcc(d_corr_in, d_corr_in1, d_corr_in2, nfft);
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(); }
           else{ changed = find_pss_symbol(); }
@@ -223,7 +234,7 @@ namespace gr {
       bool
       psss_time_sync_impl::find_pss_symbol()
       {
-        int len = 2*nfft;
+        int len = nfft;
         float max[6];
         max_pos(max[0], d_chu0_fm1_t, len);
         max_pos(max[1], d_chu1_fm1_t, len);
@@ -262,7 +273,7 @@ namespace gr {
       bool
       psss_time_sync_impl::tracking()
       {
-        int len = 2*nfft;
+        int len = nfft;
         float max = 0.0;
         switch(d_N_id_2 + (d_offset + 1)*2){
           case 0: max_pos(max, d_chu0_fm1_t, len); break;
@@ -315,7 +326,6 @@ namespace gr {
         memcpy(d_chu_f + 33 + freq_offset, d_chu, sizeof(gr_complex)*(31 - freq_offset));
         fftwf_execute(d_plan_r);
         memcpy(seq, d_chu_t, sizeof(gr_complex)*nfft);
-        memcpy(seq + nfft, d_chu_t, sizeof(gr_complex)*nfft);
       }
 
 
