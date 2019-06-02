@@ -172,7 +172,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>500</value>
+      <value>100</value>
     </param>
     <param>
       <key>type</key>
@@ -322,6 +322,57 @@
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>syncPeriod</key>
+      <value>syncPeriod</value>
+    </param>
+  </block>
+  <block>
+    <key>cv2x_pss_time_sim</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>fftl</key>
+      <value>fft_len</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(800, 504)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>cv2x_pss_time_sim_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>sig</key>
+      <value>"sig_psss"</value>
     </param>
     <param>
       <key>syncPeriod</key>
@@ -677,6 +728,12 @@
   </connection>
   <connection>
     <source_block_id>cv2x_pss_symbol_selector_cvc_0</source_block_id>
+    <sink_block_id>cv2x_pss_time_sim_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_pss_symbol_selector_cvc_0</source_block_id>
     <sink_block_id>cv2x_psss_time_sync_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -686,6 +743,36 @@
     <sink_block_id>pad_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_pss_time_sim_0</source_block_id>
+    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
+    <source_key>N_id_2</source_key>
+    <sink_key>N_id_2</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_pss_time_sim_0</source_block_id>
+    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
+    <source_key>lock</source_key>
+    <sink_key>lock</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_pss_time_sim_0</source_block_id>
+    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
+    <source_key>lock</source_key>
+    <sink_key>lock</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_pss_time_sim_0</source_block_id>
+    <sink_block_id>cv2x_pss_symbol_selector_cvc_0</sink_block_id>
+    <source_key>sync_frame</source_key>
+    <sink_key>sync_frame</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>cv2x_pss_time_sim_0</source_block_id>
+    <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
+    <source_key>sync_frame</source_key>
+    <sink_key>sync_frame</sink_key>
   </connection>
   <connection>
     <source_block_id>cv2x_psss_time_sync_0</source_block_id>
