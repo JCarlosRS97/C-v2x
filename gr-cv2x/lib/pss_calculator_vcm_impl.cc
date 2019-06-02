@@ -138,7 +138,7 @@ namespace gr {
             int sync_frame_start = calculate_sync_frame_start(nir+2*i);
             if(d_sync_frame_start != sync_frame_start ){
               if(!d_is_locked){
-                printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                // printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
                 // for(int contador = 0; contador<124; contador++){
                 //   printf("pos %i\t value= %f \n", contador, chuX[contador].real());
@@ -162,8 +162,8 @@ namespace gr {
         //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
         //periodo y se le añade un poco de holgura.
         if( !d_is_locked && d_lock_count > (14.5*syncPeriod) && d_N_id_2 >=0 ){
-          printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
-          printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
+          // printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
+          // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
           d_is_locked = true;
           //~ (*d_tag).lock();
           message_port_pub( d_port_lock, pmt::PMT_T );

@@ -110,7 +110,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/carlos/Escritorio/matlab/data/random.dat', True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '../random.dat', True)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
@@ -194,10 +194,10 @@ def main(top_block_cls=top_block, options=None):
         tb.stop()
         tb.wait()
     qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
-    dev = 10
+    dev = float(sys.argv[1])/4
 
     for i in range(100):
-        tb = top_block_cls(message_consumer0, dev/2)
+        tb = top_block_cls(message_consumer0, dev)
         tb.start()
         #tb.show()
         timer.start(120)
