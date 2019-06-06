@@ -58,11 +58,17 @@ class tag_sink(gr.sync_block):
         nread = self.nitems_read(0)
         tags = self.get_tags_in_range(0, nread, nread+num_input_items)
         for tag in tags:
-            if (abs(pmt.to_long(tag.value)%(256+18)-25)<4)
-                self.bien ++
-                self.total++
+            self.total = self.total + 1
+            if (abs((pmt.to_long(tag.value)%(256+18))-25)<5):
+                self.bien = self.bien + 1
 
         return num_input_items
+
+    def getBien(self):
+        return self.bien
+
+    def getTotal(self):
+        return self.total
 
 class top_block(gr.top_block, Qt.QWidget):
 
@@ -104,17 +110,17 @@ class top_block(gr.top_block, Qt.QWidget):
 
         fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
         cv2x_slss_generator_0 = cv2x.slss_generator(120, 0, 0, syncPeriod, fft_len)
-        cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, SubcarrierBW, sig, 0.8)
+        cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, SubcarrierBW, sig, umbral)
         cv2x_lte_cyclic_prefixer_vcc_0 = cv2x.lte_cyclic_prefixer_vcc(fft_len)
         blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
         blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/jcrs/Escritorio/Bloques/gr-cv2x/examples/random.dat', True)
+        blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '../random.dat', True)
         blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         blocks_add_xx_1 = blocks.add_vcc(fft_len)
         blocks_add_xx_0 = blocks.add_vcc(1)
         analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, -1000, 1, 0)
-        analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 15, 0)
+        analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 5, 0)
 
 
 
@@ -201,12 +207,35 @@ def main(top_block_cls=top_block, options=None):
 
     # for i in range(100):
     #     tb = top_block_cls(vector,umbral)
-        tb.start()
+    tb.start()
     #tb.show()
-    timer.start(300)
+    timer.start(400)
 
 
     qapp.exec_()
+
+
+    print vector.getBien()
+
+    print vector.getTotal()
+
+    res = vector.getBien()
+    f=open("resultados"+ sys.argv[1] + ".txt", "r")
+    lista = f.read().split()
+    acumulado = int(lista[0]) + res
+    print acumulado
+    f.close()
+    f=open("resultados"+sys.argv[1]+".txt", "w")
+    f.write("%i\n" % acumulado)
+    f.close()
+
+    res = vector.getTotal()
+    f=open("errores"+ sys.argv[1] + ".txt", "r")
+    lista = f.read().split()
+    acumulado = int(lista[0]) + res
+    f.close()
+    f=open("errores"+sys.argv[1]+".txt", "w")
+    f.write("%i\n" % acumulado)
 
 
 if __name__ == '__main__':

@@ -1,14 +1,14 @@
 #!/bin/bash
 rm resultados.txt
 rm errores.txt
-for j in {17..42}
+for j in {0..20}
 do
 	rm resultados$j.txt
-        rm errores$j.txt
+  rm errores$j.txt
 	echo "0" >> resultados$j.txt
-        echo "0" >> errores$j.txt
+  echo "0" >> errores$j.txt
 
-	for i in {1..10}
+	for i in {1..100}
 	do
 	   ./testumbrales.py $j
 	done
@@ -18,7 +18,7 @@ do
 	echo ',' >> resultados.txt
 	rm resultados$j.txt
 
-        echo $j >> errores.txt
+  echo $j >> errores.txt
 	echo ',' >> errores.txt
 	cat errores$j.txt >> errores.txt
 	echo ',' >> errores.txt

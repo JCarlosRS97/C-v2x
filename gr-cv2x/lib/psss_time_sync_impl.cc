@@ -221,8 +221,9 @@ namespace gr {
       psss_time_sync_impl::max_pos(float &max, gr_complex *x, int len)
       {
         gr_complex res;
-
+        gr_complex energia;
         volk_32fc_x2_dot_prod_32fc(&res, x, d_corr_in, len);
+        volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_corr_in, d_corr_in, len);
         max = abs(res);
       }
 

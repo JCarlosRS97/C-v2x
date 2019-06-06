@@ -63,6 +63,7 @@ namespace gr {
     umbral(umbral),
     d_sig(sig)
     {
+      printf("El umbral es %f\n", umbral);
       d_key=pmt::string_to_symbol("symbol");
       d_tag_id=pmt::string_to_symbol(this->name() );
 
@@ -119,7 +120,7 @@ namespace gr {
           long abs_pos, max_pos;
           long nir = nitems_read(0);
           int i;
-          for(i = 0 ; (i + 2*d_fftl + 2*d_cpl) < noutput_items; i++){
+          for(i = 0 ; (i + 2*d_fftl + 2*d_cpl + stp) < noutput_items; i++){
             abs_pos = nir+long(i); // calculate new absolute sample position
             mod = abs((abs(abs_pos-d_sym_pos+int((d_cpl0-d_cpl)/2))%d_slotl)-d_syml0)%d_syml;
             if(d_is_locked && mod < stp){ // tracking mode
@@ -128,14 +129,14 @@ namespace gr {
               memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
               memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
 
-              gr_complex val = corr(peso, d_cp0,d_cp1,2*d_cpl);
+              gr_complex val = corr(d_cp0,d_cp1,2*d_cpl);
 
-              if(it_peso <= peso ){
+              if(it_peso <= abs(val) ){
                 it_val = val;
-                it_peso = peso;
+                it_peso = abs(val);
                 max_pos = abs_pos;
                 if(d_corr_val < peso ){
-                  d_corr_val = peso;
+                  d_corr_val = it_peso;
                   d_sym_pos = abs_pos%d_slotl;
                   // printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
                 }
@@ -147,11 +148,11 @@ namespace gr {
                 if(it_peso >= d_corr_val){
                    add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                   // Only if correlation value is modified, cfo estimation is corrected
-                  float coef = nitems_read(0)<152000? 0.5 : 0.8;
+                  float coef = nitems_read(0)<(d_find_pos+2000)? 0.5 : 0.8;
                   float f_off = arg(it_val)/(2*M_PI)*15000.0;
                   d_f_av=d_f_av*coef - ((1-coef) * f_off);
                   (*d_sig).set_frequency((-1)*double(d_f_av) );
-                  printf("%s: offset: %f\n",name().c_str(), d_f_av);
+                  // printf("%s: offset: %f\n",name().c_str(), d_f_av);
                   // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
                 }
 
@@ -170,7 +171,7 @@ namespace gr {
                memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
                memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
                memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
-              corr(peso, d_cp0,d_cp1,2*d_cpl);
+               peso = abs(corr(d_cp0,d_cp1,2*d_cpl));
 
               int find_pos;
               if(d_corr_val < peso){
@@ -184,14 +185,15 @@ namespace gr {
                   memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
                   memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
                   memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
-                  corr(peso, d_cp0,d_cp1,d_cpl);
+                  peso = abs(corr( d_cp0,d_cp1,d_cpl));
                   if(peso > umbral && peso > d_corr_val){
                     d_corr_val = peso;
                     find_pos = j;
+                    d_find_pos = nir+j;
                     d_sym_pos = (nir + j)%d_slotl;
                     d_is_locked = true;
                     add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-                    printf("find: offset %i\n", d_sym_pos%d_syml);
+                    // printf("find: offset %i\n", d_sym_pos%d_syml);
                     //if(d_corr_val)
                     //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                   }
@@ -220,16 +222,16 @@ namespace gr {
         }
 
         gr_complex
-        rough_symbol_sync_cc_impl::corr(float &max, gr_complex *x, gr_complex *y, int len)
+        rough_symbol_sync_cc_impl::corr(gr_complex *x, gr_complex *y, int len)
         {
           gr_complex resultado;
           gr_complex energia;
           volk_32fc_x2_conjugate_dot_prod_32fc(&resultado, x, y, len);
           volk_32fc_x2_conjugate_dot_prod_32fc(&energia, y, y, len);
           if(abs(energia) < 0.01){
-            max = -1;
+            resultado = -1;
           }else{
-            max = abs(resultado/energia);
+            resultado = resultado/abs(energia);
           }
           return resultado;
         }
