@@ -73,8 +73,6 @@ namespace gr {
       d_chu1_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
       d_chu0_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
       d_chu1_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
-      d_corr_in1   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
-      d_corr_in2   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
       d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
 
       d_plan_r = fftwf_plan_dft_1d(nfft, reinterpret_cast<fftwf_complex*>(d_chu_f), reinterpret_cast<fftwf_complex*>(d_chu_t), FFTW_BACKWARD, FFTW_ESTIMATE);
@@ -122,9 +120,7 @@ namespace gr {
     */
     psss_time_sync_impl::~psss_time_sync_impl()
     {
-      volk_free(d_corr_in1);
       volk_free(d_corr_in);
-      volk_free(d_corr_in2);
       volk_free(d_chu0_f0_t);
       volk_free(d_chu1_f0_t);
       volk_free(d_chu0_f1_t);
@@ -153,10 +149,10 @@ namespace gr {
           //extract PSS from its carriers.
           //memcpy(d_corr_in1, in, sizeof(gr_complex)*nfft);
           //memcpy(d_corr_in2, in + nfft, sizeof(gr_complex)*nfft);
-          in += 2*nfft;
           for(int j = 0; j< nfft; j++){
             d_corr_in[j] = in[j] + in[j+nfft];
           }
+          in += 2*nfft;
           //volk_32fc_x2_add_32fcc(d_corr_in, d_corr_in1, d_corr_in2, nfft);
           // tracking does need less cross correlation calculations!
           if(d_is_locked){ changed = tracking(); }
@@ -169,7 +165,7 @@ namespace gr {
             (*d_sig).set_frequency((-1)*double(d_offset*15000.0) );
             if(d_sync_frame_start != sync_frame_start ){
               if(!d_is_locked){
-                // printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
                 message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                 d_sync_frame_start = sync_frame_start;
@@ -190,8 +186,8 @@ namespace gr {
         //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
         //periodo y se le añade un poco de holgura.
         if( !d_is_locked && d_lock_count > (14.5*syncPeriod) && d_N_id_2 >=0 ){
-          // printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
-          // printf("IFO= %i\n", d_offset);
+          printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
+          printf("IFO= %i\n", d_offset);
           // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
           d_is_locked = true;
           message_port_pub( d_port_lock, pmt::PMT_T );
