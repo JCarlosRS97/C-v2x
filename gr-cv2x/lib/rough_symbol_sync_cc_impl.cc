@@ -48,20 +48,20 @@ namespace gr {
     gr::io_signature::make( 1, 1, sizeof(gr_complex)),
     gr::io_signature::make( 1, 1, sizeof(gr_complex))),
     d_fftl(fftl),
-    d_sig(sig),
     d_cpl(144*fftl/2048),
     d_cpl0(160*fftl/2048),
     d_syml(fftl + d_cpl),
     d_syml0(fftl + d_cpl0),
     d_slotl(7*fftl+6*d_cpl+d_cpl0),
     d_sym_pos(0),
-    d_is_locked(false),
     d_corr_val(0.0),
     d_work_call(0),
-    stp(d_cpl0/4),
     d_f_av(0.0),
     subcarrierBW(subcarrierBW),
-    umbral(umbral)
+    d_is_locked(false),
+    stp(d_cpl0/4),
+    umbral(umbral),
+    d_sig(sig)
     {
       d_key=pmt::string_to_symbol("symbol");
       d_tag_id=pmt::string_to_symbol(this->name() );
@@ -144,13 +144,14 @@ namespace gr {
               //si es la ultima iteracion
               if(mod + 1 == stp){
                 // printf("tracking abs_pos: %ld\tmax_pos = %i\tcorr= %f\td_corr_val = %f\n", max_pos, int(max_pos%d_slotl), it_peso, d_corr_val);
-                if(it_peso >= d_corr_val){ // Only is corrected cfo if
+                if(it_peso >= d_corr_val){
+                   add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                   // Only if correlation value is modified, cfo estimation is corrected
                   float coef = nitems_read(0)<152000? 0.5 : 0.8;
                   float f_off = arg(it_val)/(2*M_PI)*15000.0;
                   d_f_av=d_f_av*coef - ((1-coef) * f_off);
                   (*d_sig).set_frequency((-1)*double(d_f_av) );
-                  // printf("%s: offset: %f\n",name().c_str(), d_f_av);
+                  printf("%s: offset: %f\n",name().c_str(), d_f_av);
                   // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
                 }
 
@@ -173,20 +174,24 @@ namespace gr {
 
               int find_pos;
               if(d_corr_val < peso){
-                if(i < stp){
+                if(i < (stp -1)){
                   fine_pos = 0;
                 }else{
-                  fine_pos = i - stp;
+                  fine_pos = i - stp+1;
                 }
                 for(int j = fine_pos ; j < i+stp; j++){
-                  memcpy(d_cp0,in+j         ,sizeof(gr_complex)*d_cpl);
-                  memcpy(d_cp1,in+(j+d_fftl),sizeof(gr_complex)*d_cpl);
+                  memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
+                  memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
+                  memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
+                  memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
                   corr(peso, d_cp0,d_cp1,d_cpl);
-                  if(peso > umbral){
+                  if(peso > umbral && peso > d_corr_val){
                     d_corr_val = peso;
                     find_pos = j;
                     d_sym_pos = (nir + j)%d_slotl;
                     d_is_locked = true;
+                    add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
+                    printf("find: offset %i\n", d_sym_pos%d_syml);
                     //if(d_corr_val)
                     //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                   }
@@ -207,7 +212,6 @@ namespace gr {
 
           // actually the next block doesn't care about the exact tag position. Only the value and key are important.
           memcpy(out, in, sizeof(gr_complex)*nout );
-          add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
           // printf("noutput_items %i\t nout = %i\n", noutput_items, nout);
           // printf("consumed items: %i\n", nout);
           // printf("Input buffer %f\tOutput buffer %f\n", pc_input_buffers_full(0), pc_output_buffers_full(0));

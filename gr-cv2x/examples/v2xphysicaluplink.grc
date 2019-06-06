@@ -193,7 +193,9 @@
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
+
       <value>12</value>
+
     </param>
     <param>
       <key>alias</key>
@@ -264,7 +266,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>freq</key>
@@ -504,7 +506,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 144)</value>
+      <value>(648, 144)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -853,7 +855,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(552, 776)</value>
+      <value>(552, 848)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -900,11 +902,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(456, 304)</value>
+      <value>(480, 392)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1599,7 +1601,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>fft_len</key>
@@ -1984,12 +1986,6 @@
     <sink_block_id>blocks_multiply_xx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_add_xx_0</source_block_id>
-    <sink_block_id>virtual_sink_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_add_xx_1</source_block_id>
