@@ -1,17 +1,26 @@
 #!/bin/bash
 rm resultados.txt
+rm errores.txt
 for j in {17..42}
 do
 	rm resultados$j.txt
+        rm errores$j.txt
 	echo "0" >> resultados$j.txt
+        echo "0" >> errores$j.txt
 
-	for i in {1..100}
+	for i in {1..10}
 	do
-	   ./top_block.py $j
+	   ./snr.py $j
 	done
 	echo $j >> resultados.txt
 	echo ',' >> resultados.txt
 	cat resultados$j.txt >> resultados.txt
 	echo ',' >> resultados.txt
 	rm resultados$j.txt
+
+        echo $j >> errores.txt
+	echo ',' >> errores.txt
+	cat errores$j.txt >> errores.txt
+	echo ',' >> errores.txt
+	rm errores$j.txt
 done

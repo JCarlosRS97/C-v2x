@@ -46,15 +46,22 @@ class message_consumer(gr.sync_block):
             out_sig = None
         )
         self.cont = 0
+	self.recibidos = 0
         self.message_port_register_in(pmt.intern('in_port'))
         self.set_msg_handler(pmt.intern('in_port'),
                              self.handle_msg)
     def handle_msg(self, msg):
         # Create a new PMT from long value and put in list
+        self.recibidos = self.recibidos + 1
         if (pmt.to_long(msg) == 120):
-            self.cont = self.cont + 1;
+            self.cont = self.cont + 1
+
+
     def get_cont(self):
         return self.cont;
+
+    def get_recibidos(self):
+        return self.recibidos;
 
 class top_block(gr.top_block, Qt.QWidget):
 
@@ -104,7 +111,7 @@ class top_block(gr.top_block, Qt.QWidget):
         )
         self.fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
         self.cv2x_slss_generator_0 = cv2x.slss_generator(120, 0, 0, syncPeriod, fft_len)
-        self.cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, 1, SubcarrierBW, self.sig)
+        self.cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, SubcarrierBW, self.sig, 0.8)
         self.cv2x_lte_cyclic_prefixer_vcc_0 = cv2x.lte_cyclic_prefixer_vcc(fft_len)
         self.blocks_vector_sink_x_0 = blocks.vector_sink_c(1)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
@@ -200,7 +207,7 @@ def main(top_block_cls=top_block, options=None):
         tb = top_block_cls(message_consumer0, dev)
         tb.start()
         #tb.show()
-        timer.start(120)
+        timer.start(300)
 
 
         qapp.exec_()
@@ -213,6 +220,15 @@ def main(top_block_cls=top_block, options=None):
     print acumulado
     f.close()
     f=open("resultados"+sys.argv[1]+".txt", "w")
+    f.write("%i\n" % acumulado)
+    f.close()
+
+    res = message_consumer0.get_recibidos()
+    f=open("errores"+ sys.argv[1] + ".txt", "r")
+    lista = f.read().split()
+    acumulado = int(lista[0]) + res
+    f.close()
+    f=open("errores"+sys.argv[1]+".txt", "w")
     f.write("%i\n" % acumulado)
 
 if __name__ == '__main__':
