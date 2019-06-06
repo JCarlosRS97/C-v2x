@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include "pss_time_sim_impl.h"
 #include <volk/volk.h>
+#include <algorithm>
 
 namespace gr {
   namespace cv2x {
@@ -65,13 +66,15 @@ namespace gr {
 
         d_chu_f   = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*nfft);
         d_chu_t    =  (gr_complex*) fftwf_malloc(sizeof(gr_complex)*nfft);
-        d_chu0_fm1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-        d_chu1_fm1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-        d_chu0_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-        d_chu1_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-        d_chu0_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-        d_chu1_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
-        d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft*2, volk_get_alignment());
+        d_chu0_fm1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_chu1_fm1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_chu0_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_chu1_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_chu0_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_chu1_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_half_shift   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_energia   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
 
         d_plan_r = fftwf_plan_dft_1d(nfft, reinterpret_cast<fftwf_complex*>(d_chu_f), reinterpret_cast<fftwf_complex*>(d_chu_t), FFTW_BACKWARD, FFTW_ESTIMATE);
 
@@ -83,25 +86,36 @@ namespace gr {
         generate_time_psss(d_chu1_f1_t, 1, 1);
         generate_time_psss(d_chu0_fm1_t, -1, 0);
         generate_time_psss(d_chu1_fm1_t, -1, 1);
-
-        printf("Chu0\n");
-        for(int j = 0; j < 2*nfft; j++){
-          printf("pos %i value %f + %fi\n", j, d_chu0_f1_t[j].real(), d_chu0_f1_t[j].imag());
+        //shift
+        for(int i = 0; i < nfft; i++){
+          d_half_shift[i]= std::polar(1.0f, float(M_PI*i/float(nfft)));
         }
 
-        printf("Chu1\n");
-        for(int j = 0; j < 2*nfft; j++){
-          printf("pos %i value %f + %fi\n", j, d_chu1_f0_t[j].real(), d_chu1_f0_t[j].imag());
-        }
+        volk_32fc_x2_multiply_32fc(d_chu0_f0_t, d_chu0_f0_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu1_f0_t, d_chu1_f0_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu0_f1_t, d_chu0_f0_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu0_f1_t, d_chu1_f0_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu0_fm1_t, d_chu0_f0_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu1_fm1_t, d_chu1_f0_t, d_half_shift, nfft);
+
+        // printf("Chu0\n");
+        // for(int j = 0; j < nfft; j++){
+        //   printf("pos %i value %f + %fi\n", j, d_chu0_f0_t[j].real(), d_chu0_f0_t[j].imag());
+        // }
+        //
+        // printf("Chu1\n");
+        // for(int j = 0; j < nfft; j++){
+        //   printf("pos %i value %f + %fi\n", j, d_chu1_f0_t[j].real(), d_chu1_f0_t[j].imag());
+        // }
+
 
         //ahora se conjugan ambas secuencias
-        volk_32fc_conjugate_32fc_a(d_chu0_f0_t, d_chu0_f0_t, 2*nfft);
-        volk_32fc_conjugate_32fc_a(d_chu1_f0_t, d_chu1_f0_t, 2*nfft);
-        volk_32fc_conjugate_32fc_a(d_chu0_f1_t, d_chu0_f1_t, 2*nfft);
-        volk_32fc_conjugate_32fc_a(d_chu1_f1_t, d_chu1_f1_t, 2*nfft);
-        volk_32fc_conjugate_32fc_a(d_chu0_fm1_t, d_chu0_fm1_t, 2*nfft);
-        volk_32fc_conjugate_32fc_a(d_chu1_fm1_t, d_chu1_fm1_t, 2*nfft);
-
+        volk_32fc_conjugate_32fc_a(d_chu0_f0_t, d_chu0_f0_t, nfft);
+        volk_32fc_conjugate_32fc_a(d_chu1_f0_t, d_chu1_f0_t, nfft);
+        volk_32fc_conjugate_32fc_a(d_chu0_f1_t, d_chu0_f1_t, nfft);
+        volk_32fc_conjugate_32fc_a(d_chu1_f1_t, d_chu1_f1_t, nfft);
+        volk_32fc_conjugate_32fc_a(d_chu0_fm1_t, d_chu0_fm1_t, nfft);
+        volk_32fc_conjugate_32fc_a(d_chu1_fm1_t, d_chu1_fm1_t, nfft);
 
 
 
@@ -118,6 +132,8 @@ namespace gr {
       */
       pss_time_sim_impl::~pss_time_sim_impl()
       {
+        volk_free(d_half_shift);
+        volk_free(d_energia);
         volk_free(d_corr_in);
         volk_free(d_chu0_f0_t);
         volk_free(d_chu1_f0_t);
@@ -142,23 +158,35 @@ namespace gr {
           // variable used in multiple positions
           long nir = nitems_read(0);
 
-          bool changed = false;
+          bool changed;
           for(int i = 0 ; i < noutput_items ; i++){
+            changed= false;
             //extract PSS from its carriers.
-            memcpy(d_corr_in, in, sizeof(gr_complex)*2*nfft);
+            memcpy(d_energia, in, sizeof(gr_complex)*nfft);
+            //memcpy(d_corr_in2, in + nfft, sizeof(gr_complex)*nfft);
+            for(int j = 0; j< nfft; j++){
+              d_corr_in[j] = in[j] - in[j+nfft];
+            }
             in += 2*nfft;
+            // printf("secuencia %i\n", i + int(nitems_read(0)/2));
             // tracking does need less cross correlation calculations!
-            if(d_is_locked){ changed = tracking(); }
-            else{ changed = find_pss_symbol(); }
+            float metrica = find_sim();
+            if(metrica > 1.5){
+              // printf("Es simetrico\n");
+              if(d_is_locked){ changed = tracking(); }
+              else{ changed = find_pss_symbol(); }
+            }
             // int sync_frame_start = calculate_sync_frame_start(nir + i);
+            // printf("pos %i\n", sync_frame_start);
+            // printf("metrica %f\n", metrica);
             //Do things if new max is found!
             if(changed){
               d_lock_count = 0; // reset lock count!
               int sync_frame_start = calculate_sync_frame_start(nir + i);
-              (*d_sig).set_frequency((-1)*double(d_offset*15000.0) );
+              (*d_sig).set_frequency((-1)*double(d_offset*15000.0 +7500.0) );
               if(d_sync_frame_start != sync_frame_start ){
                 if(!d_is_locked){
-                  // printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                  printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                   //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
                   message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                   d_sync_frame_start = sync_frame_start;
@@ -179,8 +207,8 @@ namespace gr {
           //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
           //periodo y se le añade un poco de holgura.
           if( !d_is_locked && d_lock_count > (14.5*syncPeriod) && d_N_id_2 >=0 ){
-            // printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
-            // printf("IFO= %i\n", d_offset);
+            printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
+            printf("IFO= %i\n", d_offset);
             // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
             d_is_locked = true;
             message_port_pub( d_port_lock, pmt::PMT_T );
@@ -223,7 +251,7 @@ namespace gr {
         bool
         pss_time_sim_impl::find_pss_symbol()
         {
-          int len = 2*nfft;
+          int len = nfft;
           float max[6];
           max_pos(max[0], d_chu0_fm1_t, len);
           max_pos(max[1], d_chu1_fm1_t, len);
@@ -262,7 +290,7 @@ namespace gr {
         bool
         pss_time_sim_impl::tracking()
         {
-          int len = 2*nfft;
+          int len = nfft;
           float max = 0.0;
           switch(d_N_id_2 + (d_offset + 1)*2){
             case 0: max_pos(max, d_chu0_fm1_t, len); break;
@@ -315,10 +343,23 @@ namespace gr {
           memcpy(d_chu_f + 33 + freq_offset, d_chu, sizeof(gr_complex)*(31 - freq_offset));
           fftwf_execute(d_plan_r);
           memcpy(seq, d_chu_t, sizeof(gr_complex)*nfft);
-          memcpy(seq + nfft, d_chu_t, sizeof(gr_complex)*nfft);
         }
 
-
+        float
+        pss_time_sim_impl::find_sim(){
+          gr_complex res, energia;
+          res = 0;
+          for(int i = 1; i < nfft/2;i++){
+            gr_complex val = d_corr_in[i]*conj(d_corr_in[nfft-i]);
+            res+= d_corr_in[i]*conj(d_corr_in[nfft-i]);
+          }
+          volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_energia+1, d_energia +1, nfft/2-1);
+          if(abs(energia)>0.001){
+            return abs(res)/abs(energia);
+          }else{
+            return 0;
+          }
+        }
 
         } /* namespace cv2x */
       } /* namespace gr */

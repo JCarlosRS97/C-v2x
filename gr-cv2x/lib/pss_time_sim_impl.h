@@ -50,6 +50,7 @@ namespace gr {
 
 
        void zc(gr_complex *zc, int cell_id); // used to generate Zadoff-Chu sequences
+       float find_sim();
        bool find_pss_symbol(); // prepares the calculation stuff etc.
        bool tracking();
        void max_pos(float &max, gr_complex *x, int len); //finds maximum of one correlation
@@ -60,6 +61,8 @@ namespace gr {
        inline int calculate_sync_frame_start(long pos);
        // attributes for correlation
        gr_complex *d_corr_in;
+       gr_complex *d_energia;
+       gr_complex *d_half_shift;
        gr_complex *d_chu0_f0_t;
        gr_complex *d_chu1_f0_t;
        gr_complex *d_chu0_f1_t;

@@ -81,21 +81,24 @@ namespace gr {
       for(int i = 0; i < consumed_items; i++){
         if(d_pos == 0){
           //If it is the fist symbol of slot
-          memcpy(out + d_cpl0, in, d_fftl * sizeof(gr_complex));
           memcpy(out, in + d_fftl - d_cpl0, d_cpl0 * sizeof(gr_complex));
+          memcpy(out + d_cpl0, in, d_fftl * sizeof(gr_complex));
           in += d_fftl;
           out += d_fftl + d_cpl0;
           nout += d_fftl + d_cpl0;
         }else{
           // The rest of the symbol
-          memcpy(out + d_cpl, in, d_fftl * sizeof(gr_complex));
           memcpy(out, in + d_fftl - d_cpl, d_cpl * sizeof(gr_complex));
+          memcpy(out + d_cpl, in, d_fftl * sizeof(gr_complex));
           in += d_fftl;
           out += d_fftl + d_cpl;
           nout += d_fftl + d_cpl;
         }
         // Update counter of symbols
         d_pos = d_pos == 6? 0 : d_pos + 1;
+        if((nout + d_fftl + d_cpl0)>noutput_items){
+          break;
+        }
       }
 
       // Do <+signal processing+>

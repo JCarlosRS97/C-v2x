@@ -73,8 +73,6 @@ namespace gr {
       d_chu1_f0_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
       d_chu0_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
       d_chu1_f1_t   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
-      d_corr_in1   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
-      d_corr_in2   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
       d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
 
       d_plan_r = fftwf_plan_dft_1d(nfft, reinterpret_cast<fftwf_complex*>(d_chu_f), reinterpret_cast<fftwf_complex*>(d_chu_t), FFTW_BACKWARD, FFTW_ESTIMATE);
@@ -122,9 +120,7 @@ namespace gr {
     */
     psss_time_sync_impl::~psss_time_sync_impl()
     {
-      volk_free(d_corr_in1);
       volk_free(d_corr_in);
-      volk_free(d_corr_in2);
       volk_free(d_chu0_f0_t);
       volk_free(d_chu1_f0_t);
       volk_free(d_chu0_f1_t);
