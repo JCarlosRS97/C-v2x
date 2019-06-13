@@ -135,7 +135,7 @@ namespace gr {
                 it_val = val;
                 it_peso = abs(val);
                 max_pos = abs_pos;
-                if(d_corr_val < peso ){
+                if(d_corr_val < it_peso ){
                   d_corr_val = it_peso;
                   d_sym_pos = abs_pos%d_slotl;
                   // printf("corr_val = %f\tsym_pos = %ld\tabs_pos = %ld\n", d_corr_val, d_sym_pos, abs_pos);
@@ -160,7 +160,7 @@ namespace gr {
                 if(d_corr_val < umbral){
                   d_is_locked = false;
                }else{
-                  printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
+                  // printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
 
                   add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                }
@@ -198,7 +198,7 @@ namespace gr {
                      // printf("find pos= %i\n", d_sym_pos);
 
                     add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-                    printf("find: offset %li d_corr_val = %f\n", d_sym_pos%d_syml, d_corr_val);
+                    // printf("find: offset %li d_corr_val = %f\n", d_sym_pos%d_syml, d_corr_val);
                     //if(d_corr_val)
                     //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                   }
