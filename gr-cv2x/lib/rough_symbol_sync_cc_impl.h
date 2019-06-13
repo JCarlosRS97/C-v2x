@@ -44,6 +44,7 @@ namespace gr {
        bool d_is_locked;
        int stp;
        float umbral;
+       float it_peso;
        boost::shared_ptr<gr::analog::sig_source_c> d_sig;
        gr_complex* d_cp0;
        gr_complex* d_cp1;

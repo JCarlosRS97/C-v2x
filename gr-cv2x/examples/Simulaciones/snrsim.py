@@ -35,44 +35,37 @@ from pss_time_sync import pss_time_sync  # grc-generated hier_block
 import cv2x
 import time
 import pmt
-import numpy as np
 
-class tag_sink(gr.sync_block):
+
+class message_consumer(gr.sync_block):
     def __init__(self):
         gr.sync_block.__init__(
             self,
-            name = "tag sink",
-            in_sig = [np.complex64],
-            out_sig = None,
+            name = "message consumer",
+            in_sig = None,
+            out_sig = None
         )
-        self.key = None
-        self.bien = 0
-        self.total = 0
+        self.cont = 0
+	self.recibidos = 0
+        self.message_port_register_in(pmt.intern('in_port'))
+        self.set_msg_handler(pmt.intern('in_port'),
+                             self.handle_msg)
+    def handle_msg(self, msg):
+        # Create a new PMT from long value and put in list
+        self.recibidos = self.recibidos + 1
+        if (pmt.to_long(msg) == 120):
+            self.cont = self.cont + 1
 
-    def work(self, input_items, output_items):
-        num_input_items = len(input_items[0])
 
-        #put code here to process the input items...
+    def get_cont(self):
+        return self.cont;
 
-        #print all the tags received in this work call
-        nread = self.nitems_read(0)
-        tags = self.get_tags_in_range(0, nread, nread+num_input_items)
-        for tag in tags:
-            self.total = self.total + 1
-            if (abs((pmt.to_long(tag.value)%(256+18))-21)<5):
-                self.bien = self.bien + 1
-
-        return num_input_items
-
-    def getBien(self):
-        return self.bien
-
-    def getTotal(self):
-        return self.total
+    def get_recibidos(self):
+        return self.recibidos;
 
 class top_block(gr.top_block, Qt.QWidget):
 
-    def __init__(self, vector,umbral):
+    def __init__(self, message_consumer0, dev):
         gr.top_block.__init__(self, "Top Block")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Top Block")
@@ -106,41 +99,52 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        sig = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
-
-        fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
-        cv2x_slss_generator_0 = cv2x.slss_generator(120, 0, 0, syncPeriod, fft_len)
-        cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, SubcarrierBW, sig, umbral)
-        cv2x_lte_cyclic_prefixer_vcc_0 = cv2x.lte_cyclic_prefixer_vcc(fft_len)
-        blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
-        blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
-        blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '../random.dat', True)
-        blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
-        blocks_add_xx_1 = blocks.add_vcc(fft_len)
-        blocks_add_xx_0 = blocks.add_vcc(1)
-        analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, -1000, 1, 0)
-        analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 1, 0)
-
+        self.sig = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
+        self.pss_time_sync_0 = pss_time_sync(
+            fft_len=fft_len,
+            samp_rate=samp_rate,
+            syncPeriod=syncPeriod,
+        )
+        self.lte_ssss_sync_0 = lte_ssss_sync(
+            fft_len=fft_len,
+            syncPeriod=syncPeriod,
+        )
+        self.fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
+        self.cv2x_slss_generator_0 = cv2x.slss_generator(120, 0, 0, syncPeriod, fft_len)
+        self.cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, SubcarrierBW, self.sig, 0.8)
+        self.cv2x_lte_cyclic_prefixer_vcc_0 = cv2x.lte_cyclic_prefixer_vcc(fft_len)
+        self.blocks_vector_sink_x_0 = blocks.vector_sink_c(1)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
+        self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
+        self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '../random.dat', True)
+        self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
+        self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
+        self.blocks_add_xx_0 = blocks.add_vcc(1)
+        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, -1000, 1, 0)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, dev)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((analog_noise_source_x_0, 0), (blocks_add_xx_0, 0))
-        self.connect((analog_sig_source_x_0_0, 0), (blocks_multiply_xx_0_0, 0))
-        self.connect((blocks_add_xx_0, 0), (blocks_multiply_xx_0_0, 1))
-        self.connect((blocks_add_xx_1, 0), (blocks_throttle_0, 0))
-        self.connect((blocks_delay_0, 0), (blocks_add_xx_0, 1))
-        self.connect((blocks_file_source_0, 0), (blocks_add_xx_1, 1))
-        self.connect((blocks_multiply_xx_0_0, 0), (cv2x_rough_symbol_sync_cc_0, 0))
-        self.connect((blocks_throttle_0, 0), (fft_vxx_0, 0))
-        self.connect((cv2x_lte_cyclic_prefixer_vcc_0, 0), (blocks_delay_0, 0))
-        self.connect((cv2x_rough_symbol_sync_cc_0, 0), (blocks_multiply_xx_0, 0))
-        self.connect((cv2x_slss_generator_0, 0), (blocks_add_xx_1, 0))
-        self.connect((fft_vxx_0, 0), (cv2x_lte_cyclic_prefixer_vcc_0, 0))
-        self.connect((sig, 0), (blocks_multiply_xx_0, 1))
-        self.connect((blocks_multiply_xx_0, 0),(vector, 0) )
+        self.msg_connect((self.lte_ssss_sync_0, 'SLSSID'), (message_consumer0, 'in_port'))
+        self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))
+        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 0))
+        self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0_0, 1))
+        self.connect((self.blocks_add_xx_1, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_add_xx_1, 1))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.pss_time_sync_0, 0))
+        self.connect((self.blocks_multiply_xx_0_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))
+        self.connect((self.cv2x_lte_cyclic_prefixer_vcc_0, 0), (self.blocks_delay_0, 0))
+        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.blocks_multiply_xx_0, 0))
+        self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))
+        self.connect((self.fft_vxx_0, 0), (self.cv2x_lte_cyclic_prefixer_vcc_0, 0))
+        self.connect((self.lte_ssss_sync_0, 0), (self.blocks_vector_sink_x_0, 0))
+        self.connect((self.pss_time_sync_0, 0), (self.lte_ssss_sync_0, 0))
+        self.connect((self.sig, 0), (self.blocks_multiply_xx_0, 1))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
@@ -153,6 +157,8 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_fft_len(self, fft_len):
         self.fft_len = fft_len
         self.set_samp_rate(self.SubcarrierBW*self.fft_len)
+        self.pss_time_sync_0.set_fft_len(self.fft_len)
+        self.lte_ssss_sync_0.set_fft_len(self.fft_len)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
 
     def get_SubcarrierBW(self):
@@ -167,6 +173,8 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_syncPeriod(self, syncPeriod):
         self.syncPeriod = syncPeriod
+        self.pss_time_sync_0.set_syncPeriod(self.syncPeriod)
+        self.lte_ssss_sync_0.set_syncPeriod(self.syncPeriod)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -174,6 +182,7 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.sig.set_sampling_freq(self.samp_rate)
+        self.pss_time_sync_0.set_samp_rate(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
         self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)
 
@@ -181,45 +190,30 @@ class top_block(gr.top_block, Qt.QWidget):
 def main(top_block_cls=top_block, options=None):
 
     from distutils.version import StrictVersion
-    #vector = blocks.tag_debug(gr.sizeof_gr_complex, "symbol")
-    #vector.set_display(False)
-    vector = tag_sink()
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
+    message_consumer0 = message_consumer()
     timer = QtCore.QTimer()
     QtCore.QTimer.connect(timer, QtCore.SIGNAL("timeout()"), qapp, Qt.SLOT('quit()'))
     def quitting():
         tb.stop()
         tb.wait()
     qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
-    umbral = float(sys.argv[1])/20
+    dev = float(sys.argv[1])/4
+
+    for i in range(100):
+        tb = top_block_cls(message_consumer0, dev)
+        tb.start()
+        #tb.show()
+        timer.start(300)
 
 
-    tb = top_block_cls(vector,umbral)
-    tb.start()
-    #tb.show()
-    timer.start(300)
+        qapp.exec_()
 
 
-    qapp.exec_()
-
-    # for i in range(100):
-    #     tb = top_block_cls(vector,umbral)
-    tb.start()
-    #tb.show()
-    timer.start(400)
-
-
-    qapp.exec_()
-
-
-    print vector.getBien()
-
-    print vector.getTotal()
-
-    res = vector.getBien()
+    res = message_consumer0.get_cont()
     f=open("resultados"+ sys.argv[1] + ".txt", "r")
     lista = f.read().split()
     acumulado = int(lista[0]) + res
@@ -229,14 +223,13 @@ def main(top_block_cls=top_block, options=None):
     f.write("%i\n" % acumulado)
     f.close()
 
-    res = vector.getTotal()
+    res = message_consumer0.get_recibidos()
     f=open("errores"+ sys.argv[1] + ".txt", "r")
     lista = f.read().split()
     acumulado = int(lista[0]) + res
     f.close()
     f=open("errores"+sys.argv[1]+".txt", "w")
     f.write("%i\n" % acumulado)
-
 
 if __name__ == '__main__':
     main()

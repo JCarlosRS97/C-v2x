@@ -61,6 +61,7 @@ namespace gr {
     d_is_locked(false),
     stp(d_cpl0/4),
     umbral(umbral),
+    it_peso(0.0),
     d_sig(sig)
     {
       printf("El umbral es %f\n", umbral);
@@ -114,7 +115,6 @@ namespace gr {
           int fine_pos = 0;
           gr_complex it_val;
           float peso;
-          float it_peso = 0;
 
           //d_ass_sync_frame_start para nosotros será donde comienza la subtrama de referencia
           long abs_pos, max_pos;
@@ -146,7 +146,6 @@ namespace gr {
               if(mod + 1 == stp){
                 // printf("tracking abs_pos: %ld\tmax_pos = %i\tcorr= %f\td_corr_val = %f\n", max_pos, int(max_pos%d_slotl), it_peso, d_corr_val);
                 if(it_peso >= d_corr_val){
-                   add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                   // Only if correlation value is modified, cfo estimation is corrected
                   float coef = nitems_read(0)<(d_find_pos+2000)? 0.5 : 0.8;
                   float f_off = arg(it_val)/(2*M_PI)*15000.0;
@@ -160,7 +159,10 @@ namespace gr {
                 // If d_corr_val loss the peak, we change to find mode
                 if(d_corr_val < umbral){
                   d_is_locked = false;
-                }
+               }else{
+                  // printf("tracking pos= %i\n", d_sym_pos);
+                  add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
+               }
                 i += d_fftl;
                 it_peso = 0;
                 max_pos = 0;
@@ -192,6 +194,8 @@ namespace gr {
                     d_find_pos = nir+j;
                     d_sym_pos = (nir + j)%d_slotl;
                     d_is_locked = true;
+                     // printf("find pos= %i\n", d_sym_pos);
+
                     add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                     // printf("find: offset %i\n", d_sym_pos%d_syml);
                     //if(d_corr_val)
