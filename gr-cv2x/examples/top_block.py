@@ -3,8 +3,10 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Fri Jun  7 00:27:19 2019
+# Generated: Thu Jun 13 13:29:45 2019
 ##################################################
+
+from distutils.version import StrictVersion
 
 if __name__ == '__main__':
     import ctypes
@@ -20,7 +22,8 @@ import os
 import sys
 sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
 
-from PyQt4 import Qt
+from PyQt5 import Qt
+from PyQt5 import Qt, QtCore
 from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
@@ -36,6 +39,7 @@ from optparse import OptionParser
 from pss_time_sync import pss_time_sync  # grc-generated hier_block
 import cv2x
 import sip
+from gnuradio import qtgui
 
 
 class top_block(gr.top_block, Qt.QWidget):
@@ -44,6 +48,7 @@ class top_block(gr.top_block, Qt.QWidget):
         gr.top_block.__init__(self, "Top Block")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Top Block")
+        qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
         except:
@@ -61,7 +66,11 @@ class top_block(gr.top_block, Qt.QWidget):
         self.top_layout.addLayout(self.top_grid_layout)
 
         self.settings = Qt.QSettings("GNU Radio", "top_block")
-        self.restoreGeometry(self.settings.value("geometry").toByteArray())
+
+        if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
+            self.restoreGeometry(self.settings.value("geometry").toByteArray())
+        else:
+            self.restoreGeometry(self.settings.value("geometry", type=QtCore.QByteArray))
 
         ##################################################
         # Variables
@@ -89,11 +98,11 @@ class top_block(gr.top_block, Qt.QWidget):
         self.qtgui_sink_x_0.set_update_time(1.0/10)
         self._qtgui_sink_x_0_win = sip.wrapinstance(self.qtgui_sink_x_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_sink_x_0_win)
-        
+
         self.qtgui_sink_x_0.enable_rf_freq(False)
-        
-        
-          
+
+
+
         self.pss_time_sync_0 = pss_time_sync(
             fft_len=fft_len,
             samp_rate=samp_rate,
@@ -112,7 +121,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_message_debug_0 = blocks.message_debug()
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/examples/random.dat', True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/jcrs/Escritorio/Bloques/gr-cv2x/examples/random.dat', True)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
@@ -122,23 +131,23 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.lte_ssss_sync_0, 'SLSSID'), (self.blocks_message_debug_0, 'print'))    
-        self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))    
-        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 0))    
-        self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0_0, 1))    
-        self.connect((self.blocks_add_xx_1, 0), (self.blocks_throttle_0, 0))    
-        self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))    
-        self.connect((self.blocks_file_source_0, 0), (self.blocks_add_xx_1, 1))    
-        self.connect((self.blocks_multiply_xx_0_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))    
-        self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))    
-        self.connect((self.blocks_throttle_1, 0), (self.blocks_vector_sink_x_0, 0))    
-        self.connect((self.cv2x_lte_cyclic_prefixer_vcc_0, 0), (self.blocks_delay_0, 0))    
-        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.pss_time_sync_0, 0))    
-        self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))    
-        self.connect((self.fft_vxx_0, 0), (self.cv2x_lte_cyclic_prefixer_vcc_0, 0))    
-        self.connect((self.lte_ssss_sync_0, 0), (self.qtgui_sink_x_0, 0))    
-        self.connect((self.pss_time_sync_0, 0), (self.lte_ssss_sync_0, 0))    
-        self.connect((self.sig, 0), (self.blocks_throttle_1, 0))    
+        self.msg_connect((self.lte_ssss_sync_0, 'SLSSID'), (self.blocks_message_debug_0, 'print'))
+        self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))
+        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 0))
+        self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0_0, 1))
+        self.connect((self.blocks_add_xx_1, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))
+        self.connect((self.blocks_file_source_0, 0), (self.blocks_add_xx_1, 1))
+        self.connect((self.blocks_multiply_xx_0_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))
+        self.connect((self.blocks_throttle_1, 0), (self.blocks_vector_sink_x_0, 0))
+        self.connect((self.cv2x_lte_cyclic_prefixer_vcc_0, 0), (self.blocks_delay_0, 0))
+        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.pss_time_sync_0, 0))
+        self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))
+        self.connect((self.fft_vxx_0, 0), (self.cv2x_lte_cyclic_prefixer_vcc_0, 0))
+        self.connect((self.lte_ssss_sync_0, 0), (self.qtgui_sink_x_0, 0))
+        self.connect((self.pss_time_sync_0, 0), (self.lte_ssss_sync_0, 0))
+        self.connect((self.sig, 0), (self.blocks_throttle_1, 0))
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
@@ -185,8 +194,7 @@ class top_block(gr.top_block, Qt.QWidget):
 
 def main(top_block_cls=top_block, options=None):
 
-    from distutils.version import StrictVersion
-    if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
+    if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
@@ -198,7 +206,7 @@ def main(top_block_cls=top_block, options=None):
     def quitting():
         tb.stop()
         tb.wait()
-    qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
+    qapp.aboutToQuit.connect(quitting)
     qapp.exec_()
 
 

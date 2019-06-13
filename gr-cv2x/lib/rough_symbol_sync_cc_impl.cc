@@ -160,7 +160,8 @@ namespace gr {
                 if(d_corr_val < umbral){
                   d_is_locked = false;
                }else{
-                  // printf("tracking pos= %i\n", d_sym_pos);
+                  printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
+
                   add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                }
                 i += d_fftl;
@@ -197,7 +198,7 @@ namespace gr {
                      // printf("find pos= %i\n", d_sym_pos);
 
                     add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-                    // printf("find: offset %i\n", d_sym_pos%d_syml);
+                    printf("find: offset %li d_corr_val = %f\n", d_sym_pos%d_syml, d_corr_val);
                     //if(d_corr_val)
                     //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                   }
