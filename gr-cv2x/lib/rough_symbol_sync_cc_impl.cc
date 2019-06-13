@@ -114,27 +114,26 @@ namespace gr {
 
           int fine_pos = 0;
           gr_complex it_val;
-          float peso;
 
           //d_ass_sync_frame_start para nosotros será donde comienza la subtrama de referencia
-          long abs_pos, max_pos;
+          long abs_pos;
           long nir = nitems_read(0);
           int i;
-          for(i = 0 ; (i + 2*d_fftl + 2*d_cpl + stp) < noutput_items; i++){
+          for(i = 0 ; (i + 2*d_fftl + 2*d_cpl) < noutput_items; i++){
             abs_pos = nir+long(i); // calculate new absolute sample position
-            mod = abs((abs(abs_pos-d_sym_pos+int((d_cpl0-d_cpl)/2))%d_slotl)-d_syml0)%d_syml;
-            if(d_is_locked && mod < stp){ // tracking mode
+            // mod = abs((abs(abs_pos-d_sym_pos)%d_slotl)-d_syml0)%d_syml-stp;
+            mod = (abs_pos%d_slotl)%d_syml - (d_sym_pos%d_syml);
+            if(d_is_locked && abs(mod) < stp){ // tracking mode
               memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
               memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
               memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
               memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
 
               gr_complex val = corr(d_cp0,d_cp1,2*d_cpl);
-
+              printf("mod %i pos %li, value = %f\n", mod, (abs_pos%d_slotl)%d_syml, abs(val));
               if(it_peso <= abs(val) ){
                 it_val = val;
                 it_peso = abs(val);
-                max_pos = abs_pos;
                 if(d_corr_val < it_peso ){
                   d_corr_val = it_peso;
                   d_sym_pos = abs_pos%d_slotl;
@@ -144,7 +143,6 @@ namespace gr {
               // printf("Pos %ld\tmod = %i\tsym_pos = %ld\td_corr_val = %f\n", abs_pos,mod, d_sym_pos, d_corr_val);
               //si es la ultima iteracion
               if(mod + 1 == stp){
-                // printf("tracking abs_pos: %ld\tmax_pos = %i\tcorr= %f\td_corr_val = %f\n", max_pos, int(max_pos%d_slotl), it_peso, d_corr_val);
                 if(it_peso >= d_corr_val){
                   // Only if correlation value is modified, cfo estimation is corrected
                   float coef = nitems_read(0)<(d_find_pos+2000)? 0.5 : 0.8;
@@ -159,22 +157,21 @@ namespace gr {
                 // If d_corr_val loss the peak, we change to find mode
                 if(d_corr_val < umbral){
                   d_is_locked = false;
-               }else{
-                  // printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
+                }else{
+                  printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
 
                   add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-               }
+                }
                 i += d_fftl;
                 it_peso = 0;
-                max_pos = 0;
               }
 
             } else if(!d_is_locked && abs_pos%stp==0){ //Find mode
-               memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
-               memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
-               memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
-               memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
-               peso = abs(corr(d_cp0,d_cp1,2*d_cpl));
+              memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
+              memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
+              memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
+              memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
+              float peso = abs(corr(d_cp0,d_cp1,2*d_cpl));
 
               int find_pos;
               if(d_corr_val < peso){
@@ -195,10 +192,10 @@ namespace gr {
                     d_find_pos = nir+j;
                     d_sym_pos = (nir + j)%d_slotl;
                     d_is_locked = true;
-                     // printf("find pos= %i\n", d_sym_pos);
+                    // printf("find pos= %i\n", d_sym_pos);
 
                     add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-                    // printf("find: offset %li d_corr_val = %f\n", d_sym_pos%d_syml, d_corr_val);
+                    printf("find: offset %li d_corr_val = %f\n", d_sym_pos%d_syml, d_corr_val);
                     //if(d_corr_val)
                     //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                   }

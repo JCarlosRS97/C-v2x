@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>CP-based Rough Symbol Sync Vec</name>
+  <name>Schmidl &amp; Cox sync</name>
   <key>cv2x_rough_symbol_sync_cc</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
