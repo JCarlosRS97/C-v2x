@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>pss_symbol_selector_cvc</name>
+  <name>PSSS Symbol Selector</name>
   <key>cv2x_pss_symbol_selector_cvc</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>

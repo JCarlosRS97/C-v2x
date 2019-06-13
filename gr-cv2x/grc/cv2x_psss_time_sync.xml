@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>psss_time_sync</name>
+  <name>PSSS Time Calculator</name>
   <key>cv2x_psss_time_sync</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>

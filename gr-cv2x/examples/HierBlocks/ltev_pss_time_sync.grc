@@ -82,108 +82,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_file_sink</key>
-    <param>
-      <key>append</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>/home/carlos/Escritorio/memuero.dat</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1056, 488)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_file_sink_0_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>unbuffered</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>128</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_head</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1000, 620)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_head_0_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>num_items</key>
-      <value>100</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>128</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_multiply_xx</key>
     <param>
       <key>alias</key>
@@ -203,7 +101,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 80)</value>
+      <value>(616, 128)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -258,7 +156,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 256)</value>
+      <value>(296, 248)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -305,7 +203,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(976, 96)</value>
+      <value>(832, 224)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -352,7 +250,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 384)</value>
+      <value>(568, 384)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -395,7 +293,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(232, 8)</value>
+      <value>(192, 8)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -434,7 +332,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1152, 116)</value>
+      <value>(1040, 268)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -477,7 +375,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(168, 124)</value>
+      <value>(128, 204)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -524,7 +422,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(512, 4)</value>
+      <value>(424, 8)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -579,7 +477,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(568, 192)</value>
+      <value>(256, 96)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -630,7 +528,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(368, 16)</value>
+      <value>(304, 8)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -658,20 +556,8 @@
     </param>
   </block>
   <connection>
-    <source_block_id>blocks_head_0_0</source_block_id>
-    <sink_block_id>blocks_file_sink_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>blocks_multiply_xx_0</source_block_id>
     <sink_block_id>cv2x_pss_tagger_cc_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cv2x_pss_symbol_selector_cvc_0</source_block_id>
-    <sink_block_id>blocks_head_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -721,7 +607,7 @@
     <source_block_id>pad_source_0</source_block_id>
     <sink_block_id>blocks_multiply_xx_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>0</sink_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>pad_source_0</source_block_id>
@@ -733,6 +619,6 @@
     <source_block_id>sig_psss</source_block_id>
     <sink_block_id>blocks_multiply_xx_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>1</sink_key>
+    <sink_key>0</sink_key>
   </connection>
 </flow_graph>
