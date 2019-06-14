@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Jun 13 16:11:50 2019
+# Generated: Fri Jun 14 22:31:10 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -24,17 +24,14 @@ from PyQt4 import Qt
 from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
-from gnuradio import fft
 from gnuradio import filter
 from gnuradio import gr
 from gnuradio import qtgui
 from gnuradio.eng_option import eng_option
-from gnuradio.fft import window
 from gnuradio.filter import firdes
-from lte_ssss_sync import lte_ssss_sync  # grc-generated hier_block
+from ltev_rx_sim import ltev_rx_sim  # grc-generated hier_block
 from optparse import OptionParser
-from pss_time_sync import pss_time_sync  # grc-generated hier_block
-import cv2x
+from tx_v2x import tx_v2x  # grc-generated hier_block
 import sip
 
 
@@ -74,7 +71,12 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.sig = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
+        self.tx_v2x_0 = tx_v2x(
+            SubcarrierBW=SubcarrierBW,
+            fft_len=fft_len,
+            slss_id=120,
+            syncPeriod=syncPeriod,
+        )
         self.qtgui_sink_x_0 = qtgui.sink_c(
         	1024, #fftsize
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
@@ -94,51 +96,31 @@ class top_block(gr.top_block, Qt.QWidget):
         
         
           
-        self.pss_time_sync_0 = pss_time_sync(
-            fft_len=fft_len,
-            samp_rate=samp_rate,
-            syncPeriod=syncPeriod,
-        )
-        self.lte_ssss_sync_0 = lte_ssss_sync(
+        self.ltev_rx_sim_0 = ltev_rx_sim(
+            SubcarrierBW=SubcarrierBW,
             fft_len=fft_len,
             syncPeriod=syncPeriod,
         )
-        self.fft_vxx_0 = fft.fft_vcc(fft_len, False, (), True, 1)
-        self.cv2x_slss_generator_0 = cv2x.slss_generator(120, 0, 0, syncPeriod, fft_len)
-        self.cv2x_rough_symbol_sync_cc_0 = cv2x.rough_symbol_sync_cc(fft_len, SubcarrierBW, self.sig, 0.6)
-        self.cv2x_lte_cyclic_prefixer_vcc_0 = cv2x.lte_cyclic_prefixer_vcc(fft_len)
-        self.blocks_vector_sink_x_0 = blocks.vector_sink_c(1)
-        self.blocks_throttle_1 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*fft_len, samp_rate/fft_len,True)
+        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_message_debug_0 = blocks.message_debug()
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*256, '/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/examples/random.dat', True)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
-        self.blocks_add_xx_1 = blocks.add_vcc(fft_len)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
-        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 10, 0)
+        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 15000, 1, 0)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0, 0)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.lte_ssss_sync_0, 'SLSSID'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.ltev_rx_sim_0, 'out'), (self.blocks_message_debug_0, 'print'))    
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))    
         self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 0))    
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0_0, 1))    
-        self.connect((self.blocks_add_xx_1, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))    
-        self.connect((self.blocks_file_source_0, 0), (self.blocks_add_xx_1, 1))    
-        self.connect((self.blocks_multiply_xx_0_0, 0), (self.cv2x_rough_symbol_sync_cc_0, 0))    
-        self.connect((self.blocks_throttle_0, 0), (self.fft_vxx_0, 0))    
-        self.connect((self.blocks_throttle_1, 0), (self.blocks_vector_sink_x_0, 0))    
-        self.connect((self.cv2x_lte_cyclic_prefixer_vcc_0, 0), (self.blocks_delay_0, 0))    
-        self.connect((self.cv2x_rough_symbol_sync_cc_0, 0), (self.pss_time_sync_0, 0))    
-        self.connect((self.cv2x_slss_generator_0, 0), (self.blocks_add_xx_1, 0))    
-        self.connect((self.fft_vxx_0, 0), (self.cv2x_lte_cyclic_prefixer_vcc_0, 0))    
-        self.connect((self.lte_ssss_sync_0, 0), (self.qtgui_sink_x_0, 0))    
-        self.connect((self.pss_time_sync_0, 0), (self.lte_ssss_sync_0, 0))    
-        self.connect((self.sig, 0), (self.blocks_throttle_1, 0))    
+        self.connect((self.blocks_multiply_xx_0_0, 0), (self.ltev_rx_sim_0, 0))    
+        self.connect((self.blocks_throttle_0, 0), (self.blocks_delay_0, 0))    
+        self.connect((self.ltev_rx_sim_0, 0), (self.qtgui_sink_x_0, 0))    
+        self.connect((self.tx_v2x_0, 0), (self.blocks_throttle_0, 0))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
@@ -151,9 +133,8 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_fft_len(self, fft_len):
         self.fft_len = fft_len
         self.set_samp_rate(self.SubcarrierBW*self.fft_len)
-        self.pss_time_sync_0.set_fft_len(self.fft_len)
-        self.lte_ssss_sync_0.set_fft_len(self.fft_len)
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
+        self.tx_v2x_0.set_fft_len(self.fft_len)
+        self.ltev_rx_sim_0.set_fft_len(self.fft_len)
 
     def get_SubcarrierBW(self):
         return self.SubcarrierBW
@@ -161,25 +142,24 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_SubcarrierBW(self, SubcarrierBW):
         self.SubcarrierBW = SubcarrierBW
         self.set_samp_rate(self.SubcarrierBW*self.fft_len)
+        self.tx_v2x_0.set_SubcarrierBW(self.SubcarrierBW)
+        self.ltev_rx_sim_0.set_SubcarrierBW(self.SubcarrierBW)
 
     def get_syncPeriod(self):
         return self.syncPeriod
 
     def set_syncPeriod(self, syncPeriod):
         self.syncPeriod = syncPeriod
-        self.pss_time_sync_0.set_syncPeriod(self.syncPeriod)
-        self.lte_ssss_sync_0.set_syncPeriod(self.syncPeriod)
+        self.tx_v2x_0.set_syncPeriod(self.syncPeriod)
+        self.ltev_rx_sim_0.set_syncPeriod(self.syncPeriod)
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.sig.set_sampling_freq(self.samp_rate)
         self.qtgui_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.pss_time_sync_0.set_samp_rate(self.samp_rate)
-        self.blocks_throttle_1.set_sample_rate(self.samp_rate)
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate/self.fft_len)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)
 
 

@@ -34,16 +34,16 @@ namespace gr {
   namespace cv2x {
 
     rough_symbol_sync_cc::sptr
-    rough_symbol_sync_cc::make(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral)
+    rough_symbol_sync_cc::make(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral, bool simetria)
     {
       return gnuradio::get_initial_sptr
-      (new rough_symbol_sync_cc_impl(fftl, subcarrierBW, sig, umbral));
+      (new rough_symbol_sync_cc_impl(fftl, subcarrierBW, sig, umbral, simetria));
     }
 
     /*
     * The private constructor
     */
-    rough_symbol_sync_cc_impl::rough_symbol_sync_cc_impl(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral)
+    rough_symbol_sync_cc_impl::rough_symbol_sync_cc_impl(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral, bool simetria)
     : gr::sync_block("rough_symbol_sync_cc",
     gr::io_signature::make( 1, 1, sizeof(gr_complex)),
     gr::io_signature::make( 1, 1, sizeof(gr_complex))),
@@ -62,9 +62,10 @@ namespace gr {
     stp(d_cpl0/4),
     umbral(umbral),
     it_peso(0.0),
+    simetria(simetria),
     d_sig(sig)
     {
-      printf("El umbral es %f\n", umbral);
+      // printf("El umbral es %f\n", umbral);
       d_key=pmt::string_to_symbol("symbol");
       d_tag_id=pmt::string_to_symbol(this->name() );
 
@@ -130,7 +131,7 @@ namespace gr {
               memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
 
               gr_complex val = corr(d_cp0,d_cp1,2*d_cpl);
-              printf("mod %i pos %li, value = %f\n", mod, (abs_pos%d_slotl)%d_syml, abs(val));
+              // printf("mod %i pos %li, value = %f\n", mod, (abs_pos%d_slotl)%d_syml, abs(val));
               if(it_peso <= abs(val) ){
                 it_val = val;
                 it_peso = abs(val);
@@ -148,7 +149,7 @@ namespace gr {
                   float coef = nitems_read(0)<(d_find_pos+2000)? 0.5 : 0.8;
                   float f_off = arg(it_val)/(2*M_PI)*15000.0;
                   d_f_av=d_f_av*coef - ((1-coef) * f_off);
-                  (*d_sig).set_frequency((-1)*double(d_f_av) );
+                  (*d_sig).set_frequency((-1)*double(d_f_av)+ (simetria? 7500:0));
                   // printf("%s: offset: %f\n",name().c_str(), d_f_av);
                   // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
                 }
@@ -158,9 +159,9 @@ namespace gr {
                 if(d_corr_val < umbral){
                   d_is_locked = false;
                 }else{
-                  printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
+                  // printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
 
-                  add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
+                  add_item_tag(0,abs_pos,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                 }
                 i += d_fftl;
                 it_peso = 0;
@@ -194,8 +195,8 @@ namespace gr {
                     d_is_locked = true;
                     // printf("find pos= %i\n", d_sym_pos);
 
-                    add_item_tag(0,nitems_read(0)+5,d_key, pmt::from_long(d_sym_pos),d_tag_id);
-                    printf("find: offset %li d_corr_val = %f\n", d_sym_pos%d_syml, d_corr_val);
+                    add_item_tag(0,abs_pos,d_key, pmt::from_long(d_sym_pos),d_tag_id);
+                    // printf("find: offset %li d_corr_val = %f\n", d_sym_pos%d_syml, d_corr_val);
                     //if(d_corr_val)
                     //printf("%s\tfine corr sym_pos = %ld\n",name().c_str(), d_sym_pos );
                   }

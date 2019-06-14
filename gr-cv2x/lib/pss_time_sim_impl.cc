@@ -183,7 +183,7 @@ namespace gr {
             if(changed){
               d_lock_count = 0; // reset lock count!
               int sync_frame_start = calculate_sync_frame_start(nir + i);
-              (*d_sig).set_frequency((-1)*double(d_offset*15000.0 +7500.0) );
+              (*d_sig).set_frequency((-1)*double(d_offset*15000.0) - 7500.0);
               if(d_sync_frame_start != sync_frame_start ){
                 if(!d_is_locked){
                   printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );

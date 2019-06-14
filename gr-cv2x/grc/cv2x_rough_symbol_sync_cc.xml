@@ -4,7 +4,7 @@
   <key>cv2x_rough_symbol_sync_cc</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.rough_symbol_sync_cc($fftl, $SCBW, self.$(sig()), $umbral)</make>
+  <make>cv2x.rough_symbol_sync_cc($fftl, $SCBW, self.$(sig()), $umbral, $simetria)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -33,6 +33,21 @@
          <key>SCBW</key>
          <type>float</type>
        </param>
+
+       <param>
+        <name>PSSS Simetría</name>
+        <key>simetria</key>
+        <value>True</value>
+        <type>enum</type>
+        <option>
+          <name>Yes</name>
+          <key>True</key>
+        </option>
+        <option>
+          <name>No</name>
+          <key>False</key>
+        </option>
+      </param>
 
 
        <!-- Make one 'sink' node per input. Sub-nodes:

@@ -35,6 +35,7 @@ namespace gr {
        int d_syml;
        int d_syml0;
        int d_slotl;
+       bool simetria;
        long d_find_pos;
        long d_sym_pos;
        float d_corr_val;
@@ -56,7 +57,7 @@ namespace gr {
        gr_complex corr(gr_complex *x, gr_complex *y, int len);
 
      public:
-      rough_symbol_sync_cc_impl(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral);
+      rough_symbol_sync_cc_impl(int fftl, int subcarrierBW, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral, bool simetria);
       ~rough_symbol_sync_cc_impl();
 
       void forecast(int noutput_items,

@@ -1327,6 +1327,10 @@
       <value>0</value>
     </param>
     <param>
+      <key>simetria</key>
+      <value>False</value>
+    </param>
+    <param>
       <key>sig</key>
       <value>"sig"</value>
     </param>
@@ -1584,57 +1588,6 @@
     </param>
   </block>
   <block>
-    <key>pss_time_sim</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>fft_len</key>
-      <value>fft_len</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(712, 772)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>pss_time_sim_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>syncPeriod</key>
-      <value>syncPeriod</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
-    </param>
-  </block>
-  <block>
     <key>pss_time_sync</key>
     <param>
       <key>alias</key>
@@ -1658,7 +1611,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(696, 580)</value>
+      <value>(688, 772)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2022,12 +1975,6 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_multiply_xx_0</source_block_id>
-    <sink_block_id>pss_time_sim_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>blocks_multiply_xx_0_0</source_block_id>
     <sink_block_id>virtual_sink_1</sink_block_id>
     <source_key>0</source_key>
@@ -2042,12 +1989,6 @@
   <connection>
     <source_block_id>blocks_multiply_xx_0_0_0</source_block_id>
     <sink_block_id>virtual_sink_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_multiply_xx_0_0_0_0</source_block_id>
-    <sink_block_id>pss_time_sim_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2078,12 +2019,6 @@
   <connection>
     <source_block_id>cv2x_rough_symbol_sync_cc_0</source_block_id>
     <sink_block_id>blocks_multiply_xx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cv2x_rough_symbol_sync_cc_0</source_block_id>
-    <sink_block_id>pss_time_sim_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2120,12 +2055,6 @@
   <connection>
     <source_block_id>lte_ssss_sync_0</source_block_id>
     <sink_block_id>qtgui_sink_x_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>pss_time_sim_0</source_block_id>
-    <sink_block_id>lte_ssss_sync_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

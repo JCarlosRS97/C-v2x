@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>pss_time_sim</name>
+  <name>Detector PSSS por simetria</name>
   <key>cv2x_pss_time_sim</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
