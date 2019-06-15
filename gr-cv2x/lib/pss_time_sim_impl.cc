@@ -75,6 +75,8 @@ namespace gr {
         d_half_shift   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
         d_corr_in   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
         d_energia   = (gr_complex*) volk_malloc(sizeof(gr_complex)*nfft, volk_get_alignment());
+        d_chu_sim_f1_t = (gr_complex*) volk_malloc(sizeof(gr_complex)*(nfft/2-1), volk_get_alignment());
+        d_chu_sim_fm1_t = (gr_complex*) volk_malloc(sizeof(gr_complex)*(nfft/2-1), volk_get_alignment());
 
         d_plan_r = fftwf_plan_dft_1d(nfft, reinterpret_cast<fftwf_complex*>(d_chu_f), reinterpret_cast<fftwf_complex*>(d_chu_t), FFTW_BACKWARD, FFTW_ESTIMATE);
 
@@ -93,10 +95,10 @@ namespace gr {
 
         volk_32fc_x2_multiply_32fc(d_chu0_f0_t, d_chu0_f0_t, d_half_shift, nfft);
         volk_32fc_x2_multiply_32fc(d_chu1_f0_t, d_chu1_f0_t, d_half_shift, nfft);
-        volk_32fc_x2_multiply_32fc(d_chu0_f1_t, d_chu0_f0_t, d_half_shift, nfft);
-        volk_32fc_x2_multiply_32fc(d_chu0_f1_t, d_chu1_f0_t, d_half_shift, nfft);
-        volk_32fc_x2_multiply_32fc(d_chu0_fm1_t, d_chu0_f0_t, d_half_shift, nfft);
-        volk_32fc_x2_multiply_32fc(d_chu1_fm1_t, d_chu1_f0_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu0_f1_t, d_chu0_f1_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu1_f1_t, d_chu1_f1_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu0_fm1_t, d_chu0_fm1_t, d_half_shift, nfft);
+        volk_32fc_x2_multiply_32fc(d_chu1_fm1_t, d_chu1_fm1_t, d_half_shift, nfft);
 
         // printf("Chu0\n");
         // for(int j = 0; j < nfft; j++){
@@ -108,6 +110,17 @@ namespace gr {
         //   printf("pos %i value %f + %fi\n", j, d_chu1_f0_t[j].real(), d_chu1_f0_t[j].imag());
         // }
 
+        //Se calcula el desfase
+        int j = 0;
+        for(int j = 0; j < nfft/2-1;j++){
+          d_chu_sim_f1_t[j] = d_chu0_f1_t[j+1]*conj(d_chu0_f1_t[nfft-(j+1)]);
+          d_chu_sim_f1_t[j] = conj(d_chu_sim_f1_t[j])/abs(d_chu_sim_f1_t[j]);
+          d_chu_sim_fm1_t[j] = d_chu0_fm1_t[j+1]*conj(d_chu0_fm1_t[nfft-(j+1)]);
+          d_chu_sim_fm1_t[j] = conj(d_chu_sim_fm1_t[j])/ abs(d_chu_sim_fm1_t[j]);
+          // printf("pos %i value %f + %fi\n", j, d_chu_sim_f1_t[j].real(), d_chu_sim_f1_t[j].imag());
+          // printf("pos %i value %f + %fi\n", j, d_chu_sim_fm1_t[j].real(), d_chu_sim_fm1_t[j].imag());
+        }
+
 
         //ahora se conjugan ambas secuencias
         volk_32fc_conjugate_32fc_a(d_chu0_f0_t, d_chu0_f0_t, nfft);
@@ -116,7 +129,6 @@ namespace gr {
         volk_32fc_conjugate_32fc_a(d_chu1_f1_t, d_chu1_f1_t, nfft);
         volk_32fc_conjugate_32fc_a(d_chu0_fm1_t, d_chu0_fm1_t, nfft);
         volk_32fc_conjugate_32fc_a(d_chu1_fm1_t, d_chu1_fm1_t, nfft);
-
 
 
 
@@ -141,6 +153,8 @@ namespace gr {
         volk_free(d_chu1_f1_t);
         volk_free(d_chu0_fm1_t);
         volk_free(d_chu1_fm1_t);
+        volk_free(d_chu_sim_f1_t);
+        volk_free(d_chu_sim_fm1_t);
       }
 
       // Define PI for use in this block
@@ -170,11 +184,14 @@ namespace gr {
             in += 2*nfft;
             // printf("secuencia %i\n", i + int(nitems_read(0)/2));
             // tracking does need less cross correlation calculations!
-            float metrica = find_sim();
+            float metrica;
+            int ifo;
+            find_sim(metrica, ifo);
+
             if(metrica > 1.5){
               // printf("Es simetrico\n");
               if(d_is_locked){ changed = tracking(); }
-              else{ changed = find_pss_symbol(); }
+              else{ changed = find_pss_symbol(ifo); }
             }
             // int sync_frame_start = calculate_sync_frame_start(nir + i);
             // printf("pos %i\n", sync_frame_start);
@@ -186,7 +203,7 @@ namespace gr {
               (*d_sig).set_frequency((-1)*double(d_offset*15000.0) - 7500.0);
               if(d_sync_frame_start != sync_frame_start ){
                 if(!d_is_locked){
-                  printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                  printf("%s NEW sync_frame_start = %i\tN_id_2 = %i\td_offset = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2,d_offset, d_corr_val );
                   //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
                   message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                   d_sync_frame_start = sync_frame_start;
@@ -249,39 +266,33 @@ namespace gr {
 
 
         bool
-        pss_time_sim_impl::find_pss_symbol()
+        pss_time_sim_impl::find_pss_symbol(int ifo)
         {
           int len = nfft;
-          float max[6];
-          max_pos(max[0], d_chu0_fm1_t, len);
-          max_pos(max[1], d_chu1_fm1_t, len);
-          max_pos(max[2], d_chu0_f0_t, len);
-          max_pos(max[3], d_chu1_f0_t, len);
-          max_pos(max[4], d_chu0_f1_t, len);
-          max_pos(max[5], d_chu1_f1_t, len);
-          int pos;
-          float maxc = 0.0;;
-          for(int i = 0; i < 5; i++){
-            if(maxc < max[i] ){
-              pos = i;
-              maxc = max[i];
-            }
+          int N_id_2 = 0;
+          float max, maxc;
+          if(ifo == -1){
+            max_pos(maxc, d_chu0_fm1_t, len);
+            max_pos(max, d_chu1_fm1_t, len);
+          }else if(ifo == 0){
+            max_pos(maxc, d_chu0_f0_t, len);
+            max_pos(max, d_chu1_f0_t, len);
+          }else{
+            max_pos(maxc, d_chu0_f1_t, len);
+            max_pos(max, d_chu1_f1_t, len);
           }
 
-          int N_id_2 = pos%2;
-          // printf("Chu0_fm1: max = %f\n", max[0]);
-          // printf("Chu1_fm1: max = %f\n", max[1]);
-          // printf("Chu0_f0: max = %f\n", max[2]);
-          // printf("Chu1_f0: max = %f\n", max[3]);
-          // printf("Chu0_f1: max = %f\n", max[4]);
-          // printf("Chu1_f1: max = %f\n", max[5]);
+          if(max > maxc){
+            N_id_2 = 1;
+            maxc = max;
+          }
           //Calculate return value
           bool has_changed = false;
           if(d_corr_val < maxc){
             has_changed = true;
             d_N_id_2 = N_id_2;
             d_corr_val = maxc;
-            d_offset = pos/2 -1;
+            d_offset = ifo;
             // printf("IFO= %i\n", d_offset);
           }
           return has_changed;
@@ -346,18 +357,40 @@ namespace gr {
         }
 
         float
-        pss_time_sim_impl::find_sim(){
-          gr_complex res, energia;
-          res = 0;
+        pss_time_sim_impl::find_sim(float &metrica, int &ifo){
+          gr_complex res0, res1, resm1, energia;
+          res0 = 0;
+          res1 = 0;
+          resm1 = 0;
           for(int i = 1; i < nfft/2;i++){
             gr_complex val = d_corr_in[i]*conj(d_corr_in[nfft-i]);
-            res+= d_corr_in[i]*conj(d_corr_in[nfft-i]);
+            res0 += val;
+            res1 += val*d_chu_sim_f1_t[i-1];
+            resm1 += val*d_chu_sim_fm1_t[i-1];
+            // printf("pos %i value %f + %fi\n", i-1, d_chu_sim_f1_t[i].real(), d_chu_sim_f1_t[i].imag());
+            // printf("pos %i value %f + %fi\n", i-1, d_chu_sim_fm1_t[i].real(), d_chu_sim_fm1_t[i].imag());
           }
+          ifo = 0;
+          float max = abs(res0);
+          float peso1 = abs(res1);
+          float pesom1 = abs(resm1);
+          // printf("IFO = 0 -> %f\n", max);
+          // printf("IFO = -1 -> %f\n", peso1);
+          // printf("IFO = 1 -> %f\n", pesom1);
+          if(max < peso1){
+            max = peso1;
+            ifo = 1;
+          }
+          if(max < pesom1){
+            max = pesom1;
+            ifo = -1;
+          }
+          // printf("elegido: %i\n", ifo);
           volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_energia+1, d_energia +1, nfft/2-1);
           if(abs(energia)>0.001){
-            return abs(res)/abs(energia);
+            metrica = max/abs(energia);
           }else{
-            return 0;
+            metrica= 0;
           }
         }
 

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Fri Jun 14 22:31:10 2019
+# Generated: Sat Jun 15 10:20:36 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -101,13 +101,15 @@ class top_block(gr.top_block, Qt.QWidget):
             fft_len=fft_len,
             syncPeriod=syncPeriod,
         )
+        self.fir_filter_xxx_0 = filter.fir_filter_ccc(1, ((0.0887254755135537,	0.384431445941879,	0.248372020772530,	0.248372020772530,	0.384431445941879,	0.0887254755135537)))
+        self.fir_filter_xxx_0.declare_sample_delay(0)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_message_debug_0 = blocks.message_debug()
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
-        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 15000, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0, 0)
+        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 20000, 1, 0)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 16, 0)
 
         ##################################################
         # Connections
@@ -117,8 +119,9 @@ class top_block(gr.top_block, Qt.QWidget):
         self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 0))    
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0_0, 1))    
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))    
-        self.connect((self.blocks_multiply_xx_0_0, 0), (self.ltev_rx_sim_0, 0))    
+        self.connect((self.blocks_multiply_xx_0_0, 0), (self.fir_filter_xxx_0, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.blocks_delay_0, 0))    
+        self.connect((self.fir_filter_xxx_0, 0), (self.ltev_rx_sim_0, 0))    
         self.connect((self.ltev_rx_sim_0, 0), (self.qtgui_sink_x_0, 0))    
         self.connect((self.tx_v2x_0, 0), (self.blocks_throttle_0, 0))    
 
