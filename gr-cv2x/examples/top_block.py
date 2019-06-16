@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Sat Jun 15 10:20:36 2019
+# Generated: Sun Jun 16 16:00:01 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -29,7 +29,7 @@ from gnuradio import gr
 from gnuradio import qtgui
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
-from ltev_rx_sim import ltev_rx_sim  # grc-generated hier_block
+from ltev_rx_sync import ltev_rx_sync  # grc-generated hier_block
 from optparse import OptionParser
 from tx_v2x import tx_v2x  # grc-generated hier_block
 import sip
@@ -96,33 +96,30 @@ class top_block(gr.top_block, Qt.QWidget):
         
         
           
-        self.ltev_rx_sim_0 = ltev_rx_sim(
-            SubcarrierBW=SubcarrierBW,
-            fft_len=fft_len,
-            syncPeriod=syncPeriod,
+        self.ltev_rx_sync_0 = ltev_rx_sync(
+            SubcarrierBW=15000,
+            fft_len=256,
+            syncPeriod=2,
         )
-        self.fir_filter_xxx_0 = filter.fir_filter_ccc(1, ((0.0887254755135537,	0.384431445941879,	0.248372020772530,	0.248372020772530,	0.384431445941879,	0.0887254755135537)))
-        self.fir_filter_xxx_0.declare_sample_delay(0)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_message_debug_0 = blocks.message_debug()
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
-        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 20000, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 16, 0)
+        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 17, 0)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.ltev_rx_sim_0, 'out'), (self.blocks_message_debug_0, 'print'))    
+        self.msg_connect((self.ltev_rx_sync_0, 'out'), (self.blocks_message_debug_0, 'print'))    
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))    
         self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 0))    
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0_0, 1))    
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))    
-        self.connect((self.blocks_multiply_xx_0_0, 0), (self.fir_filter_xxx_0, 0))    
+        self.connect((self.blocks_multiply_xx_0_0, 0), (self.ltev_rx_sync_0, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.blocks_delay_0, 0))    
-        self.connect((self.fir_filter_xxx_0, 0), (self.ltev_rx_sim_0, 0))    
-        self.connect((self.ltev_rx_sim_0, 0), (self.qtgui_sink_x_0, 0))    
+        self.connect((self.ltev_rx_sync_0, 0), (self.qtgui_sink_x_0, 0))    
         self.connect((self.tx_v2x_0, 0), (self.blocks_throttle_0, 0))    
 
     def closeEvent(self, event):
@@ -137,7 +134,6 @@ class top_block(gr.top_block, Qt.QWidget):
         self.fft_len = fft_len
         self.set_samp_rate(self.SubcarrierBW*self.fft_len)
         self.tx_v2x_0.set_fft_len(self.fft_len)
-        self.ltev_rx_sim_0.set_fft_len(self.fft_len)
 
     def get_SubcarrierBW(self):
         return self.SubcarrierBW
@@ -146,7 +142,6 @@ class top_block(gr.top_block, Qt.QWidget):
         self.SubcarrierBW = SubcarrierBW
         self.set_samp_rate(self.SubcarrierBW*self.fft_len)
         self.tx_v2x_0.set_SubcarrierBW(self.SubcarrierBW)
-        self.ltev_rx_sim_0.set_SubcarrierBW(self.SubcarrierBW)
 
     def get_syncPeriod(self):
         return self.syncPeriod
@@ -154,7 +149,6 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_syncPeriod(self, syncPeriod):
         self.syncPeriod = syncPeriod
         self.tx_v2x_0.set_syncPeriod(self.syncPeriod)
-        self.ltev_rx_sim_0.set_syncPeriod(self.syncPeriod)
 
     def get_samp_rate(self):
         return self.samp_rate

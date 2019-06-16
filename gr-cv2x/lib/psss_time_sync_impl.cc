@@ -27,7 +27,6 @@
 #include <volk/volk.h>
 
 
-
 namespace gr {
   namespace cv2x {
 
@@ -223,7 +222,6 @@ namespace gr {
         gr_complex res;
         gr_complex energia;
         volk_32fc_x2_dot_prod_32fc(&res, x, d_corr_in, len);
-        volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_corr_in, d_corr_in, len);
         max = abs(res);
       }
 
@@ -232,6 +230,10 @@ namespace gr {
       psss_time_sync_impl::find_pss_symbol()
       {
         int len = nfft;
+        gr_complex energia;
+        //Primero se calcula la energia para normalizar la métrica
+        volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_corr_in, d_corr_in, len);
+        float abs_energia = sqrt(abs(energia));
         float max[6];
         max_pos(max[0], d_chu0_fm1_t, len);
         max_pos(max[1], d_chu1_fm1_t, len);
@@ -241,7 +243,8 @@ namespace gr {
         max_pos(max[5], d_chu1_f1_t, len);
         int pos;
         float maxc = 0.0;;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 6; i++){
+          max[i] /= abs_energia;
           if(maxc < max[i] ){
             pos = i;
             maxc = max[i];
@@ -257,7 +260,7 @@ namespace gr {
         // printf("Chu1_f1: max = %f\n", max[5]);
         //Calculate return value
         bool has_changed = false;
-        if(d_corr_val < maxc){
+        if(d_corr_val < maxc && maxc > 25){
           has_changed = true;
           d_N_id_2 = N_id_2;
           d_corr_val = maxc;

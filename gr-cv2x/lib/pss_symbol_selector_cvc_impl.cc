@@ -131,11 +131,12 @@ namespace gr {
               // printf("Offset %ld\n", d_offset%d_syml);
           }
       }
-      int offset = d_offset%d_syml;
+      int offset = d_offset;
       if(offset == 0){ // if offset is "0" then there is no symbol sync yet --> return!
           consume_each(nin);
           return 0;
       }
+      offset %= d_syml;
 
       // generate output
       int consumed_items = 0;
