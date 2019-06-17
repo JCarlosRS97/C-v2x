@@ -193,7 +193,7 @@
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>17</value>
+      <value>0</value>
     </param>
     <param>
       <key>alias</key>
@@ -748,6 +748,10 @@
     <param>
       <key>SubcarrierBW</key>
       <value>15000</value>
+    </param>
+    <param>
+      <key>umbralPSSS</key>
+      <value>30</value>
     </param>
     <param>
       <key>fft_len</key>

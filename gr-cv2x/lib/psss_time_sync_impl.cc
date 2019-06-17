@@ -58,6 +58,7 @@ namespace gr {
     umbral(umbral),
     d_is_locked(false)
     {
+      printf("Umbral:%f \n", umbral);
       d_port_lock = pmt::string_to_symbol("lock");
       message_port_register_out(d_port_lock);
       d_port_sync_frame_start = pmt::string_to_symbol("sync_frame");
@@ -160,7 +161,7 @@ namespace gr {
           // int sync_frame_start = calculate_sync_frame_start(nir + i);
           //Do things if new max is found!
           if(changed){
-            d_lock_count = 0; // reset lock count!
+            //d_lock_count = 0; // reset lock count!
             int sync_frame_start = calculate_sync_frame_start(nir + i);
             (*d_sig).set_frequency((-1)*double(d_offset*15000.0) );
             if(d_sync_frame_start != sync_frame_start ){
@@ -170,9 +171,9 @@ namespace gr {
                 message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                 d_sync_frame_start = sync_frame_start;
               }
-              else if( abs(d_sync_frame_start-sync_frame_start) < 2 ){ //only moves by one sample in tracking mode!
-                if( d_sync_frame_start < sync_frame_start ){d_sync_frame_start++;}
-                else{d_sync_frame_start--;}
+              else if( abs(d_sync_frame_start-sync_frame_start) < 6 ){ //only moves by one sample in tracking mode!
+                printf("\n%s Fine sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                d_sync_frame_start = sync_frame_start;
               }
               set_sync_frame_start();
             }
@@ -187,8 +188,8 @@ namespace gr {
         //periodo y se le añade un poco de holgura.
         if( !d_is_locked && d_lock_count > (14.1*syncPeriod*2) && d_N_id_2 >=0 ){
           printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
-          printf("IFO= %i\n", d_offset);
-          printf("Calculator -> %f\n", pc_work_time_avg());
+          // printf("IFO= %i\n", d_offset);
+          // printf("Calculator -> %f\n", pc_work_time_avg());
           // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
           d_is_locked = true;
           message_port_pub( d_port_lock, pmt::PMT_T );

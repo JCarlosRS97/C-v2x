@@ -24,17 +24,20 @@ from PyQt4 import Qt, QtCore
 from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
-from gnuradio import fft
+from gnuradio import filter
 from gnuradio import gr
+from gnuradio import qtgui
 from gnuradio.eng_option import eng_option
-from gnuradio.fft import window
 from gnuradio.filter import firdes
-from lte_ssss_sync import lte_ssss_sync  # grc-generated hier_block
+from ltev_rx_sync import ltev_rx_sync  # grc-generated hier_block
 from optparse import OptionParser
-from pss_time_sync import pss_time_sync  # grc-generated hier_block
+from tx_v2x import tx_v2x  # grc-generated hier_block
+import sip
 import cv2x
 import time
 import pmt
+from ltev_rx_sync import ltev_rx_sync  # grc-generated hier_block
+from tx_v2x import tx_v2x  # grc-generated hier_block
 import numpy as np
 
 class tag_sink(gr.sync_block):
@@ -45,9 +48,17 @@ class tag_sink(gr.sync_block):
             in_sig = [np.complex64],
             out_sig = None,
         )
-        self.key = None
-        self.bien = 0
-        self.total = 0
+
+        self.pos = -1
+        self.N_id = -1
+        self.key = pmt.intern("my_tag_key")
+        self.message_port_register_in(pmt.intern('in_port'))
+        self.set_msg_handler(pmt.intern('in_port'),
+                             self.handle_msg)
+
+    def handle_msg(self, msg):
+        # Create a new PMT from long value and put in list
+        self.N_id = pmt.to_long(msg)
 
     def work(self, input_items, output_items):
         num_input_items = len(input_items[0])
@@ -56,19 +67,21 @@ class tag_sink(gr.sync_block):
 
         #print all the tags received in this work call
         nread = self.nitems_read(0)
-        tags = self.get_tags_in_range(0, nread, nread+num_input_items)
+        tags = self.get_tags_in_range(0, nread, nread+num_input_items, self.key)
         for tag in tags:
-            self.total = self.total + 1
-            if (abs((pmt.to_long(tag.value)%(256+18))-21)<5):
-                self.bien = self.bien + 1
+            self.pos = pmt.to_long(tag.value)
 
         return num_input_items
 
-    def getBien(self):
-        return self.bien
+    def reset(self):
+        self.N_id = -1
+        self.pos = -1
 
-    def getTotal(self):
-        return self.total
+    def get_N_id(self):
+        return self.N_id
+
+    def get_pos(self):
+        return self.pos
 
 class top_block(gr.top_block, Qt.QWidget):
 
@@ -135,7 +148,7 @@ class top_block(gr.top_block, Qt.QWidget):
             SubcarrierBW=15000,
             fft_len=256,
             syncPeriod=syncPeriod,
-            umbralPSSS=30,
+            umbralPSSS=umbral,
         )
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
@@ -143,19 +156,19 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0.125, 0)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 7.18, 0)
 
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.ltev_rx_sync_0, 'out'), (self.blocks_message_debug_0, 'print'))
+        self.msg_connect((self.ltev_rx_sync_0, 'out'), (vector, 'in_port'))
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0_0, 1))
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))
         self.connect((self.blocks_multiply_xx_0_0, 0), (self.ltev_rx_sync_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.blocks_delay_0, 0))
-        self.connect((self.ltev_rx_sync_0, 0), (self.qtgui_sink_x_0, 0))
+        self.connect((self.ltev_rx_sync_0, 0), (vector, 0))
         self.connect((self.tx_v2x_0, 0), (self.blocks_throttle_0, 0))
 
     def closeEvent(self, event):
@@ -215,38 +228,31 @@ def main(top_block_cls=top_block, options=None):
         tb.wait()
     qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
     umbral = float(sys.argv[1])
+    n_id = []
+    pos = []
 
     for i in range(100):
         tb = top_block_cls(vector, umbral)
+        n_id.append(vector.get_N_id())
+        pos.append(vector.get_pos())
+        vector.reset()
         tb.start()
         #tb.show()
         timer.start(400)
-
-
         qapp.exec_()
 
 
-    print vector.getBien()
+    f=open("nid"+sys.argv[1] +"-"+sys.argv[2]+ ".txt", "w")
+    for nid in n_id:
+        f.write("%i\n" % nid)
 
-    print vector.getTotal()
-
-    res = vector.getBien()
-    f=open("resultados"+ sys.argv[1] + ".txt", "r")
-    lista = f.read().split()
-    acumulado = int(lista[0]) + res
-    print acumulado
-    f.close()
-    f=open("resultados"+sys.argv[1]+".txt", "w")
-    f.write("%i\n" % acumulado)
     f.close()
 
-    res = vector.getTotal()
-    f=open("errores"+ sys.argv[1] + ".txt", "r")
-    lista = f.read().split()
-    acumulado = int(lista[0]) + res
+    f=open("pos"+sys.argv[1]+"-"+sys.argv[2]+".txt", "w")
+    for i in pos:
+        f.write("%i\n" % i)
+
     f.close()
-    f=open("errores"+sys.argv[1]+".txt", "w")
-    f.write("%i\n" % acumulado)
 
 
 if __name__ == '__main__':
