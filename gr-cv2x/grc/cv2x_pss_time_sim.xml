@@ -4,7 +4,7 @@
   <key>cv2x_pss_time_sim</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
-  <make>cv2x.pss_time_sim($fftl, $syncPeriod,  self.$(sig()))</make>
+  <make>cv2x.pss_time_sim($fftl, $syncPeriod,  self.$(sig()), $umbralSim, $umbralCorr)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -19,6 +19,18 @@
          <name>Sync Period</name>
          <key>syncPeriod</key>
          <type>int</type>
+       </param>
+
+       <param>
+         <name>Umbral de simetria</name>
+         <key>umbralSim</key>
+         <type>float</type>
+       </param>
+
+       <param>
+         <name>Umbral de correlación</name>
+         <key>umbralCorr</key>
+         <type>float</type>
        </param>
 
        <param>

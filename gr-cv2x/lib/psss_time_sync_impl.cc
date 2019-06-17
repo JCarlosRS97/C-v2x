@@ -31,16 +31,16 @@ namespace gr {
   namespace cv2x {
 
     psss_time_sync::sptr
-    psss_time_sync::make(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig)
+    psss_time_sync::make(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral)
     {
       return gnuradio::get_initial_sptr
-      (new psss_time_sync_impl(fftl, syncPeriod, sig));
+      (new psss_time_sync_impl(fftl, syncPeriod, sig, umbral));
     }
 
     /*
     * The private constructor
     */
-    psss_time_sync_impl::psss_time_sync_impl(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig)
+    psss_time_sync_impl::psss_time_sync_impl(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbral)
     : gr::sync_block("psss_time_sync",
     gr::io_signature::make(1, 1, sizeof(gr_complex)*128),
     gr::io_signature::make(0, 0, 0)),
@@ -55,6 +55,7 @@ namespace gr {
     d_lock_count(0),
     nfft(64),
     d_sig(sig),
+    umbral(umbral),
     d_is_locked(false)
     {
       d_port_lock = pmt::string_to_symbol("lock");
@@ -184,9 +185,10 @@ namespace gr {
         //is stopped and block has no further function.
         //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
         //periodo y se le añade un poco de holgura.
-        if( !d_is_locked && d_lock_count > (14.5*syncPeriod) && d_N_id_2 >=0 ){
+        if( !d_is_locked && d_lock_count > (14.1*syncPeriod*2) && d_N_id_2 >=0 ){
           printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
           printf("IFO= %i\n", d_offset);
+          printf("Calculator -> %f\n", pc_work_time_avg());
           // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
           d_is_locked = true;
           message_port_pub( d_port_lock, pmt::PMT_T );
@@ -260,7 +262,7 @@ namespace gr {
         // printf("Chu1_f1: max = %f\n", max[5]);
         //Calculate return value
         bool has_changed = false;
-        if(d_corr_val < maxc && maxc > 25){
+        if(d_corr_val < maxc && maxc > umbral){
           has_changed = true;
           d_N_id_2 = N_id_2;
           d_corr_val = maxc;
@@ -274,6 +276,10 @@ namespace gr {
       psss_time_sync_impl::tracking()
       {
         int len = nfft;
+        gr_complex energia;
+        //Primero se calcula la energia para normalizar la métrica
+        volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_corr_in, d_corr_in, len);
+        float abs_energia = sqrt(abs(energia));
         float max = 0.0;
         switch(d_N_id_2 + (d_offset + 1)*2){
           case 0: max_pos(max, d_chu0_fm1_t, len); break;
@@ -283,6 +289,7 @@ namespace gr {
           case 4: max_pos(max, d_chu0_f1_t, len); break;
           case 5: max_pos(max, d_chu1_f1_t, len); break;
         }
+        max /= abs_energia;
         if(d_corr_val < max){
           d_corr_val = max;
           return true;

@@ -86,6 +86,8 @@ namespace gr {
         if(msg == pmt::PMT_T)
         {
             lock();
+            printf("Selector -> %f\n", pc_work_time_avg());
+
         }
         else{
             unlock();

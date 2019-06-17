@@ -43,6 +43,8 @@ namespace gr {
        int syncPeriod;
        int nfft;
        int d_offset;
+       float umbralSim;
+       float umbralCorr;
 
        pmt::pmt_t d_port_lock;
        pmt::pmt_t d_port_sync_frame_start;
@@ -77,7 +79,7 @@ namespace gr {
        boost::shared_ptr<gr::analog::sig_source_c> d_sig;
 
      public:
-      pss_time_sim_impl(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig);
+      pss_time_sim_impl(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbralSim, float umbralCorr);
       ~pss_time_sim_impl();
 
       // Where all the action really happens

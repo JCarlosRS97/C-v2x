@@ -122,7 +122,6 @@ namespace gr {
           int i;
           for(i = 0 ; (i + 2*d_fftl + 2*d_cpl) < noutput_items; i++){
             abs_pos = nir+long(i); // calculate new absolute sample position
-            // mod = abs((abs(abs_pos-d_sym_pos)%d_slotl)-d_syml0)%d_syml-stp;
             mod = (abs_pos%d_slotl)%d_syml - (d_sym_pos%d_syml);
             if(d_is_locked && abs(mod) < stp){ // tracking mode
               memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);

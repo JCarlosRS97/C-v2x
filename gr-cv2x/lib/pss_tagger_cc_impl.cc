@@ -67,6 +67,7 @@ namespace gr {
 
       message_port_register_in(pmt::mp("N_id_2"));
       set_msg_handler(pmt::mp("N_id_2"), boost::bind(&pss_tagger_cc_impl::handle_msg_N_id_2, this, _1));
+      // printf("%i\n",syncPeriod );
     }
 
     void

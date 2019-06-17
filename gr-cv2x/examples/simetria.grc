@@ -186,14 +186,14 @@
     </param>
     <param>
       <key>value</key>
-      <value>2</value>
+      <value>20</value>
     </param>
   </block>
   <block>
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>16</value>
+      <value>15</value>
     </param>
     <param>
       <key>alias</key>

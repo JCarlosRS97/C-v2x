@@ -31,16 +31,16 @@ namespace gr {
   namespace cv2x {
 
     pss_time_sim::sptr
-    pss_time_sim::make(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig)
+    pss_time_sim::make(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbralSim, float umbralCorr)
     {
       return gnuradio::get_initial_sptr
-        (new pss_time_sim_impl(fftl, syncPeriod, sig));
+        (new pss_time_sim_impl(fftl, syncPeriod, sig, umbralSim, umbralCorr));
     }
 
     /*
      * The private constructor
      */
-    pss_time_sim_impl::pss_time_sim_impl(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig)
+    pss_time_sim_impl::pss_time_sim_impl(int fftl, int syncPeriod, boost::shared_ptr<gr::analog::sig_source_c> &sig, float umbralSim, float umbralCorr)
       : gr::sync_block("pss_time_sim",
       gr::io_signature::make(1, 1, sizeof(gr_complex)*128),
       gr::io_signature::make(0, 0, 0)),
@@ -55,6 +55,8 @@ namespace gr {
       d_lock_count(0),
       nfft(64),
       d_sig(sig),
+      umbralSim(umbralSim),
+      umbralCorr(umbralCorr),
       d_is_locked(false)
       {
         d_port_lock = pmt::string_to_symbol("lock");
@@ -182,20 +184,18 @@ namespace gr {
               d_corr_in[j] = in[j] - in[j+nfft];
             }
             in += 2*nfft;
-            // printf("secuencia %i\n", i + int(nitems_read(0)/2));
             // tracking does need less cross correlation calculations!
             float metrica;
             int ifo;
             find_sim(metrica, ifo);
 
-            if(metrica > 1.5){
-              // printf("Es simetrico\n");
+            if(metrica > umbralSim){
               if(d_is_locked){ changed = tracking(); }
               else{ changed = find_pss_symbol(ifo); }
+              int sync_frame_start = calculate_sync_frame_start(nir + i);
+              printf("pos %i\n", sync_frame_start);
+              printf("metrica %f\n", metrica);
             }
-            // int sync_frame_start = calculate_sync_frame_start(nir + i);
-            // printf("pos %i\n", sync_frame_start);
-            // printf("metrica %f\n", metrica);
             //Do things if new max is found!
             if(changed){
               d_lock_count = 0; // reset lock count!
@@ -223,10 +223,10 @@ namespace gr {
           //is stopped and block has no further function.
           //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
           //periodo y se le añade un poco de holgura.
-          if( !d_is_locked && d_lock_count > (14.5*syncPeriod) && d_N_id_2 >=0 ){
+          if( !d_is_locked && d_lock_count > (14.1*syncPeriod*2) && d_N_id_2 >=0 ){
             printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
             printf("IFO= %i\n", d_offset);
-            // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);
+            printf("Calculator -> %f\n", pc_work_time_avg());
             d_is_locked = true;
             message_port_pub( d_port_lock, pmt::PMT_T );
           }
@@ -271,6 +271,10 @@ namespace gr {
           int len = nfft;
           int N_id_2 = 0;
           float max, maxc;
+          gr_complex energia;
+          //Primero se calcula la energia para normalizar la métrica
+          volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_corr_in, d_corr_in, len);
+          float abs_energia = sqrt(abs(energia));
           if(ifo == -1){
             max_pos(maxc, d_chu0_fm1_t, len);
             max_pos(max, d_chu1_fm1_t, len);
@@ -286,9 +290,10 @@ namespace gr {
             N_id_2 = 1;
             maxc = max;
           }
+          maxc /= abs_energia;
           //Calculate return value
           bool has_changed = false;
-          if(d_corr_val < maxc){
+          if(d_corr_val < maxc && maxc > umbralCorr){
             has_changed = true;
             d_N_id_2 = N_id_2;
             d_corr_val = maxc;
@@ -374,9 +379,14 @@ namespace gr {
           float max = abs(res0);
           float peso1 = abs(res1);
           float pesom1 = abs(resm1);
-          // printf("IFO = 0 -> %f\n", max);
-          // printf("IFO = -1 -> %f\n", peso1);
-          // printf("IFO = 1 -> %f\n", pesom1);
+          /*Para debug
+          volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_energia+1, d_energia +1, nfft/2-1);
+
+          printf("IFO = 0 -> %f\n", max/abs(energia));
+          printf("IFO = -1 -> %f\n", peso1/abs(energia));
+          printf("IFO = 1 -> %f\n", pesom1/abs(energia));
+          Para debug*/
+
           if(max < peso1){
             max = peso1;
             ifo = 1;

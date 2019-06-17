@@ -54,6 +54,7 @@ namespace gr {
     {
       set_tag_propagation_policy(TPP_DONT);
       d_key = pmt::string_to_symbol("slot");
+      d_key_sync = pmt::string_to_symbol("sync_frame");
       d_tag_id = pmt::string_to_symbol(this->name() );
 
       message_port_register_in(pmt::mp("frame_start"));
@@ -119,6 +120,7 @@ namespace gr {
             if((nin+i)%d_syncFramel == d_syncFrame_start ){ // removed abs
               //printf("%s\toffset = %ld\tframe_start = %ld\tabs_pos = %ld\n", name().c_str(), d_offset_0, d_syncFrame_start, nitems_read(0)+i);
               d_slot_num = 0;
+              add_item_tag(0,nin+i,d_key_sync, pmt::from_long( d_syncFrame_start ),d_tag_id);
             }
 
             //printf("%s\tslot_num = %i\tabs_pos = %ld\tframe_start = %ld\n", name().c_str() ,d_slot_num, nitems_read(0)+i ,d_syncFrame_start);

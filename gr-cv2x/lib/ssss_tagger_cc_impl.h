@@ -37,6 +37,7 @@ namespace gr {
        int d_slot_num;
        uint64_t d_offset_0;
        pmt::pmt_t d_key;
+       pmt::pmt_t d_key_sync;
        pmt::pmt_t d_tag_id;
        long d_syncFrame_start;
        int syncPeriod;
