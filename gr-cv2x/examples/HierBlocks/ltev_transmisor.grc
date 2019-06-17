@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.10'?>
+<?grc format='1' created='3.7.11'?>
 <flow_graph>
   <timestamp>Fri Jun 14 19:57:43 2019</timestamp>
   <block>
@@ -285,11 +285,11 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/carlos/Escritorio/bloques/C-v2x/gr-cv2x/examples/random.dat</value>
+      <value>/home/jcrs/Escritorio/Bloques/gr-cv2x/examples/random.dat</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 236)</value>
+      <value>(48, 260)</value>
     </param>
     <param>
       <key>_rotation</key>

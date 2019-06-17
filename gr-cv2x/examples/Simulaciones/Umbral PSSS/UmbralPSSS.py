@@ -20,15 +20,14 @@ import os
 import sys
 sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
 
-from PyQt4 import Qt, QtCore
+from PyQt5 import Qt
+from PyQt5 import Qt, QtCore
 from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import filter
 from gnuradio import gr
 from gnuradio import qtgui
-from gnuradio.eng_option import eng_option
-from gnuradio.filter import firdes
 from ltev_rx_sync import ltev_rx_sync  # grc-generated hier_block
 from optparse import OptionParser
 from tx_v2x import tx_v2x  # grc-generated hier_block
@@ -217,12 +216,13 @@ def main(top_block_cls=top_block, options=None):
     #vector = blocks.tag_debug(gr.sizeof_gr_complex, "symbol")
     #vector.set_display(False)
     vector = tag_sink()
-    if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
+    if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
     timer = QtCore.QTimer()
-    QtCore.QTimer.connect(timer, QtCore.SIGNAL("timeout()"), qapp, Qt.SLOT('quit()'))
+    # QtCore.QTimer.connect(timer, QtCore.SIGNAL("timeout()"), qapp, Qt.SLOT('quit()'))
+
     def quitting():
         tb.stop()
         tb.wait()

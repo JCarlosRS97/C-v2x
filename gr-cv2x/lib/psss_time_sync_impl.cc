@@ -172,7 +172,7 @@ namespace gr {
                 d_sync_frame_start = sync_frame_start;
               }
               else if( abs(d_sync_frame_start-sync_frame_start) < 6 ){ //only moves by one sample in tracking mode!
-                // printf("\n%s Fine sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                printf("\n%s Fine sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 d_sync_frame_start = sync_frame_start;
               }
               set_sync_frame_start();

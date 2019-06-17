@@ -37,7 +37,6 @@ namespace gr {
       int d_sync_frame_start;
       int d_N_id_2;
       bool d_is_locked;
-      pmt::pmt_t d_key;
       pmt::pmt_t d_id_key;
       pmt::pmt_t d_tag_id;
       int sync_framel;

@@ -55,7 +55,6 @@ namespace gr {
     next_sync(0)
     {
       set_tag_propagation_policy(TPP_DONT);
-      d_key=pmt::string_to_symbol("slot");
       d_tag_id=pmt::string_to_symbol(this->name() );
       d_id_key = pmt::string_to_symbol("N_id_2");
 

@@ -162,7 +162,7 @@ namespace gr {
         int N_id_1 = get_ssss_info(even, odd, d_N_id_2);
 
         if(N_id_1 >= 0){
-          if(d_max_val_new > d_max_val_old*0.6){
+          // if(d_max_val_new > d_max_val_old*0.6){
             long offset = 0;
             std::vector <gr::tag_t> v_off;
             get_tags_in_range(v_off,0,nitems_read(0),nitems_read(0)+1,d_key_offset);
@@ -184,7 +184,7 @@ namespace gr {
               publish_cell_id(d_cell_id);
               d_is_locked = true;
             }
-          }
+          // }
 
           d_max_val_old = d_max_val_new;
           d_max_val_new = 0;

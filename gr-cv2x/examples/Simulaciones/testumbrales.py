@@ -120,7 +120,7 @@ class top_block(gr.top_block, Qt.QWidget):
         blocks_add_xx_1 = blocks.add_vcc(fft_len)
         blocks_add_xx_0 = blocks.add_vcc(1)
         analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, -1000, 1, 0)
-        analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 1, 0)
+        analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN,0.125, 0)
 
 
 
@@ -194,7 +194,7 @@ def main(top_block_cls=top_block, options=None):
         tb.stop()
         tb.wait()
     qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
-    umbral = float(sys.argv[1])/20
+    umbral = float(sys.argv[1])/40
 
 
     tb = top_block_cls(vector,umbral)
@@ -209,7 +209,7 @@ def main(top_block_cls=top_block, options=None):
     #     tb = top_block_cls(vector,umbral)
     tb.start()
     #tb.show()
-    timer.start(400)
+    timer.start(300)
 
 
     qapp.exec_()

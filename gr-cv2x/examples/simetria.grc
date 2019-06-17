@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.10'?>
+<?grc format='1' created='3.7.11'?>
 <flow_graph>
   <timestamp>Thu Dec 13 17:08:40 2018</timestamp>
   <block>
@@ -750,6 +750,14 @@
       <value>SubcarrierBW</value>
     </param>
     <param>
+      <key>umbralCorr</key>
+      <value>30</value>
+    </param>
+    <param>
+      <key>umbralSim</key>
+      <value>1.5</value>
+    </param>
+    <param>
       <key>fft_len</key>
       <value>fft_len</value>
     </param>
@@ -1070,6 +1078,12 @@
   </connection>
   <connection>
     <source_block_id>ltev_rx_sim_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>N_id</source_key>
+    <sink_key>print</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ltev_rx_sim_0</source_block_id>
     <sink_block_id>qtgui_sink_x_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -1077,7 +1091,7 @@
   <connection>
     <source_block_id>ltev_rx_sim_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>out</source_key>
+    <source_key>sync_frame_start</source_key>
     <sink_key>print</sink_key>
   </connection>
   <connection>
