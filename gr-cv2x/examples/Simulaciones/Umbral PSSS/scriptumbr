@@ -1,17 +1,19 @@
 #!/bin/bash
 rm nid.txt
 rm pos.txt
-for j in {20..40}
+for j in {29..40}
 do
 	rm nid$j.txt
   rm pos$j.txt
 
 	for i in {1..1}
 	do
+		 rm nid$j-$i.txt
+		 rm pos$j-$i.txt
 	   ./UmbralPSSS.py $j $i
-		 cat nid$j$i.txt >> nid$j.txt
-		 cat pos$j$i.txt >> pos$j.txt
-		 rm nid$j$i.txt
-	   rm pos$j$i.txt
+		 cat nid$j-$i.txt >> nid$j.txt
+		 cat pos$j-$i.txt >> pos$j.txt
+		 rm nid$j-$i.txt
+	   rm pos$j-$i.txt
 	done
 done

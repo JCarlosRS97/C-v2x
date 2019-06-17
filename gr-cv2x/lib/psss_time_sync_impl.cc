@@ -58,7 +58,7 @@ namespace gr {
     umbral(umbral),
     d_is_locked(false)
     {
-      printf("Umbral:%f \n", umbral);
+      // printf("Umbral:%f \n", umbral);
       d_port_lock = pmt::string_to_symbol("lock");
       message_port_register_out(d_port_lock);
       d_port_sync_frame_start = pmt::string_to_symbol("sync_frame");
@@ -166,13 +166,13 @@ namespace gr {
             (*d_sig).set_frequency((-1)*double(d_offset*15000.0) );
             if(d_sync_frame_start != sync_frame_start ){
               if(!d_is_locked){
-                printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                // printf("\n%s NEW sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 //~ (*d_tag).set_N_id_2(d_N_id_2); // only set a new Cell ID number if not yet locked!
                 message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                 d_sync_frame_start = sync_frame_start;
               }
               else if( abs(d_sync_frame_start-sync_frame_start) < 6 ){ //only moves by one sample in tracking mode!
-                printf("\n%s Fine sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                // printf("\n%s Fine sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
                 d_sync_frame_start = sync_frame_start;
               }
               set_sync_frame_start();
@@ -186,8 +186,8 @@ namespace gr {
         //is stopped and block has no further function.
         //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
         //periodo y se le añade un poco de holgura.
-        if( !d_is_locked && d_lock_count > (14.1*syncPeriod*2) && d_N_id_2 >=0 ){
-          printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
+        if( !d_is_locked && d_lock_count > 20 && d_N_id_2 >=0 ){
+          // printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
           // printf("IFO= %i\n", d_offset);
           // printf("Calculator -> %f\n", pc_work_time_avg());
           // printf("Calculator duracion: %f\n", pc_work_time_avg 	() 	);

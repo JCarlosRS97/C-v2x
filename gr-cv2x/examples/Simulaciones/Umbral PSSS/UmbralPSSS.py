@@ -51,7 +51,7 @@ class tag_sink(gr.sync_block):
 
         self.pos = -1
         self.N_id = -1
-        self.key = pmt.intern("my_tag_key")
+        self.key = pmt.intern("sync_frame")
         self.message_port_register_in(pmt.intern('in_port'))
         self.set_msg_handler(pmt.intern('in_port'),
                              self.handle_msg)
@@ -228,6 +228,7 @@ def main(top_block_cls=top_block, options=None):
         tb.wait()
     qapp.connect(qapp, Qt.SIGNAL("aboutToQuit()"), quitting)
     umbral = float(sys.argv[1])
+    print("El umbral es " + sys.argv[1])
     n_id = []
     pos = []
 
@@ -238,7 +239,7 @@ def main(top_block_cls=top_block, options=None):
         vector.reset()
         tb.start()
         #tb.show()
-        timer.start(400)
+        timer.start(600)
         qapp.exec_()
 
 

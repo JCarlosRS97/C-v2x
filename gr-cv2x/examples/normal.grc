@@ -193,7 +193,7 @@
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>0</value>
+      <value>13</value>
     </param>
     <param>
       <key>alias</key>
