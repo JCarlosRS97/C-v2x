@@ -22,6 +22,7 @@
     <type>int</type>
   </param>
 
+
   <!-- Make one 'sink' node per input. Sub-nodes:
   * name (an identifier for the GUI)
   * type
@@ -37,6 +38,11 @@
   * type
   * vlen
   * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>sync_end</name>
+    <type>message</type>
+  </source>
+  
   <source>
     <name>out</name>
     <type>complex</type>

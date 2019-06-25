@@ -41,6 +41,7 @@ namespace gr {
          pmt::pmt_t d_key;
          pmt::pmt_t d_id_key;
          pmt::pmt_t d_tag_id;
+         pmt::pmt_t d_port_sync_end;
 
      public:
       ssss_symbol_selector_cvc_impl(int fftl, int syncPeriod);

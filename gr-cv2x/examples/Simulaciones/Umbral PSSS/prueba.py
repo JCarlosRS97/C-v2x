@@ -20,8 +20,8 @@ import os
 import sys
 sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
 
-from PyQt5 import Qt
-from PyQt5 import Qt, QtCore
+
+
 from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
@@ -50,6 +50,7 @@ class tag_sink(gr.sync_block):
 
         self.pos = -1
         self.N_id = -1
+        self.sync_end = -1
         self.key = pmt.intern("sync_frame")
         self.message_port_register_in(pmt.intern('n_id'))
         self.set_msg_handler(pmt.intern('n_id'),
@@ -57,6 +58,9 @@ class tag_sink(gr.sync_block):
         self.message_port_register_in(pmt.intern('pos'))
         self.set_msg_handler(pmt.intern('pos'),
                              self.handle_pos)
+        self.message_port_register_in(pmt.intern('sync_end'))
+        self.set_msg_handler(pmt.intern('sync_end'),
+                             self.handle_end)
     def work(self, input_items, output_items):
         num_input_items = len(input_items[0])
         return num_input_items
@@ -68,12 +72,22 @@ class tag_sink(gr.sync_block):
         # Create a new PMT from long value and put in list
         self.pos = pmt.to_long(msg)
 
+    def handle_end(self, msg):
+        # Create a new PMT from long value and put in list
+        if(self.sync_end == -1):
+            self.sync_end = pmt.to_long(msg)
+
     def reset(self):
         self.N_id = -1
         self.pos = -1
+        self.sync_end = -1
 
     def get_N_id(self):
         return self.N_id
+
+    def get_end(self):
+        return self.sync_end
+
 
     def get_pos(self):
         return self.pos
@@ -114,19 +128,19 @@ class top_block(gr.top_block):
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 7.18, 0)
-        self.parador = blocks.head(gr.sizeof_gr_complex, 1920000)
+        self.parador = blocks.head(gr.sizeof_gr_complex, 3840000)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.ltev_rx_sync_0, 'N_id'), (vector, 'n_id'))
         self.msg_connect((self.ltev_rx_sync_0, 'sync_frame_start'), (vector, 'pos'))
+        self.msg_connect((self.ltev_rx_sync_0, 'sync_end'), (vector, 'sync_end'))
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_xx_0_0, 1))
         self.connect((self.blocks_delay_0, 0), (self.blocks_add_xx_0, 1))
         self.connect((self.blocks_multiply_xx_0_0, 0), (self.ltev_rx_sync_0, 0))
-        # self.connect((self.blocks_throttle_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.ltev_rx_sync_0, 0), (vector, 0))
         self.connect((self.tx_v2x_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.parador, 0))
@@ -179,10 +193,12 @@ def main(top_block_cls=top_block, options=None):
     print("El umbral es " + sys.argv[1])
     n_id = []
     pos = []
-    for i in range(1000):
+    fin =[]
+    for i in range(100):
         tb = top_block_cls(vector, umbral)
         n_id.append(vector.get_N_id())
         pos.append(vector.get_pos())
+        fin.append(vector.get_end())
         vector.reset()
         tb.start()
         time.sleep(1)
@@ -196,6 +212,12 @@ def main(top_block_cls=top_block, options=None):
     f=open("nid"+sys.argv[1] +"-"+sys.argv[2]+ ".txt", "w")
     for nid in n_id:
         f.write("%i\n" % nid)
+
+    f.close()
+
+    f=open("end"+sys.argv[1] +"-"+sys.argv[2]+ ".txt", "w")
+    for i in fin:
+        f.write("%i\n" % i)
 
     f.close()
 

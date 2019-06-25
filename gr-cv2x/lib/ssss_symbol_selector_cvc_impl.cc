@@ -59,6 +59,8 @@ namespace gr {
       d_key = pmt::string_to_symbol("offset_marker");
       d_id_key = pmt::string_to_symbol("N_id_2");
       d_tag_id = pmt::string_to_symbol(this->name() );
+      d_port_sync_end = pmt::string_to_symbol("sync_end");
+      message_port_register_out(d_port_sync_end);
     }
 
     /*
@@ -116,6 +118,8 @@ namespace gr {
 
             add_item_tag(0,nitems_written(0),d_key   , pmt::from_long( d_offset ),d_tag_id);
             add_item_tag(0,nitems_written(0),d_id_key, pmt::from_long( d_N_id_2 ),d_tag_id);
+            pmt::pmt_t msg = pmt::from_long( d_abs_pos) ;
+            message_port_pub( d_port_sync_end, msg );
             consume_each(ninput_items[0]);
             return 2;
           }

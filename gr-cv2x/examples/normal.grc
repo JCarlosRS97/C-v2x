@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.11'?>
+<?grc format='1' created='3.7.10'?>
 <flow_graph>
   <timestamp>Thu Dec 13 17:08:40 2018</timestamp>
   <block>
@@ -193,7 +193,7 @@
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>13</value>
+      <value>0</value>
     </param>
     <param>
       <key>alias</key>
@@ -1083,6 +1083,12 @@
     <sink_block_id>qtgui_sink_x_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>ltev_rx_sync_0</source_block_id>
+    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <source_key>sync_end</source_key>
+    <sink_key>print</sink_key>
   </connection>
   <connection>
     <source_block_id>ltev_rx_sync_0</source_block_id>
