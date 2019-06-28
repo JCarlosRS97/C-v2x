@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>ssss_symbol_selector_cvc</name>
+  <name>SSSS Symbol Selector</name>
   <key>cv2x_ssss_symbol_selector_cvc</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>
@@ -42,7 +42,7 @@
     <name>sync_end</name>
     <type>message</type>
   </source>
-  
+
   <source>
     <name>out</name>
     <type>complex</type>

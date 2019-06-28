@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>ssss_calculator_vcm</name>
+  <name>SSSS Frequency Calculator</name>
   <key>cv2x_ssss_calculator_vcm</key>
   <category>[cv2x]</category>
   <import>import cv2x</import>

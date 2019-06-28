@@ -5,7 +5,7 @@ do
   rm pos$j.txt
 	rm end$j.txt
 
-	for i in {1..1}
+	for i in {1..20}
 	do
 		 rm nid$j-$i.txt
 		 rm pos$j-$i.txt

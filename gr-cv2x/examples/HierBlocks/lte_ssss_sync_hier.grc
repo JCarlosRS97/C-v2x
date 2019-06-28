@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.10'?>
+<?grc format='1' created='3.7.11'?>
 <flow_graph>
   <timestamp>Tue Apr  9 19:00:23 2019</timestamp>
   <block>
@@ -82,108 +82,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_file_sink</key>
-    <param>
-      <key>append</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>/home/carlos/Escritorio/matlab/data/ssss.dat</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(888, 712)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_file_sink_0_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>unbuffered</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>64</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_head</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(576, 716)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_head_0_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>num_items</key>
-      <value>10</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>64</value>
-    </param>
-  </block>
-  <block>
     <key>cv2x_ssss_calculator_vcm</key>
     <param>
       <key>alias</key>
@@ -207,7 +105,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(800, 416)</value>
+      <value>(656, 212)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -262,7 +160,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(176, 428)</value>
+      <value>(168, 168)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -309,7 +207,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(640, 248)</value>
+      <value>(392, 336)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -348,7 +246,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 8)</value>
+      <value>(192, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -403,7 +301,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(472, 408)</value>
+      <value>(432, 204)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -450,7 +348,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(840, 244)</value>
+      <value>(608, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -493,7 +391,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1088, 284)</value>
+      <value>(904, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -536,7 +434,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(376, 580)</value>
+      <value>(440, 140)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -626,7 +524,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(336, 16)</value>
+      <value>(304, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -654,12 +552,6 @@
     </param>
   </block>
   <connection>
-    <source_block_id>blocks_head_0_0</source_block_id>
-    <sink_block_id>blocks_file_sink_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>cv2x_ssss_calculator_vcm_0</source_block_id>
     <sink_block_id>pad_sink_1</sink_block_id>
     <source_key>cell_id</source_key>
@@ -686,12 +578,6 @@
   <connection>
     <source_block_id>cv2x_ssss_tagger_cc_0</source_block_id>
     <sink_block_id>pad_sink_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>fft_vxx_0</source_block_id>
-    <sink_block_id>blocks_head_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

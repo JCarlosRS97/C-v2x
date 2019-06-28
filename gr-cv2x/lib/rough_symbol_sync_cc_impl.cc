@@ -69,8 +69,8 @@ namespace gr {
       d_key=pmt::string_to_symbol("symbol");
       d_tag_id=pmt::string_to_symbol(this->name() );
 
-      d_cp0 = (gr_complex*)volk_malloc(sizeof(gr_complex)*2*d_cpl, volk_get_alignment());
-      d_cp1 = (gr_complex*)volk_malloc(sizeof(gr_complex)*2*d_cpl, volk_get_alignment());
+      d_cp0 = (gr_complex*)volk_malloc(sizeof(gr_complex)*d_cpl, volk_get_alignment());
+      d_cp1 = (gr_complex*)volk_malloc(sizeof(gr_complex)*d_cpl, volk_get_alignment());
     }
 
     /*
@@ -120,16 +120,16 @@ namespace gr {
           long abs_pos;
           long nir = nitems_read(0);
           int i;
-          for(i = 0 ; (i + 2*d_fftl + 2*d_cpl) < noutput_items; i++){
+          for(i = 0 ; (i + d_fftl + 2*d_cpl) < noutput_items; i++){
             abs_pos = nir+long(i); // calculate new absolute sample position
             mod = (abs_pos%d_slotl)%d_syml - (d_sym_pos%d_syml);
             if(d_is_locked && abs(mod) < stp){ // tracking mode
               memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
-              memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
+              // memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
               memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
-              memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
+              // memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
 
-              gr_complex val = corr(d_cp0,d_cp1,2*d_cpl);
+              gr_complex val = corr(d_cp0,d_cp1,d_cpl);
               // printf("mod %i pos %li, value = %f\n", mod, (abs_pos%d_slotl)%d_syml, abs(val));
               if(it_peso <= abs(val) ){
                 it_val = val;
@@ -151,27 +151,28 @@ namespace gr {
                   (*d_sig).set_frequency((-1)*double(d_f_av)+ (simetria? 7500:0));
                   // printf("%s: offset: %f\n",name().c_str(), d_f_av);
                   // printf("abs_pos = %ld\t offset= %f\n", nitems_read(0) + fine_pos, d_f_av);
+                  add_item_tag(0,abs_pos,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                 }
 
                 d_corr_val *= 0.99;
                 // If d_corr_val loss the peak, we change to find mode
                 if(d_corr_val < umbral){
                   d_is_locked = false;
-                }else{
-                  // printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
-
-                  add_item_tag(0,abs_pos,d_key, pmt::from_long(d_sym_pos),d_tag_id);
                 }
+                // else{
+                  // printf("tracking: offset %li d_corr_val = %f it_peso = %f\n", d_sym_pos%d_syml, d_corr_val, it_peso);
+                // }
+
                 i += d_fftl;
                 it_peso = 0;
               }
 
             } else if(!d_is_locked && abs_pos%stp==0){ //Find mode
               memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
-              memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
+              // memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
               memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
-              memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
-              float peso = abs(corr(d_cp0,d_cp1,2*d_cpl));
+              // memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
+              float peso = abs(corr(d_cp0,d_cp1,d_cpl));
 
               int find_pos;
               if(d_corr_val < peso){
@@ -182,9 +183,9 @@ namespace gr {
                 }
                 for(int j = fine_pos ; j < i+stp; j++){
                   memcpy(d_cp0, in+i, sizeof(gr_complex)*d_cpl);
-                  memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
+                  // memcpy(d_cp0 + d_cpl, in+i +d_cpl + d_fftl        ,sizeof(gr_complex)*d_cpl);
                   memcpy(d_cp1,in+(i+d_fftl),sizeof(gr_complex)*d_cpl);
-                  memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
+                  // memcpy(d_cp1 + d_cpl, in+(i+d_fftl*2+d_cpl)       ,sizeof(gr_complex)*d_cpl);
                   peso = abs(corr( d_cp0,d_cp1,d_cpl));
                   if(peso > umbral && peso > d_corr_val){
                     d_corr_val = peso;
@@ -230,8 +231,8 @@ namespace gr {
           gr_complex energia;
           volk_32fc_x2_conjugate_dot_prod_32fc(&resultado, x, y, len);
           volk_32fc_x2_conjugate_dot_prod_32fc(&energia, y, y, len);
-          if(abs(energia) < 0.01){
-            resultado = -1;
+          if(abs(energia) < 1){
+            resultado = 0;
           }else{
             resultado = resultado/abs(energia);
           }

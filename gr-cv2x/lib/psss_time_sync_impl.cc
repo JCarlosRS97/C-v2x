@@ -44,7 +44,6 @@ namespace gr {
     : gr::sync_block("psss_time_sync",
     gr::io_signature::make(1, 1, sizeof(gr_complex)*128),
     gr::io_signature::make(0, 0, 0)),
-    syncPeriod(syncPeriod),
     d_fftl(fftl),
     d_cpl(144*fftl/2048),
     d_cpl0(160*fftl/2048),
@@ -53,10 +52,11 @@ namespace gr {
     d_sync_frame_start(0),
     d_corr_val(0.0),
     d_lock_count(0),
+    d_is_locked(false),
+    syncPeriod(syncPeriod),
     nfft(64),
-    d_sig(sig),
     umbral(umbral),
-    d_is_locked(false)
+    d_sig(sig)
     {
       // printf("Umbral:%f \n", umbral);
       d_port_lock = pmt::string_to_symbol("lock");
@@ -223,7 +223,6 @@ namespace gr {
       psss_time_sync_impl::max_pos(float &max, gr_complex *x, int len)
       {
         gr_complex res;
-        gr_complex energia;
         volk_32fc_x2_dot_prod_32fc(&res, x, d_corr_in, len);
         max = abs(res);
       }

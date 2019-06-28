@@ -127,9 +127,7 @@ class top_block(gr.top_block):
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 7.18, 0)
-        self.parador = blocks.head(gr.sizeof_gr_complex, 3840000)
-
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 12.75, 0)
         ##################################################
         # Connections
         ##################################################
@@ -143,9 +141,7 @@ class top_block(gr.top_block):
         self.connect((self.blocks_multiply_xx_0_0, 0), (self.ltev_rx_sync_0, 0))
         self.connect((self.ltev_rx_sync_0, 0), (vector, 0))
         self.connect((self.tx_v2x_0, 0), (self.blocks_throttle_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.parador, 0))
-        self.connect((self.parador, 0), (self.blocks_delay_0, 0))
-
+        self.connect((self.blocks_throttle_0, 0), (self.blocks_delay_0, 0))
 
     def get_fft_len(self):
         return self.fft_len
@@ -196,15 +192,14 @@ def main(top_block_cls=top_block, options=None):
     fin =[]
     for i in range(100):
         tb = top_block_cls(vector, umbral)
-        n_id.append(vector.get_N_id())
-        pos.append(vector.get_pos())
-        fin.append(vector.get_end())
-        vector.reset()
         tb.start()
         time.sleep(1)
         tb.stop()
         tb.wait()
-
+        n_id.append(vector.get_N_id())
+        pos.append(vector.get_pos())
+        fin.append(vector.get_end())
+        vector.reset()
 
 
 
