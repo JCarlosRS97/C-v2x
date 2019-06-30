@@ -1,26 +1,23 @@
 #!/bin/bash
 rm resultados.txt
 rm errores.txt
-for j in {0..20}
+for j in {5..15}
 do
-	rm resultados$j.txt
-  rm errores$j.txt
-	echo "0" >> resultados$j.txt
-  echo "0" >> errores$j.txt
+   rm nid$j.txt
+  rm pos$j.txt
+	rm end$j.txt
 
-	for i in {1..100}
+	for i in {1..18}
 	do
-	   ./testumbrales.py $j
+		 rm nid$j-$i.txt
+		 rm pos$j-$i.txt
+		 rm end$j-$i.txt
+	   ./prueba.py $j $i
+		 cat nid$j-$i.txt >> nid$j.txt
+		 cat pos$j-$i.txt >> pos$j.txt
+		 cat end$j-$i.txt >> end$j.txt
+		 rm nid$j-$i.txt
+		 rm end$j-$i.txt
+	   rm pos$j-$i.txt
 	done
-	echo $j >> resultados.txt
-	echo ',' >> resultados.txt
-	cat resultados$j.txt >> resultados.txt
-	echo ',' >> resultados.txt
-	rm resultados$j.txt
-
-  echo $j >> errores.txt
-	echo ',' >> errores.txt
-	cat errores$j.txt >> errores.txt
-	echo ',' >> errores.txt
-	rm errores$j.txt
 done

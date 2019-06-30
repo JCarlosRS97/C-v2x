@@ -94,7 +94,7 @@ class tag_sink(gr.sync_block):
 
 class top_block(gr.top_block):
 
-    def __init__(self, vector,umbral):
+    def __init__(self, vector,dev):
         gr.top_block.__init__(self, "Top Block")
 
          ##################################################
@@ -119,7 +119,7 @@ class top_block(gr.top_block):
             SubcarrierBW=15000,
             fft_len=256,
             syncPeriod=syncPeriod,
-            umbralPSSS=umbral,
+            umbralPSSS=29,
         )
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
@@ -127,7 +127,7 @@ class top_block(gr.top_block):
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 21)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 0, 1, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0.125, 0)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, dev, 0)
         ##################################################
         # Connections
         ##################################################
@@ -180,20 +180,16 @@ class top_block(gr.top_block):
 def main(top_block_cls=top_block, options=None):
 
     vector = tag_sink()
-    # QtCore.QTimer.connect(timer, QtCore.SIGNAL("timeout()"), qapp, Qt.SLOT('quit()'))
 
-    def quitting():
-        tb.stop()
-
-    umbral = float(sys.argv[1])
+    dev = float(sys.argv[1])
     print("El umbral es " + sys.argv[1])
     n_id = []
     pos = []
     fin =[]
     for i in range(100):
-        tb = top_block_cls(vector, umbral)
+        tb = top_block_cls(vector, dev)
         tb.start()
-        time.sleep(2)
+        time.sleep(1.5)
         tb.stop()
         tb.wait()
         n_id.append(vector.get_N_id())
