@@ -182,19 +182,29 @@ namespace gr {
             //memcpy(d_corr_in2, in + nfft, sizeof(gr_complex)*nfft);
             for(int j = 0; j< nfft; j++){
               d_corr_in[j] = in[j] - in[j+nfft];
+              //d_corr_in[j] = in[j];
             }
             in += 2*nfft;
             // tracking does need less cross correlation calculations!
             float metrica;
             int ifo;
             find_sim(metrica, ifo);
+            int sync_frame_start = calculate_sync_frame_start(nir + i);
+            if(abs(sync_frame_start-21)<10){
+              printf("pos %i\n", sync_frame_start);
+              printf("metrica %f\n", metrica);
+              for(int j = 0; j< nfft; j++){
+                //d_corr_in[j] = in[j] - in[j+nfft];
+                // printf("pos %i value %f + %fi\n", j, d_corr_in[j].real(), d_corr_in[j].imag());
+              }
+            }
 
             if(metrica > umbralSim){
               if(d_is_locked){ changed = tracking(); }
               else{ changed = find_pss_symbol(ifo); }
               int sync_frame_start = calculate_sync_frame_start(nir + i);
-              printf("pos %i\n", sync_frame_start);
-              printf("metrica %f\n", metrica);
+              // printf("pos %i\n", sync_frame_start);
+              // printf("metrica %f\n", metrica);
             }
             //Do things if new max is found!
             if(changed){
@@ -208,9 +218,9 @@ namespace gr {
                   message_port_pub(d_port_N_id_2, pmt::from_long((long)d_N_id_2));
                   d_sync_frame_start = sync_frame_start;
                 }
-                else if( abs(d_sync_frame_start-sync_frame_start) < 2 ){ //only moves by one sample in tracking mode!
-                  if( d_sync_frame_start < sync_frame_start ){d_sync_frame_start++;}
-                  else{d_sync_frame_start--;}
+                else if( abs(d_sync_frame_start-sync_frame_start) < 6 ){ //only moves by one sample in tracking mode!
+                  // printf("\n%s Fine sync_frame_start = %i\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), sync_frame_start, d_N_id_2, d_corr_val );
+                  d_sync_frame_start = sync_frame_start;
                 }
                 set_sync_frame_start();
               }
@@ -223,7 +233,7 @@ namespace gr {
           //is stopped and block has no further function.
           //Se utiliza 14.5*syncPeriod ya que deben pasar todos los simbolos de un
           //periodo y se le añade un poco de holgura.
-          if( !d_is_locked && d_lock_count > (14.1*syncPeriod*2) && d_N_id_2 >=0 ){
+          if( !d_is_locked && d_lock_count > (5) && d_N_id_2 >=0 ){
             printf("\n%s is locked! sync_frame_start = %ld\tN_id_2 = %i\tcorr_val = %f\n\n",name().c_str(), d_sync_frame_start, d_N_id_2, d_corr_val );
             printf("IFO= %i\n", d_offset);
             printf("Calculator -> %f\n", pc_work_time_avg());
@@ -293,6 +303,7 @@ namespace gr {
           maxc /= abs_energia;
           //Calculate return value
           bool has_changed = false;
+          // printf("maxc = %f\n", maxc);
           if(d_corr_val < maxc && maxc > umbralCorr){
             has_changed = true;
             d_N_id_2 = N_id_2;
@@ -397,7 +408,7 @@ namespace gr {
           }
           // printf("elegido: %i\n", ifo);
           volk_32fc_x2_conjugate_dot_prod_32fc(&energia, d_energia+1, d_energia +1, nfft/2-1);
-          if(abs(energia)>0.001){
+          if(abs(energia)>0.1){
             metrica = max/abs(energia);
           }else{
             metrica= 0;

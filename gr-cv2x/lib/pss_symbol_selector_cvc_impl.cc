@@ -55,7 +55,6 @@ namespace gr {
             syncOffsetIndicator(syncOffsetIndicator),
             nfft(64)
     {
-      //set_output_multiple(2);
       set_relative_rate(1/d_syml);
       set_tag_propagation_policy(TPP_DONT);
       d_key = pmt::string_to_symbol("offset_marker");
@@ -130,7 +129,6 @@ namespace gr {
           long offset = pmt::to_long(v_off[0].value);
           if(offset != d_offset){
               d_offset = offset;
-              // printf("Offset %ld\n", d_offset%d_syml);
           }
       }
       int offset = d_offset;
@@ -138,7 +136,6 @@ namespace gr {
           consume_each(nin);
           return 0;
       }
-      offset %= d_syml;
 
       // generate output
       int consumed_items = 0;
@@ -196,7 +193,7 @@ namespace gr {
         // pss_calc needs the exact position of first sample in stream
         add_item_tag(0,nitems_written(0)+nout,d_key, pmt::from_long( abs_pos ),d_tag_id);
 
-        out += 2*nfft; //move pointer to output buffer by the size of one vector
+        out += 2*nfft; //move pointer to output buffer by the size of t vector
         nout += 1; // 1 output vector produced
     }
   } /* namespace cv2x */
